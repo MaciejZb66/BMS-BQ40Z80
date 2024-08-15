@@ -7,17 +7,17 @@
  * 
  * @warning: in array values: '1' = 49, '0' = 48
  */
-uint8_t BQ_opStatus[32] = {0};
-uint8_t BQ_chargeStatus[32] = {0};
-uint8_t BQ_gaugeStatus[32] = {0};
+uint8_t BQ_opStatus[32] = {0}; //0x0054(s)
+uint8_t BQ_chargeStatus[32] = {0}; //0x0055(s)
+uint8_t BQ_gaugeStatus[32] = {0}; //0x0056?
 uint8_t BQ_batteryStatus[16] = {0};
 uint8_t BQ_batteryMode[16] = {0};
-uint8_t BQ_manufacturingStatus[16] = {0};
+uint8_t BQ_manufacturingStatus[16] = {0}; //0x0057?
 uint8_t BQ_gpio[8] = {0};
-uint8_t BQ_daStatus1[32] = {0};
-uint8_t BQ_daStatus2[16] = {0};
-uint8_t BQ_daStatus3[18] = {0};
-uint8_t BQ_outCal[32] = {0};
+uint8_t BQ_daStatus1[32] = {0}; //0x0071(s)
+uint8_t BQ_daStatus2[16] = {0}; //0x0072(s)
+uint8_t BQ_daStatus3[18] = {0}; //0x007B(s)
+uint8_t BQ_outCal[32] = {0}; //0xF081
 
 /**
  * @brief convert decimal value to binary array, array[0] - first element

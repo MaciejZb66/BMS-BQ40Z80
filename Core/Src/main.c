@@ -95,7 +95,6 @@ int main(void)
   uint16_t current = 0;
   uint8_t percentage[2];
   uint16_t cells[6];
-  HAL_StatusTypeDef ready;
   BQ_Init(&hi2c1);
   /* USER CODE END 2 */
 

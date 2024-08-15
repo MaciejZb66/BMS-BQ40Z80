@@ -30,15 +30,16 @@ SECURITY_MODE BQ_GetSecurityMode(void)
 CHARGE_MODE BQ_GetChargeMode(void)
 {
     BQAction_UpdateOpStatus();
-    unsigned short packVoltage = BQ_daStatus1[10] | (BQ_daStatus1[11] << 8);
-    unsigned short current = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
+    uint16_t packVoltage = BQ_daStatus1[10] | (BQ_daStatus1[11] << 8);
+    uint16_t current = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
 
-    if (packVoltage > 1000 && BQ_IsChargeEnabled() && BQ_IsChargeFetEnabled() && BQ_IsChargeFetTestEnabled() && current > 0 && current < 30000)
+    if (packVoltage > 1000 && BQ_IsChargeEnabled() && BQ_IsChargeFetEnabled() && BQ_IsChargeFetTestEnabled() && current > 0 && current < 30000){
         return CHARGE;
-    else if (packVoltage > 1000 && BQ_IsDischargeEnabled() && BQ_IsDischargeFetEnabled() && BQ_IsDischargeFetTestEnabled() && 65535 - current > 0 && current > 30000)
+    }else if (packVoltage > 1000 && BQ_IsDischargeEnabled() && BQ_IsDischargeFetEnabled() && BQ_IsDischargeFetTestEnabled() && 65535 - current > 0 && current > 30000){
         return DISCHARGE;
-    else
+    }else{
         return RELAX;
+    }
 }
 
 /**
@@ -51,7 +52,7 @@ BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(void)
     result.Maximum = 0;
     result.Minimum = 65535;
 
-    unsigned short cells[6] =
+    uint16_t cells[6] =
         {
             BQ_daStatus1[0] | (BQ_daStatus1[1] << 8), // 1
             BQ_daStatus1[2] | (BQ_daStatus1[3] << 8), // 2
@@ -86,6 +87,13 @@ bool BQ_IsChargeFetEnabled(void)
     return BQ_opStatus[2];
 }
 
+bool BQ_IsPreChargeFetEnabled(void)
+{
+    return BQ_opStatus[3];
+}
+
+
+
 bool BQ_IsDischargeEnabled(void)
 {
     return BQ_opStatus[13];
@@ -101,10 +109,7 @@ bool BQ_IsPreDischargeFetEnabled(void)
     return BQ_opStatus[4];
 }
 
-bool BQ_IsPreChargeFetEnabled(void)
-{
-    return BQ_opStatus[3];
-}
+
 
 bool BQ_IsManufacturingFuseEnabled(void)
 {

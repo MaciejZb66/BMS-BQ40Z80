@@ -20,7 +20,7 @@ typedef struct
     uint16_t cell_power_4;   //!< Cell Power 4. Calculated using Cell Voltage4 and Cell Current 4 data (cW)
     uint16_t power;          //!< Power calculated by Voltage() × Current() (cW)
     uint16_t average_power;  //!< Average Power (cW)
-} DA_STATUS_1;
+} DA_STATUS_1; //0x0071
 
 typedef struct
 {
@@ -32,7 +32,7 @@ typedef struct
     uint16_t cell_temperature;    //!< Cell Temperature (0.1 K)
     uint16_t fet_temperature;     //!< FET Temperature (0.1 K)
     uint16_t gauging_temperature; //!< Gauging Temperature (0.1 K)
-} DA_STATUS_2;
+} DA_STATUS_2; //0x0072
 
 typedef struct
 {
@@ -45,43 +45,43 @@ typedef struct
     uint16_t cell_power_5;   //!< Cell Power 5. Calculated using Cell Voltage 5 and Cell Current 5 data (cW)
     uint16_t cell_power_6;   //!< Cell Power 6. Calculated using Cell Voltage 6 and Cell Current 6 data (cW)
     uint16_t cell_power_7;   //!< Cell Power 7. Calculated using Cell Voltage 7 and Cell Current 7 data (cW)
-} DA_STATUS_3;
+} DA_STATUS_3; //0x007B
 
 typedef struct
 {
-    bool iata_cterm; //!< IATA charge control: 1 = Active, 0 = Inactive
-    bool rsvd_30;    //!< Reserved. Do not use.
-    bool emshut;     //!< Emergency FET shutdown: 1 = Active, 0 = Inactive
-    bool cb;         //!< Cell balancing status: 1 = Active, 0 = Inactive
-    bool slpcc;      //!< CC measurement in SLEEP mode: 1 = Active, 0 = Inactive
-    bool slpad;      //!< ADC measurement in SLEEP mode: 1 = Active, 0 = Inactive
-    bool smblcal;    //!< Auto CC calibration
-    bool init;       //!< Initialization after full reset: 1 = Active, 0 = Inactive
-    bool sleepm;     //!< SLEEP mode triggered via command: 1 = Active, 0 = Inactive
-    bool xl;         //!< 400-kHz SMBus mode: 1 = Active, 0 = Inactive
-    bool cal_offset; //!< Calibration output (raw CC offset data)
-    bool cal;        //!< Calibration output (raw ADC and CC data)
-    bool autocalm;   //!< Auto CC Offset calibration by the MAC AutoCCOffset(): 1 = Calibration ongoing, 0 = Calibration completed
-    bool auth;       //!< Authentication in progress: 1 = Active, 0 = Inactive
-    bool led;        //!< LED Display: 1 = Display on, 0 = Display off
-    bool sdm;        //!< Shutdown triggered via command: 1 = Active, 0 = Inactive
-    bool sleep;      //!< SLEEP mode conditions met: 1 = Active, 0 = Inactive
-    bool xchg;       //!< Charging disabled: 1 = Active, 0 = Inactive
-    bool xdsg;       //!< Discharging disabled: 1 = Active, 0 = Inactive
-    bool pf;         //!< PERMANENT FAILURE mode status: 1 = Active, 0 = Inactive
-    bool ss;         //!< SAFETY status: 1 = Active, 0 = Inactive
-    bool sdv;        //!< Shutdown triggered via low battery stack voltage: 1 = Active, 0 = Inactive
-    bool sec1;       //!< SECURITY mode bit 1
-    bool sec0;       //!< SECURITY mode bit 0
-    bool btp_int;    //!< Battery trip point interrupt: 1 = Active, 0 = Inactive
-    bool rsvd_6;     //!< Reserved. Do not use.
-    bool fuse;       //!< Fuse status: 1 = Active, 0 = Inactive
-    bool pdsg;       //!< Pre-discharge FET status: 1 = Active, 0 = Inactive
-    bool pchg;       //!< Precharge FET status: 1 = Active, 0 = Inactive
-    bool chg;        //!< CHG FET status: 1 = Active, 0 = Inactive
-    bool dsg;        //!< DSG FET status: 1 = Active, 0 = Inactive
-    bool pres;       //!< System present low: 1 = Active, 0 = Inactive
-} OPERATION_STATUS;
+    uint32_t iata_cterm :1; //!< IATA charge control: 1 = Active, 0 = Inactive
+    uint32_t rsvd_30 :1;    //!< Reserved. Do not use.
+    uint32_t emshut :1;     //!< Emergency FET shutdown: 1 = Active, 0 = Inactive
+    uint32_t cb :1;         //!< Cell balancing status: 1 = Active, 0 = Inactive
+    uint32_t slpcc :1;      //!< CC measurement in SLEEP mode: 1 = Active, 0 = Inactive
+    uint32_t slpad :1;      //!< ADC measurement in SLEEP mode: 1 = Active, 0 = Inactive
+    uint32_t smblcal :1;    //!< Auto CC calibration
+    uint32_t init :1;       //!< Initialization after full reset: 1 = Active, 0 = Inactive
+    uint32_t sleepm :1;     //!< SLEEP mode triggered via command: 1 = Active, 0 = Inactive
+    uint32_t xl :1;         //!< 400-kHz SMBus mode: 1 = Active, 0 = Inactive
+    uint32_t cal_offset :1; //!< Calibration output (raw CC offset data)
+    uint32_t cal :1;        //!< Calibration output (raw ADC and CC data)
+    uint32_t autocalm :1;   //!< Auto CC Offset calibration by the MAC AutoCCOffset(): 1 = Calibration ongoing, 0 = Calibration completed
+    uint32_t auth :1;       //!< Authentication in progress: 1 = Active, 0 = Inactive
+    uint32_t led :1;        //!< LED Display: 1 = Display on, 0 = Display off
+    uint32_t sdm :1;        //!< Shutdown triggered via command: 1 = Active, 0 = Inactive
+    uint32_t sleep :1;      //!< SLEEP mode conditions met: 1 = Active, 0 = Inactive
+    uint32_t xchg :1;       //!< Charging disabled: 1 = Active, 0 = Inactive
+    uint32_t xdsg :1;       //!< Discharging disabled: 1 = Active, 0 = Inactive
+    uint32_t pf :1;         //!< PERMANENT FAILURE mode status: 1 = Active, 0 = Inactive
+    uint32_t ss :1;         //!< SAFETY status: 1 = Active, 0 = Inactive
+    uint32_t sdv :1;        //!< Shutdown triggered via low battery stack voltage: 1 = Active, 0 = Inactive
+    uint32_t sec1 :1;       //!< SECURITY mode bit 1
+    uint32_t sec0 :1;       //!< SECURITY mode bit 0
+    uint32_t btp_int :1;    //!< Battery trip point interrupt: 1 = Active, 0 = Inactive
+    uint32_t rsvd_6 :1;     //!< Reserved. Do not use.
+    uint32_t fuse :1;       //!< Fuse status: 1 = Active, 0 = Inactive
+    uint32_t pdsg :1;       //!< Pre-discharge FET status: 1 = Active, 0 = Inactive
+    uint32_t pchg :1;       //!< Precharge FET status: 1 = Active, 0 = Inactive
+    uint32_t chg :1;        //!< CHG FET status: 1 = Active, 0 = Inactive
+    uint32_t dsg :1;        //!< DSG FET status: 1 = Active, 0 = Inactive
+    uint32_t pres :1;       //!< System present low: 1 = Active, 0 = Inactive
+} OPERATION_STATUS; //0x0054
 
 typedef struct
 {
@@ -112,4 +112,4 @@ typedef struct
     bool stl;    //!< Standard temperature low region: 1 = Active, 0 = Inactive
     bool lt;     //!< Low temperature region: 1 = Active, 0 = Inactive
     bool ut;     //!< Undertemperature region: 1 = Active, 0 = Inactive
-} CHARGING_STATUS;
+} CHARGING_STATUS; //0x0055

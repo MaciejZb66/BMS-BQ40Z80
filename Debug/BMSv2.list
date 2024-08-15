@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00006010  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000cd92  00000000  00000000  00006040  2**0
+ 12 .debug_info   0000cd84  00000000  00000000  00006040  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002730  00000000  00000000  00012dd2  2**0
+ 13 .debug_abbrev 00002724  00000000  00000000  00012dc4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000c70  00000000  00000000  00015508  2**3
+ 14 .debug_aranges 00000c70  00000000  00000000  000154e8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000956  00000000  00000000  00016178  2**0
+ 15 .debug_rnglists 00000956  00000000  00000000  00016158  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00022d51  00000000  00000000  00016ace  2**0
+ 16 .debug_macro  00022d51  00000000  00000000  00016aae  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00010f6c  00000000  00000000  0003981f  2**0
+ 17 .debug_line   00010f6a  00000000  00000000  000397ff  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000ca6e0  00000000  00000000  0004a78b  2**0
+ 18 .debug_str    000ca6da  00000000  00000000  0004a769  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00114e6b  2**0
+ 19 .comment      00000043  00000000  00000000  00114e43  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003000  00000000  00000000  00114eb0  2**2
+ 20 .debug_frame  00003000  00000000  00000000  00114e88  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000006d  00000000  00000000  00117eb0  2**0
+ 21 .debug_line_str 0000006d  00000000  00000000  00117e88  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -756,25 +756,25 @@ void BQAction_UpdateData(void)
  80005ac:	b580      	push	{r7, lr}
  80005ae:	b08a      	sub	sp, #40	@ 0x28
  80005b0:	af04      	add	r7, sp, #16
-    unsigned short manStatus = BQ_ReadCommandAsShort(BQ40Z80_MFA_MANUFACTURING_STATUS);
+    uint16_t manStatus = BQ_ReadCommandAsShort(BQ40Z80_MFA_MANUFACTURING_STATUS);
  80005b2:	2057      	movs	r0, #87	@ 0x57
  80005b4:	f7ff ff02 	bl	80003bc <BQ_ReadCommandAsShort>
  80005b8:	4603      	mov	r3, r0
  80005ba:	82fb      	strh	r3, [r7, #22]
-    unsigned int chargeStatus = BQ_ReadCommandAsInt(BQ40Z80_MFA_CHARGING_STATUS);
+    uint32_t chargeStatus = BQ_ReadCommandAsInt(BQ40Z80_MFA_CHARGING_STATUS);
  80005bc:	2055      	movs	r0, #85	@ 0x55
  80005be:	f7ff ff1d 	bl	80003fc <BQ_ReadCommandAsInt>
  80005c2:	6138      	str	r0, [r7, #16]
-    unsigned int operationStatus = BQ_ReadCommandAsInt(BQ40Z80_MFA_OPERATION_STATUS);
+    uint32_t operationStatus = BQ_ReadCommandAsInt(BQ40Z80_MFA_OPERATION_STATUS);
  80005c4:	2054      	movs	r0, #84	@ 0x54
  80005c6:	f7ff ff19 	bl	80003fc <BQ_ReadCommandAsInt>
  80005ca:	60f8      	str	r0, [r7, #12]
-    unsigned int gaugStatus = BQ_ReadCommandAsInt(BQ40Z80_MFA_GAUGING_STATUS);
+    uint32_t gaugStatus = BQ_ReadCommandAsInt(BQ40Z80_MFA_GAUGING_STATUS);
  80005cc:	2056      	movs	r0, #86	@ 0x56
  80005ce:	f7ff ff15 	bl	80003fc <BQ_ReadCommandAsInt>
  80005d2:	60b8      	str	r0, [r7, #8]
 
-    unsigned short batteryMode = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryMode);
+    uint16_t batteryMode = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryMode);
  80005d4:	4b21      	ldr	r3, [pc, #132]	@ (800065c <BQAction_UpdateData+0xb0>)
  80005d6:	681b      	ldr	r3, [r3, #0]
  80005d8:	4a21      	ldr	r2, [pc, #132]	@ (8000660 <BQAction_UpdateData+0xb4>)
@@ -784,7 +784,7 @@ void BQAction_UpdateData(void)
  80005e0:	f000 fb14 	bl	8000c0c <I2CHelper_ReadRegisterAsShort>
  80005e4:	4603      	mov	r3, r0
  80005e6:	80fb      	strh	r3, [r7, #6]
-    unsigned short batteryStatus = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryStatus);
+    uint16_t batteryStatus = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryStatus);
  80005e8:	4b1c      	ldr	r3, [pc, #112]	@ (800065c <BQAction_UpdateData+0xb0>)
  80005ea:	681b      	ldr	r3, [r3, #0]
  80005ec:	4a1c      	ldr	r2, [pc, #112]	@ (8000660 <BQAction_UpdateData+0xb4>)
@@ -794,7 +794,7 @@ void BQAction_UpdateData(void)
  80005f4:	f000 fb0a 	bl	8000c0c <I2CHelper_ReadRegisterAsShort>
  80005f8:	4603      	mov	r3, r0
  80005fa:	80bb      	strh	r3, [r7, #4]
-    unsigned char gpioStatus = I2CHelper_ReadRegisterAsChar(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_GPIORead);
+    uint8_t gpioStatus = I2CHelper_ReadRegisterAsChar(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_GPIORead);
  80005fc:	4b17      	ldr	r3, [pc, #92]	@ (800065c <BQAction_UpdateData+0xb0>)
  80005fe:	681b      	ldr	r3, [r3, #0]
  8000600:	4a17      	ldr	r2, [pc, #92]	@ (8000660 <BQAction_UpdateData+0xb4>)
@@ -1220,9 +1220,9 @@ SECURITY_MODE BQ_GetSecurityMode(void)
  8000898:	20000030 	.word	0x20000030
 
 0800089c <BQ_IsManufacturingFuseEnabled>:
-{
-    return BQ_opStatus[3];
 }
+
+
 
 bool BQ_IsManufacturingFuseEnabled(void)
 {
@@ -1963,7 +1963,6 @@ int main(void)
  8000cf4:	82bb      	strh	r3, [r7, #20]
   uint8_t percentage[2];
   uint16_t cells[6];
-  HAL_StatusTypeDef ready;
   BQ_Init(&hi2c1);
  8000cf6:	483e      	ldr	r0, [pc, #248]	@ (8000df0 <main+0x124>)
  8000cf8:	f7ff fa68 	bl	80001cc <BQ_Init>
