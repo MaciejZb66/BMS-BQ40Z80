@@ -1,9 +1,7 @@
 #pragma once
 #include "bq40z80_parser.h"
-#include "stdbool.h"
+#include <stdbool.h>
 
-#ifndef BQVALID_H
-#define BQVALID_H
 typedef enum
 {
 	SEALED,
@@ -21,11 +19,10 @@ typedef enum
 
 typedef struct
 {
-	unsigned short Minimum;
-	unsigned short Maximum;
+	uint16_t Minimum;
+	uint16_t Maximum;
 } BQ_BoundaryCellVoltage;
 
-#endif
 
 SECURITY_MODE BQ_GetSecurityMode(void);
 CHARGE_MODE BQ_GetChargeMode(void);

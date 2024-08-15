@@ -1,7 +1,9 @@
 Core/Src/bq40z80_validator.o: ../Core/Src/bq40z80_validator.c \
  ../Core/Inc/bq40z80_validator.h ../Core/Inc/bq40z80_parser.h \
- ../Core/Inc/bq40z80.h ../Core/Inc/bq40z80_flash.h \
- ../Core/Inc/bq40z80_action.h ../Core/Inc/i2c_helper.h \
+ ../Core/Inc/bq40z80.h ../Core/Inc/bq40z80_mfa.h \
+ ../Core/Inc/bq40z80_sbs.h ../Core/Inc/bq40z80_registers.h \
+ ../Core/Inc/bq40z80_flash.h ../Core/Inc/bq40z80_action.h \
+ ../Core/Inc/i2c_helper.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -33,6 +35,9 @@ Core/Src/bq40z80_validator.o: ../Core/Src/bq40z80_validator.c \
 ../Core/Inc/bq40z80_validator.h:
 ../Core/Inc/bq40z80_parser.h:
 ../Core/Inc/bq40z80.h:
+../Core/Inc/bq40z80_mfa.h:
+../Core/Inc/bq40z80_sbs.h:
+../Core/Inc/bq40z80_registers.h:
 ../Core/Inc/bq40z80_flash.h:
 ../Core/Inc/bq40z80_action.h:
 ../Core/Inc/i2c_helper.h:

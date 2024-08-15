@@ -31,7 +31,7 @@ CHARGE_MODE BQ_GetChargeMode(void)
 {
     BQAction_UpdateOpStatus();
     unsigned short packVoltage = BQ_daStatus1[10] | (BQ_daStatus1[11] << 8);
-    unsigned short current = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, 0x0A);
+    unsigned short current = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
 
     if (packVoltage > 1000 && BQ_IsChargeEnabled() && BQ_IsChargeFetEnabled() && BQ_IsChargeFetTestEnabled() && current > 0 && current < 30000)
         return CHARGE;
