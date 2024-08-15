@@ -90,18 +90,40 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   HAL_I2C_Init(&hi2c1);
-  uint16_t data = 0;
+  HAL_I2C_MspInit(&hi2c1);
+  uint16_t voltage = 0;
+  uint16_t current = 0;
+  uint8_t percentage[2];
+  uint16_t cells[6];
   HAL_StatusTypeDef ready;
+  BQ_Init(&hi2c1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  ready = HAL_I2C_IsDeviceReady(&hi2c1, BQ40Z80_ADDRESS << 1, 15, 1000);
-//	  HAL_SMBUS_Master_Transmit_IT(&hsmbus1, DevAddress, pData, Size, XferOptions)
-//	  data = get_design_voltage(&hi2c1);
+
 	  HAL_Delay(100);
+
+	  BQ_ReadMABlockCommand(0x0071, BQ_daStatus1, 32);
+//	  BQ_ReadMABlockCommand(0x0072, BQ_daStatus2, 16);
+	  BQ_ReadMABlockCommand(0x007B, BQ_daStatus3, 18);
+//	  BQ_ReadMABlockCommand(0xF081, BQ_outCal, 32);
+	  voltage = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, REG_VOLTAGE);//works 0x09
+	  current = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, 0x0A);
+	  percentage[0] = I2CHelper_ReadRegisterAsChar(bq_i2c, bq_deviceAddress, 0x0D);
+	  percentage[1] = I2CHelper_ReadRegisterAsChar(bq_i2c, bq_deviceAddress, 0x0E);
+	  cells[0] = BQ_daStatus1[0] | (BQ_daStatus1[1] << 8);
+	  cells[1] = BQ_daStatus1[2] | (BQ_daStatus1[3] << 8);
+	  cells[2] = BQ_daStatus1[4] | (BQ_daStatus1[5] << 8);
+	  cells[3] = BQ_daStatus1[6] | (BQ_daStatus1[7] << 8);
+	  cells[4] = BQ_daStatus3[0] | (BQ_daStatus3[1] << 8);
+	  cells[5] = BQ_daStatus3[6] | (BQ_daStatus3[7] << 8);
+//	  cells[3] = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, 0x3F);
+//	  cells[4] = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, 0x3E);
+//	  cells[5] = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, 0x3D);
+//	  cells[2] = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, 0x3C);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

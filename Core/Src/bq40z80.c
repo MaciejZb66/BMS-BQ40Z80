@@ -1,327 +1,176 @@
+#include "bq40z80.h"
 
-#ifdef __cplusplus
-extern "C"
+unsigned char bq_deviceAddress = 0x0B;
+I2C_HandleTypeDef *bq_i2c = NULL;
+
+/**
+ * @brief bq40z80 initialization
+ * @param i2c i2c pointer
+ */
+void BQ_Init(I2C_HandleTypeDef *i2c)
 {
-#endif
-
-#include <bq40z80.h>
-
-    void BQ40Z80_init(uint8_t i2c_scl_io, uint8_t i2c_sda_io, I2C_HandleTypeDef* hi2c, uint8_t device_address)
-    {
-    	HAL_SMBUS_Init(hi2c);
-
-//    	device_adress = 0x0b;
-//        this->DEVICE_ADDRESS = device_address;
-//        this->I2C_MASTER_NUM = i2c_master_num;
-//
-//        smbus_config_t conf;
-//        conf.mode = I2C_MODE_MASTER;
-//        conf.sda_io_num = i2c_sda_io;
-//        conf.scl_io_num = i2c_scl_io;
-//        conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
-//        conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
-//        conf.master.clk_speed = I2C_MASTER_FREQ_HZ;
-//        conf.clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL;
-//
-//        ESP_ERROR_CHECK(i2c_param_config(i2c_master_num, &conf));
-//
-//        ESP_ERROR_CHECK(i2c_driver_install(i2c_master_num, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0));
+    bq_i2c = i2c;
+    if(bq_i2c == &hi2c1){
+    	__HAL_RCC_I2C1_CLK_ENABLE();
     }
-
-//    BQ40Z80::~BQ40Z80()
+//    ("[BQ] Started", 12);
+//    if (USE_SCANNER == 1)
 //    {
-//        i2c_driver_delete(this->I2C_MASTER_NUM);
+#ifdef USE_SCANNER
+        HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(bq_i2c, bq_deviceAddress << 1, 3, 100);
+        while (ret != HAL_OK)
+        {
+//            ("[BQ] device not founded", 23);
+            ret = HAL_I2C_IsDeviceReady(bq_i2c, bq_deviceAddress << 1, 3, 100);
+            HAL_Delay(1000);
+        }
+#endif
 //    }
 
-    /***************************** Public Functions *****************************/
-    uint16_t get_battery_mode(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_BatteryMode, &buf, hi2c);
-        return buf;
-    }
+    
 
-    void set_battery_mode(uint16_t val, I2C_HandleTypeDef* hi2c)
-    {
-        smbus_write_word(BQ40Z80_SBS_BatteryMode, val, hi2c);
-        // this->update_basic_info();
-    }
+    HAL_Delay(1500);
+    BQAction_UpdateData();
+    BQAction_TryUnsealedDevice();
 
-    uint16_t get_temperature(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_Current, &buf, hi2c);
-        return buf - 2732; // raw data unit: 0.1 Kelvin
-    }
+    BQAction_SetManufacturingAllFet(false);
+    BQAction_SetManufacturingFuse(false);
+    BQAction_SetCalibration(false);
+    BQAction_SetManufacturingGauging(true);
+    BQAction_SetManufacturingPF(true);
+    BQAction_SetManufacturingLF(true);
+    BQAction_SetLed(false);
 
-    uint16_t get_voltage(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_Voltage, &buf, hi2c);
-        return buf;
-    }
+    BQAction_UpdateData();
 
-    uint16_t get_current(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_Current, &buf, hi2c);
-        return buf;
-    }
+    //BQ_ForceUpdateFlash();
 
-    uint8_t get_rsoc(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_RelativeStateOfCharge, &buf, hi2c);
-        return buf;
-    }
+    //BQ_BoundaryCellVoltage voltages = BQ_GetBoundaryCellVoltage();
 
-    uint16_t get_remaining_capacity(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_RemainingCapacity, &buf, hi2c);
-        return buf;
-    }
-
-    uint16_t get_full_charge_capacity(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_FullChargeCapacity, &buf, hi2c);
-        return buf;
-    }
-
-    uint16_t get_average_time_to_empty(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_AverageTimeToEmpty, &buf, hi2c);
-        return buf;
-    }
-
-    uint16_t get_average_time_to_full(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_AverageTimeToFull, &buf, hi2c);
-        return buf;
-    }
-
-    uint16_t get_cycle_count(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_CycleCount, &buf, hi2c);
-        return buf;
-    }
-
-    uint16_t get_design_capacity(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_DesignCapacity, &buf, hi2c);
-        return buf;
-    }
-
-    uint16_t get_design_voltage(I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf;
-        smbus_read_word(BQ40Z80_SBS_DesignVoltage, &buf, hi2c);
-        return buf;
-    }
-
-    uint16_t get_cell_voltage(uint8_t cell, I2C_HandleTypeDef* hi2c)
-    {
-        assert(1 <= cell && cell <= 7); //!< range check
-
-        if (cell <= 4)
-        {
-            DA_STATUS_1 da_status_1_data;
-            read_da_status_1(&da_status_1_data, hi2c);
-            switch (cell)
-            {
-            case 1:
-                return da_status_1_data.cell_voltage_1;
-                break;
-            case 2:
-                return da_status_1_data.cell_voltage_2;
-                break;
-            case 3:
-                return da_status_1_data.cell_voltage_3;
-                break;
-            case 4:
-                return da_status_1_data.cell_voltage_4;
-            default:
-                break;
-            }
-        }
-        else
-        {
-            DA_STATUS_3 da_status_3_data;
-            read_da_status_3(&da_status_3_data, hi2c);
-            switch (cell)
-            {
-            case 5:
-                return da_status_3_data.cell_voltage_5;
-                break;
-            case 6:
-                return da_status_3_data.cell_voltage_6;
-                break;
-            case 7:
-                return da_status_3_data.cell_voltage_7;
-                break;
-            default:
-                break;
-            }
-        }
-        return 0;
-    }
-
-    void set_capm(bool val, I2C_HandleTypeDef* hi2c)
-    {
-        uint16_t buf = get_battery_mode(hi2c);
-        if (val){
-            buf |= 0x8000;
-        }else{
-            buf &= 0x7fff;
-        }
-        set_battery_mode(buf, hi2c);
-    }
-
-    void read_da_status_1(DA_STATUS_1 *data, I2C_HandleTypeDef* hi2c)
-    {
-        uint8_t buf[32];
-
-        mfa_read_block(BQ40Z80_MFA_DA_STATUS_1, buf, 32, hi2c);
-
-        data->cell_voltage_1 = (buf[1] << 8) | buf[0];
-        data->cell_voltage_2 = (buf[3] << 8) | buf[2];
-        data->cell_voltage_3 = (buf[5] << 8) | buf[4];
-        data->cell_voltage_4 = (buf[7] << 8) | buf[6];
-        data->bat_voltage = (buf[9] << 8) | buf[8];
-        data->pack_voltage = (buf[11] << 8) | buf[10];
-        data->cell_current_1 = (buf[13] << 8) | buf[12];
-        data->cell_current_2 = (buf[15] << 8) | buf[14];
-        data->cell_current_3 = (buf[17] << 8) | buf[16];
-        data->cell_current_4 = (buf[19] << 8) | buf[18];
-        data->cell_power_1 = (buf[21] << 8) | buf[20];
-        data->cell_power_2 = (buf[23] << 8) | buf[22];
-        data->cell_power_3 = (buf[25] << 8) | buf[24];
-        data->cell_power_4 = (buf[27] << 8) | buf[26];
-        data->power = (buf[29] << 8) | buf[28];
-        data->average_power = (buf[31] << 8) | buf[30];
-
-        return;
-    }
-
-    void read_da_status_3(DA_STATUS_3 *data, I2C_HandleTypeDef* hi2c)
-    {
-        uint8_t buf[18];
-
-        mfa_read_block(BQ40Z80_MFA_DA_STATUS_3, buf, 18, hi2c);
-
-        data->cell_voltage_5 = (buf[1] << 8) | buf[0];
-        data->cell_current_5 = (buf[3] << 8) | buf[2];
-        data->cell_power_5 = (buf[5] << 8) | buf[4];
-        data->cell_voltage_6 = (buf[7] << 8) | buf[6];
-        data->cell_current_6 = (buf[9] << 8) | buf[8];
-        data->cell_power_6 = (buf[11] << 8) | buf[10];
-        data->cell_voltage_7 = (buf[13] << 8) | buf[12];
-        data->cell_current_7 = (buf[15] << 8) | buf[14];
-        data->cell_power_7 = (buf[17] << 8) | buf[16];
-
-        return;
-    }
-
-    /***************************** Private Functions *****************************/
-
-    HAL_StatusTypeDef smbus_read_word(uint8_t reg_addr, uint16_t *data, I2C_HandleTypeDef* hi2c)
-    {
-    	HAL_StatusTypeDef err;
-        uint8_t buf[2];
-        err = HAL_I2C_Master_Transmit(hi2c, BQ40Z80_ADDRESS << 1, &reg_addr, 1, 100);
-//        HAL_Delay(3);
-		if(err == HAL_OK){
-			err = HAL_I2C_Master_Receive(hi2c, BQ40Z80_ADDRESS << 1, buf, 2, 100);
-		}
-//        err = i2c_master_write_read_device(I2C_MASTER_NUM, DEVICE_ADDRESS, &reg_addr, 1, buf, 2, I2C_MASTER_TIMEOUT_TICK);
-
-        *data = (buf[1] << 8) | buf[0];
-
-        return err;
-    }
-
-    HAL_StatusTypeDef smbus_write_word(uint8_t reg_addr, uint16_t data, I2C_HandleTypeDef* hi2c)
-    {
-        HAL_StatusTypeDef err;
-        uint8_t buf[2];
-        buf[0] = data & 0x00FF;
-        buf[1] = data >> 8;
-
-//        i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-//        i2c_master_start(cmd);
-// ?       HAL_I2C_Master_Transmit(hi2c, BQ40Z80_ADDRESS, (BQ40Z80_ADDRESS << 1), 1, SMBUS_FIRST_FRAME);
-//        i2c_master_write_byte(cmd, (DEVICE_ADDRESS << 1) | I2C_MASTER_WRITE, true);
-        HAL_I2C_Master_Transmit(hi2c, BQ40Z80_ADDRESS << 1, &reg_addr, 1, 100);
-//        i2c_master_write_byte(cmd, reg_addr, true);
-        err = HAL_I2C_Master_Transmit(hi2c, BQ40Z80_ADDRESS << 1, buf, 2, 100);
-//        i2c_master_write(cmd, buf, 2, true);
-//        i2c_master_stop(cmd);
-
-//        err = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, I2C_MASTER_TIMEOUT_TICK);
-//        i2c_cmd_link_delete(cmd);
-
-        return err;
-    }
-
-    HAL_StatusTypeDef smbus_read_block(uint8_t reg_addr, uint8_t *data, uint8_t len, I2C_HandleTypeDef* hi2c)
-    {
-        HAL_StatusTypeDef err;
-        uint8_t slave_len = 0;
-        err = HAL_I2C_Master_Transmit(hi2c, BQ40Z80_ADDRESS << 1, &reg_addr, 1, 100);
-        if (err != HAL_OK) {
-            return err;
-        }
-
-        err = HAL_I2C_Master_Receive(hi2c, BQ40Z80_ADDRESS << 1, &slave_len, 1, 100);
-        if (err != HAL_OK) {
-            return err;
-        }
-        err = HAL_I2C_Master_Receive(hi2c, BQ40Z80_ADDRESS << 1, data, slave_len, 100);
-        return err;
-    }
-
-    HAL_StatusTypeDef smbus_write_block(uint8_t reg_addr, uint8_t *data, uint8_t len, I2C_HandleTypeDef* hi2c)
-    {
-        HAL_StatusTypeDef err;
-        uint8_t buffer[256];
-        buffer[0] = reg_addr;
-        buffer[1] = len;
-        memcpy(&buffer[2], data, len);
-        err = HAL_I2C_Master_Transmit(hi2c, BQ40Z80_ADDRESS << 1, buffer, len + 2, 100);
-
-//        i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-//        i2c_master_start(cmd);
-//        i2c_master_write_byte(cmd, (DEVICE_ADDRESS << 1) | I2C_MASTER_WRITE, true);
-//        i2c_master_write_byte(cmd, reg_addr, true);
-//        i2c_master_write_byte(cmd, len, true);
-//        i2c_master_write(cmd, data, len, true);
-//        i2c_master_stop(cmd);
-//
-//        err = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, I2C_MASTER_TIMEOUT_TICK);
-//        i2c_cmd_link_delete(cmd);
-
-        return err;
-    }
-
-    HAL_StatusTypeDef mfa_read_block(uint16_t mfa_command, uint8_t *data, uint8_t len, I2C_HandleTypeDef* hi2c)
-    {
-        HAL_StatusTypeDef err;
-        uint8_t command[2];
-        command[0] = mfa_command & 0x00ff;
-        command[1] = mfa_command >> 8;
-        err = smbus_write_block(BQ40Z80_SBS_ManufacturerBlockAccess, command, 2, hi2c);
-        if (err != HAL_OK)
-            return err;
-
-        err = smbus_read_block(BQ40Z80_SBS_ManufacturerData, data, len, hi2c);
-        return err;
-    }
-
-#ifdef __cplusplus
+//    ("[BQ] initialized", 16);
 }
-#endif
+
+/**
+ * @brief write data to flash
+ * @param addr flash register
+ * @param writeData short value to flash
+ */
+void BQ_WriteFlash(unsigned short addr, unsigned short writeData)
+{
+    unsigned char data[6];
+    data[0] = 0x44;
+    data[1] = 0x04;
+    data[2] = addr & 0xff;
+    data[3] = (addr >> 8) & 0xff;
+    data[4] = writeData & 0xff;
+    data[5] = (writeData >> 8) & 0xff;
+
+    HAL_I2C_Master_Transmit(bq_i2c, bq_deviceAddress << 1, data, 6, 100);
+}
+
+/**
+ * @brief write byte to flash
+ * @param addr flash register
+ * @param writeData char value to flash
+ */
+void BQ_WriteFlashByte(unsigned short addr, unsigned char writeData)
+{
+    unsigned char data[5];
+    data[0] = 0x44;
+    data[1] = 0x03;
+    data[2] = addr & 0xff;
+    data[3] = (addr >> 8) & 0xff;
+    data[4] = writeData;
+
+    HAL_I2C_Master_Transmit(bq_i2c, bq_deviceAddress << 1, data, 5, 100);
+}
+
+/**
+ * @brief send command to ManufacturerBlockAccess()
+ * @param command command to send
+ */
+void BQ_WriteMABlockCommand(unsigned short command)
+{
+    // send 0x44, then count of bytes, then command
+    unsigned char buf[4] = {0x44, 0x02, command & 0xff, (command >> 8) & 0xff};
+    HAL_I2C_Master_Transmit(bq_i2c, bq_deviceAddress << 1, buf, 4, 100);
+}
+
+/**
+ * @brief reading from ManufacturerBlockAccess()
+ * @param command command from read
+ * @param receive array to receive
+ * @param size array size
+ */
+void BQ_ReadMABlockCommand(unsigned short command, unsigned char *receive, unsigned char size)
+{
+    // send 0x44, then count of bytes, then command
+    unsigned char buf[4] = {0x44, 0x02, command & 0xff, (command >> 8) & 0xff};
+    HAL_I2C_Master_Transmit(bq_i2c, bq_deviceAddress << 1, buf, 4, 100);
+
+    // send 0x44, then receive size
+    unsigned char addr[2] = {0x44, 2 + size};
+    HAL_I2C_Master_Transmit(bq_i2c, bq_deviceAddress << 1, addr, 2, 100);
+
+    unsigned char result[35] = {0};
+    HAL_I2C_Master_Receive(bq_i2c, bq_deviceAddress << 1, result, 35, 100);
+
+    for (int i = 0; i < size; i++)
+    {
+        receive[i] = result[i + 3];
+    }
+}
+
+/**
+ * @brief reading from ManufacturerBlockAccess() as unsigned short
+ * @param command command to read
+ * @return 16bit value from command
+ */
+unsigned short BQ_ReadCommandAsShort(unsigned short command)
+{
+    unsigned char buf[2];
+
+    BQ_ReadMABlockCommand(command, buf, 2);
+
+    unsigned short result = 0;
+
+    result = result | buf[0];
+    result = result | (buf[1] << 8);
+
+    return result;
+}
+
+/**
+ * @brief reading from ManufacturerBlockAccess() as unsigned short
+ * @param command command to read
+ * @return 16bit value from command
+ */
+unsigned char BQ_ReadCommandAsChar(unsigned short command)
+{
+    unsigned char buf[1];
+
+    BQ_ReadMABlockCommand(command, buf, 1);
+
+    return buf[0];
+}
+
+/**
+ * @brief reading from ManufacturerBlockAccess() as unsigned int
+ * @param command command to read
+ * @return 32bit value from command
+ */
+unsigned int BQ_ReadCommandAsInt(unsigned short command)
+{
+    unsigned char buf[4];
+
+    BQ_ReadMABlockCommand(command, buf, 4);
+
+    unsigned int result = 0;
+
+    result = result | (buf[0]);
+    result = result | (buf[1] << 8);
+    result = result | (buf[2] << 16);
+    result = result | (buf[3] << 24);
+
+    return result;
+}

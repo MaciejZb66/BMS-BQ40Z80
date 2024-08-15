@@ -1,0 +1,6 @@
+../Core/Src/i2c_helper.c:9:14:I2CHelper_ReadRegisterAsInt	32	static
+../Core/Src/i2c_helper.c:30:16:I2CHelper_ReadRegisterAsShort	32	static
+../Core/Src/i2c_helper.c:48:15:I2CHelper_ReadRegisterAsChar	32	static
+../Core/Src/i2c_helper.c:62:6:I2CHelper_ReadRegister	32	static
+../Core/Src/i2c_helper.c:73:6:I2CHelper_WriteRegister	32	static
+../Core/Src/i2c_helper.c:89:15:I2CHelper_GetFirstAddress	24	static

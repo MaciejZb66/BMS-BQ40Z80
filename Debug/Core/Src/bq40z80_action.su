@@ -1,0 +1,16 @@
+../Core/Src/bq40z80_action.c:8:6:BQAction_SetLed	16	static
+../Core/Src/bq40z80_action.c:20:6:BQAction_SetManufacturingAllFet	16	static
+../Core/Src/bq40z80_action.c:32:6:BQAction_SetManufacturingFuse	16	static
+../Core/Src/bq40z80_action.c:43:6:BQAction_SetCalibration	16	static
+../Core/Src/bq40z80_action.c:55:6:BQAction_SetManufacturingGauging	16	static
+../Core/Src/bq40z80_action.c:66:6:BQAction_SetManufacturingPF	16	static
+../Core/Src/bq40z80_action.c:77:6:BQAction_SetManufacturingLF	16	static
+../Core/Src/bq40z80_action.c:89:6:BQAction_EnableCharging	8	static
+../Core/Src/bq40z80_action.c:123:6:BQAction_EnableDischarging	8	static
+../Core/Src/bq40z80_action.c:157:6:BQAction_EnablePreDischarging	8	static
+../Core/Src/bq40z80_action.c:191:6:BQAction_DisableFets	8	static
+../Core/Src/bq40z80_action.c:211:6:BQAction_TryUpdateFlash	4	static
+../Core/Src/bq40z80_action.c:220:6:BQAction_ForceUpdateFlash	24	static
+../Core/Src/bq40z80_action.c:241:6:BQAction_TryUnsealedDevice	16	static
+../Core/Src/bq40z80_action.c:272:6:BQAction_UpdateData	48	static
+../Core/Src/bq40z80_action.c:294:6:BQAction_UpdateOpStatus	8	static
