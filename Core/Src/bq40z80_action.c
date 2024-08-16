@@ -301,10 +301,10 @@ void BQAction_UpdateData(I2C_HandleTypeDef *bq_i2c)
     uint16_t batteryStatus = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryStatus);
     uint8_t gpioStatus = I2CHelper_ReadRegisterAsChar(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_GPIORead);
 
-    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_1, BQ_daStatus1, 32);
-    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_2, BQ_daStatus2, 16);
-    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_3, BQ_daStatus3, 18);
-    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_OUTPUT_CADC_CAL, BQ_outCal, 32);
+    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
+    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_2, BMS_1.BQ_daStatus2, 16);
+    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
+    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_OUTPUT_CADC_CAL, BMS_1.BQ_outCal, 32);
     BQ_ParseAllFlags(operationStatus, batteryMode, batteryStatus, gpioStatus, manStatus, chargeStatus, gaugStatus);
 }
 
@@ -314,7 +314,7 @@ void BQAction_UpdateData(I2C_HandleTypeDef *bq_i2c)
  */
 void BQAction_UpdateOpStatus(I2C_HandleTypeDef *bq_i2c)
 {
-    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_1, BQ_daStatus1, 32);
+    BQ_ReadMABlockCommand(bq_i2c, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
     BQ_ParseOperationStatus(BQ_ReadCommandAsInt(bq_i2c, BQ40Z80_MFA_OPERATION_STATUS));
     BQ_ParseManufacturingStatus(BQ_ReadCommandAsShort(bq_i2c, BQ40Z80_MFA_MANUFACTURING_STATUS));
 }

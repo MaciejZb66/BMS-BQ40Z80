@@ -1,6 +1,7 @@
 #include "bq40z80.h"
 
 uint8_t bq_deviceAddress = 0x0B;
+
 //I2C_HandleTypeDef *bq_i2c = NULL;
 //uint8_t number_of_inited = 0;
 
@@ -14,6 +15,15 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
     if(i2c == &hi2c1){
     	__HAL_RCC_I2C1_CLK_ENABLE();
     }
+#ifdef three_bms
+    if(i2c == &hi2c2){
+		__HAL_RCC_I2C2_CLK_ENABLE();
+	}
+    if(i2c == &hi2c3){
+		__HAL_RCC_I2C3_CLK_ENABLE();
+	}
+#endif
+
 //    ("[BQ] Started", 12);
 //    if (USE_SCANNER == 1)
 //    {

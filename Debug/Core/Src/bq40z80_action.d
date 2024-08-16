@@ -27,9 +27,10 @@ Core/Src/bq40z80_action.o: ../Core/Src/bq40z80_action.c \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
  ../Core/Inc/bq40z80.h ../Core/Inc/bq40z80_parser.h \
- ../Core/Inc/bq40z80_sbs.h ../Core/Inc/bq40z80_registers.h \
- ../Core/Inc/bq40z80_validator.h ../Core/Inc/bq40z80_flash.h \
- ../Core/Inc/i2c_helper.h ../Core/Inc/gpio.h ../Core/Inc/bq40z80.h
+ ../Core/Inc/bq40z80_data.h ../Core/Inc/bq40z80_sbs.h \
+ ../Core/Inc/bq40z80_registers.h ../Core/Inc/bq40z80_validator.h \
+ ../Core/Inc/bq40z80_flash.h ../Core/Inc/i2c_helper.h ../Core/Inc/gpio.h \
+ ../Core/Inc/bq40z80.h
 ../Core/Inc/bq40z80_action.h:
 ../Core/Inc/bq40z80_mfa.h:
 ../Core/Inc/i2c.h:
@@ -62,6 +63,7 @@ Core/Src/bq40z80_action.o: ../Core/Src/bq40z80_action.c \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
 ../Core/Inc/bq40z80.h:
 ../Core/Inc/bq40z80_parser.h:
+../Core/Inc/bq40z80_data.h:
 ../Core/Inc/bq40z80_sbs.h:
 ../Core/Inc/bq40z80_registers.h:
 ../Core/Inc/bq40z80_validator.h:

@@ -105,21 +105,21 @@ int main(void)
 
 	  HAL_Delay(100);
 
-	  BQ_ReadMABlockCommand(&hi2c1, BQ40Z80_MFA_DA_STATUS_1, BQ_daStatus1, 32);
+	  BQ_ReadMABlockCommand(&hi2c1, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_2, 16);
-	  BQ_ReadMABlockCommand(&hi2c1, BQ40Z80_MFA_DA_STATUS_3, BQ_daStatus3, 18);
+	  BQ_ReadMABlockCommand(&hi2c1, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_OUTPUT_CADC_CAL, BQ_outCal, 32);
 	  voltage = I2CHelper_ReadRegisterAsShort(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
 	  current = I2CHelper_ReadRegisterAsShort(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_Current);
 	  percentage[0] = I2CHelper_ReadRegisterAsChar(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_RelativeStateOfCharge);
 	  percentage[1] = I2CHelper_ReadRegisterAsChar(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_AbsoluteStateOfCharge);
 	  // -----separated cells-----
-	  cells[0] = BQ_daStatus1[0] | (BQ_daStatus1[1] << 8);
-	  cells[1] = BQ_daStatus1[2] | (BQ_daStatus1[3] << 8);
-	  cells[2] = BQ_daStatus1[4] | (BQ_daStatus1[5] << 8);
-	  cells[3] = BQ_daStatus1[6] | (BQ_daStatus1[7] << 8);
-	  cells[4] = BQ_daStatus3[0] | (BQ_daStatus3[1] << 8);
-	  cells[5] = BQ_daStatus3[6] | (BQ_daStatus3[7] << 8);
+	  cells[0] = BMS_1.BQ_daStatus1[0] | (BMS_1.BQ_daStatus1[1] << 8);
+	  cells[1] = BMS_1.BQ_daStatus1[2] | (BMS_1.BQ_daStatus1[3] << 8);
+	  cells[2] = BMS_1.BQ_daStatus1[4] | (BMS_1.BQ_daStatus1[5] << 8);
+	  cells[3] = BMS_1.BQ_daStatus1[6] | (BMS_1.BQ_daStatus1[7] << 8);
+	  cells[4] = BMS_1.BQ_daStatus3[0] | (BMS_1.BQ_daStatus3[1] << 8);
+	  cells[5] = BMS_1.BQ_daStatus3[6] | (BMS_1.BQ_daStatus3[7] << 8);
 
     /* USER CODE END WHILE */
 

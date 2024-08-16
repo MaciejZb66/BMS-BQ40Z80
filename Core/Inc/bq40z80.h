@@ -6,6 +6,7 @@
 #include "bq40z80_validator.h"
 #include "bq40z80_flash.h"
 #include "bq40z80_action.h"
+#include "bq40z80_data.h"
 #include "i2c_helper.h"
 #include "i2c.h"
 #include "gpio.h"

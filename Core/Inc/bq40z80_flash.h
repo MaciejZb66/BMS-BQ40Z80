@@ -11,3 +11,4 @@ typedef struct
 FlashData *BQ_GetFlashHex2(void);
 FlashData *BQ_GetFlashHex1(void);
 
+

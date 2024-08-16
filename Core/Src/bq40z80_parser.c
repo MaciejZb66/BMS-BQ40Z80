@@ -1,25 +1,6 @@
 #include "bq40z80_parser.h"
 
 /**
- * @attention 
- * in datasheet some registers are binary number, in which each bit has a unique meaning
- * example: opStatus have 32 bits, 8-9 bits indicate security mode. etc.
- * 
- * @warning: in array values: '1' = 49, '0' = 48
- */
-uint8_t BQ_opStatus[32] = {0}; //0x0054(s)
-uint8_t BQ_chargeStatus[32] = {0}; //0x0055(s)
-uint8_t BQ_gaugeStatus[32] = {0}; //0x0056?
-uint8_t BQ_batteryStatus[16] = {0};
-uint8_t BQ_batteryMode[16] = {0};
-uint8_t BQ_manufacturingStatus[16] = {0}; //0x0057?
-uint8_t BQ_gpio[8] = {0};
-uint8_t BQ_daStatus1[32] = {0}; //0x0071(s)
-uint8_t BQ_daStatus2[16] = {0}; //0x0072(s)
-uint8_t BQ_daStatus3[18] = {0}; //0x007B(s)
-uint8_t BQ_outCal[32] = {0}; //0xF081
-
-/**
  * @brief convert decimal value to binary array, array[0] - first element
  * @param value decimal value
  * @param array array to write
@@ -71,40 +52,40 @@ void BQ_ParseAllFlags(uint32_t opStatus,
 void BQ_ParseOperationStatus(uint32_t raw)
 {
 	//convert to binary array and save in BQ_opStatus
-	decimalToBinary(raw, BQ_opStatus, 32);
+	decimalToBinary(raw, BMS_1.BQ_opStatus, 32);
 }
 
 void BQ_ParseChargeStatus(uint32_t raw)
 {
 	//convert to binary array and save in BQ_chargeStatus
-	decimalToBinary(raw, BQ_chargeStatus, 32);
+	decimalToBinary(raw, BMS_1.BQ_chargeStatus, 32);
 }
 
 void BQ_ParseGaugeStatus(uint32_t raw)
 {
 	//convert to binary array and save in BQ_gaugeStatus
-	decimalToBinary(raw, BQ_gaugeStatus, 32);
+	decimalToBinary(raw, BMS_1.BQ_gaugeStatus, 32);
 }
 
 void BQ_ParseBatteryStatus(uint16_t raw)
 {
 	//convert to binary array and save in BQ_batteryStatus
-	decimalToBinary(raw, BQ_batteryStatus, 16);
+	decimalToBinary(raw, BMS_1.BQ_batteryStatus, 16);
 }
 
 void BQ_ParseBatteryMode(uint16_t raw)
 {
 	//convert to binary array and save in BQ_batteryMode
-	decimalToBinary(raw, BQ_batteryMode, 16);
+	decimalToBinary(raw, BMS_1.BQ_batteryMode, 16);
 }
 
 void BQ_ParseManufacturingStatus(uint16_t raw)
 {
-	decimalToBinary(raw, BQ_manufacturingStatus, 16);
+	decimalToBinary(raw, BMS_1.BQ_manufacturingStatus, 16);
 }
 
 void BQ_ParseGpio(uint8_t raw)
 {
 	//convert to binary array and save in BQ_gpio
-	decimalToBinary(raw, BQ_gpio, 8);
+	decimalToBinary(raw, BMS_1.BQ_gpio, 8);
 }
