@@ -8,4 +8,5 @@
 
 
 
-BQ_data BMS_1;
+BQ_data BMS_1 = {0};
+

@@ -32,6 +32,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bq40z80.h"
+#include "bq40z80_data.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

@@ -27,11 +27,11 @@ SECURITY_MODE BQ_GetSecurityMode(void)
  * @brief get charge from BQ_opStatus
  * @return CHARGE, DISCHARGE or RELAX
  */
-CHARGE_MODE BQ_GetChargeMode(I2C_HandleTypeDef *bq_i2c)
+CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
 {
-    BQAction_UpdateOpStatus(bq_i2c);
+    BQAction_UpdateOpStatus(BMS.bq_i2c);
     uint16_t packVoltage = BMS_1.BQ_daStatus1[10] | (BMS_1.BQ_daStatus1[11] << 8);
-    uint16_t current = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
+    uint16_t current = I2CHelper_ReadRegisterAsShort(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
 
     if (packVoltage > 1000 && BQ_IsChargeEnabled() && BQ_IsChargeFetEnabled() && BQ_IsChargeFetTestEnabled() && current > 0 && current < 30000){
         return CHARGE;

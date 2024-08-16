@@ -1,5 +1,6 @@
 #pragma once
-
+//#pragma message("bq40z80_data.h is included")
+#include "i2c.h"
 #include <stdint.h>
 
 /**
@@ -9,7 +10,11 @@
  *
  * @warning: in array values: '1' = 49, '0' = 48
  */
+#ifndef BQ40Z80_DATA_H
+#define BQ40Z80_DATA_H
+#pragma message("struct included")
 typedef struct{
+	I2C_HandleTypeDef *bq_i2c;
 	uint8_t BQ_opStatus[32]; //0x0054(s)
 	uint8_t BQ_chargeStatus[32]; //0x0055(s)
 	uint8_t BQ_gaugeStatus[32]; //0x0056?
@@ -23,3 +28,6 @@ typedef struct{
 	uint8_t BQ_daStatus3[18]; //0x007B(s)
 	uint8_t BQ_outCal[32]; //0xF081
 }BQ_data;
+
+#endif // BQ40Z80_DATA_H
+

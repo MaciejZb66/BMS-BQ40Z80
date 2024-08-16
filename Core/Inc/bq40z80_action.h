@@ -1,5 +1,6 @@
 #pragma once
 #include <stdbool.h>
+#include "bq40z80_data.h"
 #include "bq40z80_mfa.h"
 #include "i2c.h"
 //#define CMD_CALIBRATION 0x002D
@@ -16,22 +17,22 @@
 //
 //#define CMD_LED_TOGGLE 0x002B
 
-void BQAction_SetLed(I2C_HandleTypeDef *bq_i2c,bool active);
-void BQAction_SetManufacturingAllFet(I2C_HandleTypeDef *bq_i2c,bool active);
-void BQAction_SetManufacturingFuse(I2C_HandleTypeDef *bq_i2c,bool active);
-void BQAction_SetCalibration(I2C_HandleTypeDef *bq_i2c,bool active);
-void BQAction_SetManufacturingGauging(I2C_HandleTypeDef *bq_i2c,bool active);
-void BQAction_SetManufacturingPF(I2C_HandleTypeDef *bq_i2c,bool active);
-void BQAction_SetManufacturingLF(I2C_HandleTypeDef *bq_i2c,bool active);
-bool BQAction_EnableCharging(I2C_HandleTypeDef *bq_i2c);
-bool BQAction_EnableDischarging(I2C_HandleTypeDef *bq_i2c);
-bool BQAction_EnablePreDischarging(I2C_HandleTypeDef *bq_i2c);
-bool BQAction_DisableFets(I2C_HandleTypeDef *bq_i2c);
+void BQAction_SetLed(BQ_data BMS, bool active);
+void BQAction_SetManufacturingAllFet(BQ_data BMS, bool active);
+void BQAction_SetManufacturingFuse(BQ_data BMS, bool active);
+void BQAction_SetCalibration(BQ_data BMS, bool active);
+void BQAction_SetManufacturingGauging(BQ_data BMS, bool active);
+void BQAction_SetManufacturingPF(BQ_data BMS, bool active);
+void BQAction_SetManufacturingLF(BQ_data BMS, bool active);
+bool BQAction_EnableCharging(BQ_data BMS);
+bool BQAction_EnableDischarging(BQ_data BMS);
+bool BQAction_EnablePreDischarging(BQ_data BMS);
+bool BQAction_DisableFets(BQ_data BMS);
 
-bool BQAction_TryUpdateFlash(I2C_HandleTypeDef *bq_i2c);
-void BQAction_ForceUpdateFlash(I2C_HandleTypeDef *bq_i2c);
+bool BQAction_TryUpdateFlash(BQ_data BMS);
+void BQAction_ForceUpdateFlash(BQ_data BMS);
 
-void BQAction_TryUnsealedDevice(I2C_HandleTypeDef *bq_i2c);
-void BQAction_UpdateData(I2C_HandleTypeDef *bq_i2c);
-void BQAction_UpdateOpStatus(I2C_HandleTypeDef *bq_i2c);
+void BQAction_TryUnsealedDevice(BQ_data BMS);
+void BQAction_UpdateData(BQ_data BMS);
+void BQAction_UpdateOpStatus(BQ_data BMS);
 

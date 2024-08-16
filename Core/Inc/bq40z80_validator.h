@@ -1,5 +1,6 @@
 #pragma once
 #include "bq40z80_parser.h"
+#include "bq40z80_data.h"
 #include "i2c.h"
 #include <stdbool.h>
 
@@ -26,7 +27,7 @@ typedef struct
 
 
 SECURITY_MODE BQ_GetSecurityMode(void);
-CHARGE_MODE BQ_GetChargeMode(I2C_HandleTypeDef *bq_i2c);
+CHARGE_MODE BQ_GetChargeMode(BQ_data BMS);
 
 BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(void);
 

@@ -33,16 +33,15 @@
 //#define REG_MANAFACTURING_STATUS 0x57P
 
 extern uint8_t bq_deviceAddress;
-extern I2C_HandleTypeDef *bq_i2c;
 
 void BQ_Init(I2C_HandleTypeDef *i2c);
 
-void BQ_WriteMABlockCommand(I2C_HandleTypeDef *bq_i2c,uint16_t command);
-void BQ_ReadMABlockCommand(I2C_HandleTypeDef *bq_i2c, uint16_t command, uint8_t *receive, uint8_t size);
+void BQ_WriteMABlockCommand(BQ_data BMS,uint16_t command);
+void BQ_ReadMABlockCommand(BQ_data BMS, uint16_t command, uint8_t *receive, uint8_t size);
 
-uint16_t BQ_ReadCommandAsShort(I2C_HandleTypeDef *bq_i2c, uint16_t command);
-uint32_t BQ_ReadCommandAsInt(I2C_HandleTypeDef *bq_i2c, uint16_t command);
-uint8_t BQ_ReadCommandAsChar(I2C_HandleTypeDef *bq_i2c, uint16_t command);
+uint16_t BQ_ReadCommandAsShort(BQ_data BMS, uint16_t command);
+uint32_t BQ_ReadCommandAsInt(BQ_data BMS, uint16_t command);
+uint8_t BQ_ReadCommandAsChar(BQ_data BMS, uint16_t command);
 
-void BQ_WriteFlash(I2C_HandleTypeDef *bq_i2c, uint16_t addr, uint16_t writeData);
-void BQ_WriteFlashByte(I2C_HandleTypeDef *bq_i2c, uint16_t addr, uint8_t writeData);
+void BQ_WriteFlash(BQ_data BMS, uint16_t addr, uint16_t writeData);
+void BQ_WriteFlashByte(BQ_data BMS, uint16_t addr, uint8_t writeData);
