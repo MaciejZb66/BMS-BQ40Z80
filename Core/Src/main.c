@@ -105,14 +105,14 @@ int main(void)
 
 	  HAL_Delay(100);
 
-	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_1, BQ_daStatus1, 32);
+	  BQ_ReadMABlockCommand(&hi2c1, BQ40Z80_MFA_DA_STATUS_1, BQ_daStatus1, 32);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_2, 16);
-	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_3, BQ_daStatus3, 18);
+	  BQ_ReadMABlockCommand(&hi2c1, BQ40Z80_MFA_DA_STATUS_3, BQ_daStatus3, 18);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_OUTPUT_CADC_CAL, BQ_outCal, 32);
-	  voltage = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
-	  current = I2CHelper_ReadRegisterAsShort(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
-	  percentage[0] = I2CHelper_ReadRegisterAsChar(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_RelativeStateOfCharge);
-	  percentage[1] = I2CHelper_ReadRegisterAsChar(bq_i2c, bq_deviceAddress, BQ40Z80_SBS_AbsoluteStateOfCharge);
+	  voltage = I2CHelper_ReadRegisterAsShort(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
+	  current = I2CHelper_ReadRegisterAsShort(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_Current);
+	  percentage[0] = I2CHelper_ReadRegisterAsChar(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_RelativeStateOfCharge);
+	  percentage[1] = I2CHelper_ReadRegisterAsChar(&hi2c1, bq_deviceAddress, BQ40Z80_SBS_AbsoluteStateOfCharge);
 	  // -----separated cells-----
 	  cells[0] = BQ_daStatus1[0] | (BQ_daStatus1[1] << 8);
 	  cells[1] = BQ_daStatus1[2] | (BQ_daStatus1[3] << 8);

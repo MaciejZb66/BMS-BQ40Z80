@@ -1,5 +1,6 @@
 #pragma once
 #include "bq40z80_parser.h"
+#include "i2c.h"
 #include <stdbool.h>
 
 typedef enum
@@ -25,7 +26,7 @@ typedef struct
 
 
 SECURITY_MODE BQ_GetSecurityMode(void);
-CHARGE_MODE BQ_GetChargeMode(void);
+CHARGE_MODE BQ_GetChargeMode(I2C_HandleTypeDef *bq_i2c);
 
 BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(void);
 
