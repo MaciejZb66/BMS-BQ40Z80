@@ -1,0 +1,9 @@
+../Core/Src/bq40z80_parser.c:9:6:decimalToBinary	3
+../Core/Src/bq40z80_parser.c:36:6:BQ_ParseAllFlags	1
+../Core/Src/bq40z80_parser.c:52:6:BQ_ParseOperationStatus	1
+../Core/Src/bq40z80_parser.c:58:6:BQ_ParseChargeStatus	1
+../Core/Src/bq40z80_parser.c:64:6:BQ_ParseGaugeStatus	1
+../Core/Src/bq40z80_parser.c:70:6:BQ_ParseBatteryStatus	1
+../Core/Src/bq40z80_parser.c:76:6:BQ_ParseBatteryMode	1
+../Core/Src/bq40z80_parser.c:82:6:BQ_ParseManufacturingStatus	1
+../Core/Src/bq40z80_parser.c:87:6:BQ_ParseGpio	1

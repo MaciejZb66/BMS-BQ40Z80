@@ -52,7 +52,7 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
     BQAction_SetManufacturingLF(BMS_1, true);
     BQAction_SetLed(BMS_1, false);
 
-    BQAction_UpdateData(i2c);
+    BQAction_UpdateData(BMS_1);
 
     //BQ_ForceUpdateFlash();
 

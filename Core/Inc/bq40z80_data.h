@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 //#pragma message("bq40z80_data.h is included")
 #include "i2c.h"
 #include <stdint.h>
@@ -12,7 +12,7 @@
  */
 #ifndef BQ40Z80_DATA_H
 #define BQ40Z80_DATA_H
-#pragma message("struct included")
+//#pragma message("struct included")
 typedef struct{
 	I2C_HandleTypeDef *bq_i2c;
 	uint8_t BQ_opStatus[32]; //0x0054(s)

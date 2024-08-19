@@ -29,7 +29,7 @@ SECURITY_MODE BQ_GetSecurityMode(void)
  */
 CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
 {
-    BQAction_UpdateOpStatus(BMS.bq_i2c);
+    BQAction_UpdateOpStatus(BMS);
     uint16_t packVoltage = BMS_1.BQ_daStatus1[10] | (BMS_1.BQ_daStatus1[11] << 8);
     uint16_t current = I2CHelper_ReadRegisterAsShort(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
 
