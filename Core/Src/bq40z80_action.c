@@ -7,7 +7,7 @@
  */
 void BQAction_SetLed(BQ_data BMS, bool active)
 {
-    if (BQ_IsLedEnabled() != active)
+    if (BQ_IsLedEnabled(BMS) != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_LED_TOGGLE);
     }
@@ -19,7 +19,7 @@ void BQAction_SetLed(BQ_data BMS, bool active)
  */
 void BQAction_SetManufacturingAllFet(BQ_data BMS, bool active)
 {
-    if (BQ_IsManufacturingAllFetEnabled() != active)
+    if (BQ_IsManufacturingAllFetEnabled(BMS) != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_FET_CONTROL);
     }
@@ -31,7 +31,7 @@ void BQAction_SetManufacturingAllFet(BQ_data BMS, bool active)
  */
 void BQAction_SetManufacturingFuse(BQ_data BMS, bool active)
 {
-    if (BQ_IsManufacturingFuseEnabled() != active)
+    if (BQ_IsManufacturingFuseEnabled(BMS) != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_FUSE);
     }
@@ -42,7 +42,7 @@ void BQAction_SetManufacturingFuse(BQ_data BMS, bool active)
  */
 void BQAction_SetCalibration(BQ_data BMS, bool active)
 {
-    if (BQ_IsManufacturingCalibrationEnabled() != active)
+    if (BQ_IsManufacturingCalibrationEnabled(BMS) != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CALIBRATION_MODE);
     }
@@ -54,7 +54,7 @@ void BQAction_SetCalibration(BQ_data BMS, bool active)
  */
 void BQAction_SetManufacturingGauging(BQ_data BMS, bool active)
 {
-    if (BQ_IsManufacturingGaugingEnabled() != active)
+    if (BQ_IsManufacturingGaugingEnabled(BMS) != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_GAUGING);
     }
@@ -65,7 +65,7 @@ void BQAction_SetManufacturingGauging(BQ_data BMS, bool active)
  */
 void BQAction_SetManufacturingPF(BQ_data BMS, bool active)
 {
-    if (BQ_IsManufacturingPermanentFailureEnabled() != active)
+    if (BQ_IsManufacturingPermanentFailureEnabled(BMS) != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PERMANENT_FAILURE);
     }
@@ -76,7 +76,7 @@ void BQAction_SetManufacturingPF(BQ_data BMS, bool active)
  */
 void BQAction_SetManufacturingLF(BQ_data BMS, bool active)
 {
-    if (BQ_IsManufacturingLifetimeEnabled() != active)
+    if (BQ_IsManufacturingLifetimeEnabled(BMS) != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_LIFETIME_DATA_COLLECTION);
     }
@@ -93,18 +93,18 @@ bool BQAction_EnableCharging(BQ_data BMS)
     }
 
     // turn off unused fets
-    if (BQ_IsDischargeFetTestEnabled()){
+    if (BQ_IsDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
-    if (BQ_IsPreDischargeFetTestEnabled()){
+    if (BQ_IsPreDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled()){
+    if (BQ_IsPreChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
 
     // turn on charge
-    if (!BQ_IsChargeFetTestEnabled()){
+    if (!BQ_IsChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
 
@@ -114,7 +114,7 @@ bool BQAction_EnableCharging(BQ_data BMS)
         return true;
     }else{
         // turn off charge
-        if (BQ_IsChargeFetTestEnabled()){
+        if (BQ_IsChargeFetTestEnabled(BMS)){
             BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
         }
         return false;
@@ -132,18 +132,18 @@ bool BQAction_EnableDischarging(BQ_data BMS)
     }
 
     // turn off unused fets
-    if (BQ_IsChargeFetTestEnabled()){
+    if (BQ_IsChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
-    if (BQ_IsPreDischargeFetTestEnabled()){
+    if (BQ_IsPreDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled()){
+    if (BQ_IsPreChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
 
     // turn on discharge
-    if (!BQ_IsDischargeFetTestEnabled()){
+    if (!BQ_IsDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
 
@@ -153,7 +153,7 @@ bool BQAction_EnableDischarging(BQ_data BMS)
         return true;
     }else{
         // turn off discharge
-        if (BQ_IsDischargeFetTestEnabled()){
+        if (BQ_IsDischargeFetTestEnabled(BMS)){
             BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
         }
         return false;
@@ -171,18 +171,18 @@ bool BQAction_EnablePreDischarging(BQ_data BMS)
     }
 
     // turn off unused fets
-    if (BQ_IsChargeFetTestEnabled()){
+    if (BQ_IsChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
-    if (BQ_IsDischargeFetTestEnabled()){
+    if (BQ_IsDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled()){
+    if (BQ_IsPreChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
 
     // turn on pre-discharge
-    if (!BQ_IsPreDischargeFetTestEnabled()){
+    if (!BQ_IsPreDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
 
@@ -194,7 +194,7 @@ bool BQAction_EnablePreDischarging(BQ_data BMS)
     else
     {
         // turn off pre-discharge
-        if (BQ_IsPreDischargeFetTestEnabled()){
+        if (BQ_IsPreDischargeFetTestEnabled(BMS)){
             BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
         }
         return false;
@@ -208,16 +208,16 @@ bool BQAction_EnablePreDischarging(BQ_data BMS)
 bool BQAction_DisableFets(BQ_data BMS)
 {
     BQAction_UpdateOpStatus(BMS);
-    if (BQ_IsChargeFetTestEnabled()){
+    if (BQ_IsChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
-    if (BQ_IsDischargeFetTestEnabled()){
+    if (BQ_IsDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled()){
+    if (BQ_IsPreChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
-    if (BQ_IsPreDischargeFetTestEnabled()){
+    if (BQ_IsPreDischargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
 
@@ -264,7 +264,7 @@ void BQAction_TryUnsealedDevice(BQ_data BMS)
 //    bool isSealed = false;
 
     BQAction_UpdateOpStatus(BMS);
-    SECURITY_MODE securityMode = BQ_GetSecurityMode();
+    SECURITY_MODE securityMode = BQ_GetSecurityMode(BMS);
     while (securityMode == SEALED || securityMode == RESERVED)
     {
 //        isSealed = true;
@@ -275,7 +275,7 @@ void BQAction_TryUnsealedDevice(BQ_data BMS)
         BQ_WriteMABlockCommand(BMS, 0x3672);
         HAL_Delay(3000);
         BQAction_UpdateOpStatus(BMS);
-        securityMode = BQ_GetSecurityMode();
+        securityMode = BQ_GetSecurityMode(BMS);
     }
 
     // print only if the device was previously sealeded

@@ -55,7 +55,14 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+bool status;
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if (GPIO_Pin == B1_Pin){
+	  status = !status;
+	  HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -91,10 +98,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_I2C_Init(&hi2c1);
   HAL_I2C_MspInit(&hi2c1);
+  status = false;
   uint16_t voltage = 0;
-  uint16_t current = 0;
-  uint8_t percentage[2];
-  uint16_t cells[6];
+  int16_t current = 0;
+  uint8_t percentage[2] = {0};
+  uint16_t cells[6] = {0};
+  bool fun[5] = {0};
   BQ_Init(&hi2c1);
   /* USER CODE END 2 */
 
@@ -103,11 +112,11 @@ int main(void)
   while (1)
   {
 
-	  HAL_Delay(100);
-
-	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
+	  HAL_Delay(200);
+	  BQAction_UpdateData(BMS_1);
+//	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_2, 16);
-	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
+//	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_OUTPUT_CADC_CAL, BQ_outCal, 32);
 	  voltage = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
 	  current = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
@@ -120,6 +129,15 @@ int main(void)
 	  cells[3] = BMS_1.BQ_daStatus1[6] | (BMS_1.BQ_daStatus1[7] << 8);
 	  cells[4] = BMS_1.BQ_daStatus3[0] | (BMS_1.BQ_daStatus3[1] << 8);
 	  cells[5] = BMS_1.BQ_daStatus3[6] | (BMS_1.BQ_daStatus3[7] << 8);
+
+	  // -----toggle fets--------
+	  if(status){
+		  BQAction_EnableDischarging(BMS_1);
+	  }else{
+		  BQAction_DisableFets(BMS_1);
+	  }
+	  fun[0] = BQ_IsDischargeFetEnabled(BMS_1);
+	  fun[1] = BQ_IsDischargeEnabled(BMS_1);
 
     /* USER CODE END WHILE */
 

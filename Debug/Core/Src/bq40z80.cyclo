@@ -1,8 +1,8 @@
-../Core/Src/bq40z80.c:12:6:BQ_Init	3
-../Core/Src/bq40z80.c:69:6:BQ_WriteFlash	1
-../Core/Src/bq40z80.c:87:6:BQ_WriteFlashByte	1
-../Core/Src/bq40z80.c:103:6:BQ_WriteMABlockCommand	1
-../Core/Src/bq40z80.c:116:6:BQ_ReadMABlockCommand	2
-../Core/Src/bq40z80.c:140:10:BQ_ReadCommandAsShort	1
-../Core/Src/bq40z80.c:159:9:BQ_ReadCommandAsChar	1
-../Core/Src/bq40z80.c:173:10:BQ_ReadCommandAsInt	1
+../Core/Src/bq40z80.c:12:6:BQ_Init	4
+../Core/Src/bq40z80.c:74:6:BQ_WriteFlash	1
+../Core/Src/bq40z80.c:92:6:BQ_WriteFlashByte	1
+../Core/Src/bq40z80.c:108:6:BQ_WriteMABlockCommand	1
+../Core/Src/bq40z80.c:121:6:BQ_ReadMABlockCommand	2
+../Core/Src/bq40z80.c:145:10:BQ_ReadCommandAsShort	1
+../Core/Src/bq40z80.c:164:9:BQ_ReadCommandAsChar	1
+../Core/Src/bq40z80.c:178:10:BQ_ReadCommandAsInt	1

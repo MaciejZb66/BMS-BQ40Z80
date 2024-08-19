@@ -34,7 +34,12 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
 //            ("[BQ] device not founded", 23);
             ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
             HAL_Delay(1000);
+	#ifdef debug
+            if(ret == HAL_ERROR){
+            	__asm("nop");
+            }
         }
+	#endif
 #endif
 //    }
 
