@@ -4,7 +4,7 @@ uint8_t bq_deviceAddress = 0x0B;
 
 //BQ_data BMS = NULL;
 //uint8_t number_of_inited = 0;
-
+extern BQ_data BMS_1;
 /**
  * @brief bq40z80 initialization
  * @param i2c i2c pointer
@@ -28,18 +28,18 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
 //    if (USE_SCANNER == 1)
 //    {
 #ifdef USE_SCANNER
-        HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
-        while (ret != HAL_OK)
-        {
+	HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
+	while (ret != HAL_OK)
+	{
 //            ("[BQ] device not founded", 23);
-            ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
-            HAL_Delay(1000);
+		ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
+		HAL_Delay(1000);
 	#ifdef debug
-            if(ret == HAL_ERROR){
-            	__asm("nop");
-            }
-        }
+		if(ret == HAL_ERROR){
+			__asm("nop");
+		}
 	#endif
+	}
 #endif
 //    }
 

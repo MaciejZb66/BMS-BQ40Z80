@@ -44,7 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+extern BQ_data BMS_1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -104,7 +104,9 @@ int main(void)
   uint8_t percentage[2] = {0};
   uint16_t cells[6] = {0};
   bool fun[5] = {0};
+  uint8_t test[11] = {0};
   BQ_Init(&hi2c1);
+  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,7 +121,7 @@ int main(void)
 //	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_OUTPUT_CADC_CAL, BQ_outCal, 32);
 	  voltage = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
-	  current = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
+	  current = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);//TODO fix 1A = -400
 	  percentage[0] = I2CHelper_ReadRegisterAsChar(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_RelativeStateOfCharge);
 	  percentage[1] = I2CHelper_ReadRegisterAsChar(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_AbsoluteStateOfCharge);
 	  // -----separated cells-----

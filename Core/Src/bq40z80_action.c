@@ -1,6 +1,8 @@
 #include "bq40z80_action.h"
 #include "bq40z80.h"
 
+
+extern BQ_data BMS_1;
 /**
  * @brief setting led
  * @param active true - set on, false - set off
@@ -304,7 +306,7 @@ void BQAction_UpdateData(BQ_data BMS)
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_2, BMS_1.BQ_daStatus2, 16);
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_OUTPUT_CADC_CAL, BMS_1.BQ_outCal, 32);
-    BQ_ParseAllFlags(operationStatus, batteryMode, batteryStatus, gpioStatus, manStatus, chargeStatus, gaugStatus);
+    BQ_ParseAllFlags(BMS, operationStatus, batteryMode, batteryStatus, gpioStatus, manStatus, chargeStatus, gaugStatus);
 }
 
 /**
@@ -314,6 +316,6 @@ void BQAction_UpdateData(BQ_data BMS)
 void BQAction_UpdateOpStatus(BQ_data BMS)
 {
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
-    BQ_ParseOperationStatus(BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_OPERATION_STATUS));
-    BQ_ParseManufacturingStatus(BQ_ReadCommandAsShort(BMS, BQ40Z80_MFA_MANUFACTURING_STATUS));
+    BQ_ParseOperationStatus(BMS, BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_OPERATION_STATUS));
+    BQ_ParseManufacturingStatus(BMS, BQ_ReadCommandAsShort(BMS, BQ40Z80_MFA_MANUFACTURING_STATUS));
 }

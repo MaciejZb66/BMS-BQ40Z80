@@ -1,6 +1,7 @@
 #include "bq40z80_validator.h"
 #include "bq40z80.h"
 
+extern BQ_data BMS_1;
 /** 
  * @attention bq40z80_validator gets data from bq40z80_parser!
  * you must update the data first in bq40z80_parser using

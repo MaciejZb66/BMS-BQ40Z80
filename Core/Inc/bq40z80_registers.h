@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <stdbool.h>
-
+//now unused
 typedef struct
 {
     uint16_t cell_voltage_1; //!< Cell Voltage 1 (mV)
