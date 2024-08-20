@@ -57,6 +57,7 @@ typedef struct
     uint32_t slpad :1;      //!< ADC measurement in SLEEP mode: 1 = Active, 0 = Inactive
     uint32_t smblcal :1;    //!< Auto CC calibration
     uint32_t init :1;       //!< Initialization after full reset: 1 = Active, 0 = Inactive
+
     uint32_t sleepm :1;     //!< SLEEP mode triggered via command: 1 = Active, 0 = Inactive
     uint32_t xl :1;         //!< 400-kHz SMBus mode: 1 = Active, 0 = Inactive
     uint32_t cal_offset :1; //!< Calibration output (raw CC offset data)
@@ -65,6 +66,7 @@ typedef struct
     uint32_t auth :1;       //!< Authentication in progress: 1 = Active, 0 = Inactive
     uint32_t led :1;        //!< LED Display: 1 = Display on, 0 = Display off
     uint32_t sdm :1;        //!< Shutdown triggered via command: 1 = Active, 0 = Inactive
+
     uint32_t sleep :1;      //!< SLEEP mode conditions met: 1 = Active, 0 = Inactive
     uint32_t xchg :1;       //!< Charging disabled: 1 = Active, 0 = Inactive
     uint32_t xdsg :1;       //!< Discharging disabled: 1 = Active, 0 = Inactive
@@ -72,7 +74,8 @@ typedef struct
     uint32_t ss :1;         //!< SAFETY status: 1 = Active, 0 = Inactive
     uint32_t sdv :1;        //!< Shutdown triggered via low battery stack voltage: 1 = Active, 0 = Inactive
     uint32_t sec1 :1;       //!< SECURITY mode bit 1
-    uint32_t sec0 :1;       //!< SECURITY mode bit 0
+    uint32_t sec0 :1;		//!< SECURITY mode bit 0
+
     uint32_t btp_int :1;    //!< Battery trip point interrupt: 1 = Active, 0 = Inactive
     uint32_t rsvd_6 :1;     //!< Reserved. Do not use.
     uint32_t fuse :1;       //!< Fuse status: 1 = Active, 0 = Inactive

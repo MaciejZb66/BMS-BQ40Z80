@@ -46,7 +46,7 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
     
 
     HAL_Delay(1500);
-    BQAction_UpdateData(BMS_1);
+    BQAction_UpdateData(&BMS_1);
     BQAction_TryUnsealedDevice(BMS_1);
 
     BQAction_SetManufacturingAllFet(BMS_1, false);
@@ -57,7 +57,7 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
     BQAction_SetManufacturingLF(BMS_1, true);
     BQAction_SetLed(BMS_1, false);
 
-    BQAction_UpdateData(BMS_1);
+    BQAction_UpdateData(&BMS_1);
 
     //BQ_ForceUpdateFlash();
 
@@ -189,4 +189,19 @@ uint32_t BQ_ReadCommandAsInt(BQ_data BMS, uint16_t command)
     result = result | (buf[3] << 24);
 
     return result;
+}
+
+uint32_t BQ_ReadCommandAsLInt(BQ_data BMS, uint16_t command){
+	uint8_t buf[4];
+
+	    BQ_ReadMABlockCommand(BMS, command, buf, 4);
+
+	    uint32_t result = 0;
+
+	    result = result | (buf[3]);
+	    result = result | (buf[2] << 8);
+	    result = result | (buf[1] << 16);
+	    result = result | (buf[0] << 24);
+
+	    return result;
 }

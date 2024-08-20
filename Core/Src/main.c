@@ -115,7 +115,7 @@ int main(void)
   {
 
 	  HAL_Delay(200);
-	  BQAction_UpdateData(BMS_1);
+	  BQAction_UpdateData(&BMS_1);
 //	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
 //	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_2, 16);
 //	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);

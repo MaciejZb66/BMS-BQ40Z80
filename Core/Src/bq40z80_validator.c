@@ -13,11 +13,11 @@ extern BQ_data BMS_1;
  */
 SECURITY_MODE BQ_GetSecurityMode(BQ_data BMS)
 {
-    if (BMS.BQ_opStatus[9] && BMS.BQ_opStatus[8]){
+    if (BMS.BQ_opStatus.bits.sec1 && BMS.BQ_opStatus.bits.sec0){
         return SEALED;//11
-    }else if (BMS.BQ_opStatus[9] && !BMS.BQ_opStatus[8]){
+    }else if (BMS.BQ_opStatus.bits.sec1 && !BMS.BQ_opStatus.bits.sec0){
         return UNSEALED;//10
-    }else if (!BMS.BQ_opStatus[9] && BMS.BQ_opStatus[8]){
+    }else if (!BMS.BQ_opStatus.bits.sec1 && BMS.BQ_opStatus.bits.sec0){
         return FULL_ACCESS;//01
     }else{
         return RESERVED;//00
@@ -30,7 +30,7 @@ SECURITY_MODE BQ_GetSecurityMode(BQ_data BMS)
  */
 CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
 {
-    BQAction_UpdateOpStatus(BMS);
+    BQAction_UpdateOpStatus(&BMS);
     uint16_t packVoltage = BMS.BQ_daStatus1[10] | (BMS.BQ_daStatus1[11] << 8);
     uint16_t current = I2CHelper_ReadRegisterAsShort(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
 
@@ -80,46 +80,42 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
 
 bool BQ_IsDischargeFetEnabled(BQ_data BMS)
 {
-    return BMS.BQ_opStatus[1];
+    return BMS.BQ_opStatus.bits.dsg;
 }
 
 bool BQ_IsChargeFetEnabled(BQ_data BMS)
 {
-    return BMS.BQ_opStatus[2];
+    return BMS.BQ_opStatus.bits.chg;
 }
 
 bool BQ_IsPreChargeFetEnabled(BQ_data BMS)
 {
-    return BMS.BQ_opStatus[3];
-}
-
-
-
-bool BQ_IsDischargeEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus[13];
-}
-
-bool BQ_IsChargeEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus[14];
+    return BMS.BQ_opStatus.bits.pchg;
 }
 
 bool BQ_IsPreDischargeFetEnabled(BQ_data BMS)
 {
-    return BMS.BQ_opStatus[4];
+    return BMS.BQ_opStatus.bits.pdsg;
 }
 
-
-
-bool BQ_IsManufacturingFuseEnabled(BQ_data BMS)
+bool BQ_IsDischargeEnabled(BQ_data BMS)
 {
-    return BMS.BQ_manufacturingStatus[8];
+    return BMS.BQ_opStatus.bits.xdsg;
 }
 
-bool BQ_IsDischargeFetTestEnabled(BQ_data BMS)
+bool BQ_IsChargeEnabled(BQ_data BMS)
 {
-    return BMS.BQ_manufacturingStatus[2];
+    return BMS.BQ_opStatus.bits.xchg;
+}
+
+bool BQ_IsLedEnabled(BQ_data BMS)
+{
+    return BMS.BQ_opStatus.bits.led;
+}
+
+bool BQ_IsPreChargeFetTestEnabled(BQ_data BMS)
+{
+    return BMS.BQ_manufacturingStatus[0];
 }
 
 bool BQ_IsChargeFetTestEnabled(BQ_data BMS)
@@ -127,14 +123,14 @@ bool BQ_IsChargeFetTestEnabled(BQ_data BMS)
     return BMS.BQ_manufacturingStatus[1];
 }
 
-bool BQ_IsPreDischargeFetTestEnabled(BQ_data BMS)
+bool BQ_IsDischargeFetTestEnabled(BQ_data BMS)
 {
-    return BMS.BQ_manufacturingStatus[13];
+    return BMS.BQ_manufacturingStatus[2];
 }
 
-bool BQ_IsPreChargeFetTestEnabled(BQ_data BMS)
+bool BQ_IsManufacturingGaugingEnabled(BQ_data BMS)
 {
-    return BMS.BQ_manufacturingStatus[0];
+    return BMS.BQ_manufacturingStatus[3];
 }
 
 /**
@@ -146,14 +142,9 @@ bool BQ_IsManufacturingAllFetEnabled(BQ_data BMS)
     return BMS.BQ_manufacturingStatus[4];
 }
 
-bool BQ_IsManufacturingGaugingEnabled(BQ_data BMS)
+bool BQ_IsManufacturingLifetimeEnabled(BQ_data BMS)
 {
-    return BMS.BQ_manufacturingStatus[3];
-}
-
-bool BQ_IsManufacturingCalibrationEnabled(BQ_data BMS)
-{
-    return BMS.BQ_manufacturingStatus[15];
+    return BMS.BQ_manufacturingStatus[5];
 }
 
 bool BQ_IsManufacturingPermanentFailureEnabled(BQ_data BMS)
@@ -161,12 +152,17 @@ bool BQ_IsManufacturingPermanentFailureEnabled(BQ_data BMS)
     return BMS.BQ_manufacturingStatus[6];
 }
 
-bool BQ_IsManufacturingLifetimeEnabled(BQ_data BMS)
+bool BQ_IsManufacturingFuseEnabled(BQ_data BMS)
 {
-    return BMS.BQ_manufacturingStatus[5];
+    return BMS.BQ_manufacturingStatus[8];
 }
 
-bool BQ_IsLedEnabled(BQ_data BMS)
+bool BQ_IsPreDischargeFetTestEnabled(BQ_data BMS)
 {
-    return BMS.BQ_opStatus[17];
+    return BMS.BQ_manufacturingStatus[13];
+}
+
+bool BQ_IsManufacturingCalibrationEnabled(BQ_data BMS)
+{
+    return BMS.BQ_manufacturingStatus[15];
 }

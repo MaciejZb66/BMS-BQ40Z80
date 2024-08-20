@@ -33,6 +33,6 @@ bool BQAction_DisableFets(BQ_data BMS);
 //void BQAction_ForceUpdateFlash(BQ_data BMS);
 
 void BQAction_TryUnsealedDevice(BQ_data BMS);
-void BQAction_UpdateData(BQ_data BMS);
-void BQAction_UpdateOpStatus(BQ_data BMS);
+void BQAction_UpdateData(BQ_data* BMS);
+void BQAction_UpdateOpStatus(BQ_data* BMS);
 

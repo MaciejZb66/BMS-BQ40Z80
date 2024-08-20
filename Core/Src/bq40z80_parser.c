@@ -42,7 +42,7 @@ void BQ_ParseAllFlags(BQ_data BMS,
 					  uint32_t chargeStatus,
 					  uint32_t gaugStatus)
 {
-	BQ_ParseOperationStatus(BMS, opStatus);
+	BQ_ParseOperationStatus(&BMS, opStatus);
 	BQ_ParseChargeStatus(BMS, chargeStatus);
 	BQ_ParseGaugeStatus(BMS, gaugStatus);
 	BQ_ParseBatteryStatus(BMS, batteryStatus);
@@ -50,10 +50,11 @@ void BQ_ParseAllFlags(BQ_data BMS,
 	BQ_ParseBatteryMode(BMS, batteryMode);
 	BQ_ParseGpio(BMS, gpio);
 }
-void BQ_ParseOperationStatus(BQ_data BMS, uint32_t raw)
+void BQ_ParseOperationStatus(BQ_data* BMS, uint32_t raw)
 {
 	//convert to binary array and save in BQ_opStatus
-	decimalToBinary(raw, BMS.BQ_opStatus, 32);
+	//	decimalToBinary(raw, BMS.BQ_opStatus, 32);
+	BMS->BQ_opStatus.all = raw;
 }
 
 void BQ_ParseChargeStatus(BQ_data BMS, uint32_t raw)

@@ -209,7 +209,7 @@ bool BQAction_EnablePreDischarging(BQ_data BMS)
  */
 bool BQAction_DisableFets(BQ_data BMS)
 {
-    BQAction_UpdateOpStatus(BMS);
+    BQAction_UpdateOpStatus(&BMS);
     if (BQ_IsChargeFetTestEnabled(BMS)){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
@@ -265,7 +265,7 @@ void BQAction_TryUnsealedDevice(BQ_data BMS)
 {
 //    bool isSealed = false;
 
-    BQAction_UpdateOpStatus(BMS);
+    BQAction_UpdateOpStatus(&BMS);
     SECURITY_MODE securityMode = BQ_GetSecurityMode(BMS);
     while (securityMode == SEALED || securityMode == RESERVED)
     {
@@ -276,7 +276,7 @@ void BQAction_TryUnsealedDevice(BQ_data BMS)
         HAL_Delay(500);
         BQ_WriteMABlockCommand(BMS, 0x3672);
         HAL_Delay(3000);
-        BQAction_UpdateOpStatus(BMS);
+        BQAction_UpdateOpStatus(&BMS);
         securityMode = BQ_GetSecurityMode(BMS);
     }
 
@@ -291,31 +291,33 @@ void BQAction_TryUnsealedDevice(BQ_data BMS)
  * @brief updating statuses, flags
  * @param none
  */
-void BQAction_UpdateData(BQ_data BMS)
+void BQAction_UpdateData(BQ_data* BMS)
 {
-    uint16_t manStatus = BQ_ReadCommandAsShort(BMS, BQ40Z80_MFA_MANUFACTURING_STATUS);
-    uint32_t chargeStatus = BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_CHARGING_STATUS);
-    uint32_t operationStatus = BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_OPERATION_STATUS);
-    uint32_t gaugStatus = BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_GAUGING_STATUS);
+    uint16_t manStatus = BQ_ReadCommandAsShort((*BMS), BQ40Z80_MFA_MANUFACTURING_STATUS);
+    uint32_t chargeStatus = BQ_ReadCommandAsInt((*BMS), BQ40Z80_MFA_CHARGING_STATUS);
+    uint32_t operationStatus = BQ_ReadCommandAsLInt((*BMS), BQ40Z80_MFA_OPERATION_STATUS);
+    BMS->BQ_opStatus.all= operationStatus;
+    uint32_t gaugStatus = BQ_ReadCommandAsInt((*BMS), BQ40Z80_MFA_GAUGING_STATUS);
 
-    uint16_t batteryMode = I2CHelper_ReadRegisterAsShort(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryMode);
-    uint16_t batteryStatus = I2CHelper_ReadRegisterAsShort(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryStatus);
-    uint8_t gpioStatus = I2CHelper_ReadRegisterAsChar(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_GPIORead);
+    uint16_t batteryMode = I2CHelper_ReadRegisterAsShort(BMS->bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryMode);
+    uint16_t batteryStatus = I2CHelper_ReadRegisterAsShort(BMS->bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryStatus);
+    uint8_t gpioStatus = I2CHelper_ReadRegisterAsChar(BMS->bq_i2c, bq_deviceAddress, BQ40Z80_SBS_GPIORead);
 
-    BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
-    BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_2, BMS_1.BQ_daStatus2, 16);
-    BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
-    BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_OUTPUT_CADC_CAL, BMS_1.BQ_outCal, 32);
-    BQ_ParseAllFlags(BMS, operationStatus, batteryMode, batteryStatus, gpioStatus, manStatus, chargeStatus, gaugStatus);
+    BQ_ReadMABlockCommand((*BMS), BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
+    BQ_ReadMABlockCommand((*BMS), BQ40Z80_MFA_DA_STATUS_2, BMS_1.BQ_daStatus2, 16);
+    BQ_ReadMABlockCommand((*BMS), BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
+    BQ_ReadMABlockCommand((*BMS), BQ40Z80_MFA_OUTPUT_CADC_CAL, BMS_1.BQ_outCal, 32);
+    BQ_ParseAllFlags((*BMS), operationStatus, batteryMode, batteryStatus, gpioStatus, manStatus, chargeStatus, gaugStatus);
 }
 
 /**
  * @brief update dastatus1, OperationStatus flags and ManufacturingStatus flags
  * @param none
  */
-void BQAction_UpdateOpStatus(BQ_data BMS)
+void BQAction_UpdateOpStatus(BQ_data* BMS)
 {
-    BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
-    BQ_ParseOperationStatus(BMS, BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_OPERATION_STATUS));
-    BQ_ParseManufacturingStatus(BMS, BQ_ReadCommandAsShort(BMS, BQ40Z80_MFA_MANUFACTURING_STATUS));
+    BQ_ReadMABlockCommand((*BMS), BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
+    uint32_t test = BQ_ReadCommandAsLInt((*BMS), BQ40Z80_MFA_OPERATION_STATUS);
+    BQ_ParseOperationStatus(BMS, test);//problem
+    BQ_ParseManufacturingStatus((*BMS), BQ_ReadCommandAsShort((*BMS), BQ40Z80_MFA_MANUFACTURING_STATUS));
 }
