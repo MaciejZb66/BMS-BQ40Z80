@@ -138,8 +138,8 @@ int main(void)
 	  }else{
 		  BQAction_DisableFets(BMS_1);
 	  }
-	  fun[0] = BQ_IsDischargeFetEnabled(BMS_1);
-	  fun[1] = BQ_IsDischargeEnabled(BMS_1);
+	  fun[0] = BMS_1.BQ_opStatus.bits.pdsg;
+	  fun[1] = BMS_1.BQ_opStatus.bits.xdsg;
 
     /* USER CODE END WHILE */
 

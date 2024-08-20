@@ -34,9 +34,9 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
     uint16_t packVoltage = BMS.BQ_daStatus1[10] | (BMS.BQ_daStatus1[11] << 8);
     uint16_t current = I2CHelper_ReadRegisterAsShort(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
 
-    if (packVoltage > 1000 && BQ_IsChargeEnabled(BMS) && BQ_IsChargeFetEnabled(BMS) && BQ_IsChargeFetTestEnabled(BMS) && current > 0 && current < 30000){
+    if (packVoltage > 1000 && BMS.BQ_opStatus.bits.chg && BMS.BQ_opStatus.bits.pchg && BQ_IsChargeFetTestEnabled(BMS) && current > 0 && current < 30000){
         return CHARGE;
-    }else if (packVoltage > 1000 && BQ_IsDischargeEnabled(BMS) && BQ_IsDischargeFetEnabled(BMS) && BQ_IsDischargeFetTestEnabled(BMS) && 65535 - current > 0 && current > 30000){
+    }else if (packVoltage > 1000 && BMS.BQ_opStatus.bits.xdsg && BMS.BQ_opStatus.bits.dsg && BQ_IsDischargeFetTestEnabled(BMS) && 65535 - current > 0 && current > 30000){
         return DISCHARGE;
     }else{
         return RELAX;
@@ -78,40 +78,40 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
 //    return result;
 //}
 
-bool BQ_IsDischargeFetEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus.bits.dsg;
-}
+//bool BQ_IsDischargeFetEnabled(BQ_data BMS)
+//{
+//    return BMS.BQ_opStatus.bits.dsg;
+//}
 
-bool BQ_IsChargeFetEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus.bits.chg;
-}
+//bool BQ_IsChargeFetEnabled(BQ_data BMS)
+//{
+//    return BMS.BQ_opStatus.bits.chg;
+//}
 
-bool BQ_IsPreChargeFetEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus.bits.pchg;
-}
+//bool BQ_IsPreChargeFetEnabled(BQ_data BMS)
+//{
+//    return BMS.BQ_opStatus.bits.pchg;
+//}
 
-bool BQ_IsPreDischargeFetEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus.bits.pdsg;
-}
-
-bool BQ_IsDischargeEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus.bits.xdsg;
-}
-
-bool BQ_IsChargeEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus.bits.xchg;
-}
-
-bool BQ_IsLedEnabled(BQ_data BMS)
-{
-    return BMS.BQ_opStatus.bits.led;
-}
+//bool BQ_IsPreDischargeFetEnabled(BQ_data BMS)
+//{
+//    return BMS.BQ_opStatus.bits.pdsg;
+//}
+//
+//bool BQ_IsDischargeEnabled(BQ_data BMS)
+//{
+//    return BMS.BQ_opStatus.bits.xdsg;
+//}
+//
+//bool BQ_IsChargeEnabled(BQ_data BMS)
+//{
+//    return BMS.BQ_opStatus.bits.xchg;
+//}
+//
+//bool BQ_IsLedEnabled(BQ_data BMS)
+//{
+//    return BMS.BQ_opStatus.bits.led;
+//}
 
 bool BQ_IsPreChargeFetTestEnabled(BQ_data BMS)
 {

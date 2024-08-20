@@ -9,7 +9,7 @@ extern BQ_data BMS_1;
  */
 void BQAction_SetLed(BQ_data BMS, bool active)
 {
-    if (BQ_IsLedEnabled(BMS) != active)
+    if (BMS.BQ_opStatus.bits.led != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_LED_TOGGLE);
     }
@@ -317,7 +317,6 @@ void BQAction_UpdateData(BQ_data* BMS)
 void BQAction_UpdateOpStatus(BQ_data* BMS)
 {
     BQ_ReadMABlockCommand((*BMS), BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
-    uint32_t test = BQ_ReadCommandAsLInt((*BMS), BQ40Z80_MFA_OPERATION_STATUS);
-    BQ_ParseOperationStatus(BMS, test);//problem
+    BQ_ParseOperationStatus(BMS, BQ_ReadCommandAsLInt((*BMS), BQ40Z80_MFA_OPERATION_STATUS));
     BQ_ParseManufacturingStatus((*BMS), BQ_ReadCommandAsShort((*BMS), BQ40Z80_MFA_MANUFACTURING_STATUS));
 }
