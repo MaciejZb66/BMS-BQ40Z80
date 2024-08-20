@@ -1,2 +1,0 @@
-../Core/Src/bq40z80_flash.c:8:12:BQ_GetFlashHex2	4	static
-../Core/Src/bq40z80_flash.c:69:12:BQ_GetFlashHex1	4	static

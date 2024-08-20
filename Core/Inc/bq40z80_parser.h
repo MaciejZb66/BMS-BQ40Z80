@@ -20,7 +20,8 @@
 //extern uint8_t BQ_daStatus2[16];
 //extern uint8_t BQ_daStatus3[18];
 //extern uint8_t BQ_outCal[32];
-//extern BQ_data BMS_1;
+extern BQ_data BMS_1;
+
 
 void BQ_ParseAllFlags(BQ_data BMS,
 					  uint32_t opStatus,

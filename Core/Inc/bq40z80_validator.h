@@ -4,32 +4,29 @@
 #include "i2c.h"
 #include <stdbool.h>
 
-typedef enum
-{
+typedef enum{
 	SEALED,
 	UNSEALED,
 	FULL_ACCESS,
 	RESERVED
 } SECURITY_MODE;
 
-typedef enum
-{
+typedef enum{
 	RELAX,
 	CHARGE,
 	DISCHARGE
 } CHARGE_MODE;
 
-typedef struct
-{
-	uint16_t Minimum;
-	uint16_t Maximum;
-} BQ_BoundaryCellVoltage;
+//typedef struct{
+//	uint16_t Minimum;
+//	uint16_t Maximum;
+//} BQ_BoundaryCellVoltage;
 
 
 SECURITY_MODE BQ_GetSecurityMode(BQ_data BMS);
 CHARGE_MODE BQ_GetChargeMode(BQ_data BMS);
 
-BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(BQ_data BMS);
+//BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(BQ_data BMS);
 
 bool BQ_IsDischargeFetEnabled(BQ_data BMS);
 bool BQ_IsChargeFetEnabled(BQ_data BMS);

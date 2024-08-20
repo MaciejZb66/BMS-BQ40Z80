@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00007010  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000e448  00000000  00000000  00007040  2**0
+ 12 .debug_info   0000e2b6  00000000  00000000  00007040  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002983  00000000  00000000  00015488  2**0
+ 13 .debug_abbrev 0000290c  00000000  00000000  000152f6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000c98  00000000  00000000  00017e10  2**3
+ 14 .debug_aranges 00000c80  00000000  00000000  00017c08  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000966  00000000  00000000  00018aa8  2**0
+ 15 .debug_rnglists 00000952  00000000  00000000  00018888  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000233e4  00000000  00000000  0001940e  2**0
+ 16 .debug_macro  000233e4  00000000  00000000  000191da  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00011e17  00000000  00000000  0003c7f2  2**0
+ 17 .debug_line   00011ccd  00000000  00000000  0003c5be  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000ca746  00000000  00000000  0004e609  2**0
+ 18 .debug_str    000ca695  00000000  00000000  0004e28b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00118d4f  2**0
+ 19 .comment      00000043  00000000  00000000  00118920  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003278  00000000  00000000  00118d94  2**2
+ 20 .debug_frame  000031f0  00000000  00000000  00118964  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000006d  00000000  00000000  0011c00c  2**0
+ 21 .debug_line_str 0000006d  00000000  00000000  0011bb54  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2124,9 +2124,9 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
  80011f4:	20000000 	.word	0x20000000
 
 080011f8 <BQ_IsDischargeFetEnabled>:
-
-    return result;
-}
+//
+//    return result;
+//}
 
 bool BQ_IsDischargeFetEnabled(BQ_data BMS)
 {

@@ -1,6 +1,5 @@
 ../Core/Src/bq40z80_validator.c:14:15:BQ_GetSecurityMode	7
 ../Core/Src/bq40z80_validator.c:31:13:BQ_GetChargeMode	13
-../Core/Src/bq40z80_validator.c:50:24:BQ_GetBoundaryCellVoltage	4
 ../Core/Src/bq40z80_validator.c:81:6:BQ_IsDischargeFetEnabled	1
 ../Core/Src/bq40z80_validator.c:86:6:BQ_IsChargeFetEnabled	1
 ../Core/Src/bq40z80_validator.c:91:6:BQ_IsPreChargeFetEnabled	1

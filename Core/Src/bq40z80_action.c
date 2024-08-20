@@ -231,31 +231,31 @@ bool BQAction_DisableFets(BQ_data BMS)
  * @param none
  * @return true - updated, false - not updated
  */
-bool BQAction_TryUpdateFlash(BQ_data BMS)
-{
-    return false;
-}
+//bool BQAction_TryUpdateFlash(BQ_data BMS)
+//{
+//    return false;
+//}
 
 /**
  * @brief force updating flash registers
  * @param none
  */
-void BQAction_ForceUpdateFlash(BQ_data BMS)
-{
-    FlashData *flashHex2 = BQ_GetFlashHex2();
-    for (int i = 0; i < 45; i++)
-    {
-        BQ_WriteFlash(BMS, flashHex2[i].Address, flashHex2[i].Data);
-        HAL_Delay(200);
-    }
-
-    FlashData *flashHex1 = BQ_GetFlashHex1();
-    for (int i = 0; i < 12; i++)
-    {
-        BQ_WriteFlash(BMS, flashHex1[i].Address, flashHex1[i].Data);
-        HAL_Delay(200);
-    }
-}
+//void BQAction_ForceUpdateFlash(BQ_data BMS)
+//{
+//    FlashData *flashHex2 = BQ_GetFlashHex2();
+//    for (int i = 0; i < 45; i++)
+//    {
+//        BQ_WriteFlash(BMS, flashHex2[i].Address, flashHex2[i].Data);
+//        HAL_Delay(200);
+//    }
+//
+//    FlashData *flashHex1 = BQ_GetFlashHex1();
+//    for (int i = 0; i < 12; i++)
+//    {
+//        BQ_WriteFlash(BMS, flashHex1[i].Address, flashHex1[i].Data);
+//        HAL_Delay(200);
+//    }
+//}
 
 /**
  * @brief change sealed mode to unsealed

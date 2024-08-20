@@ -47,36 +47,36 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
  * @brief get minimum and maximum cell voltage
  * @return BQ_BoundaryCellVoltage struct
  */
-BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(BQ_data BMS)
-{
-    BQ_BoundaryCellVoltage result;
-    result.Maximum = 0;
-    result.Minimum = 65535;
-
-    uint16_t cells[6] =
-        {
-			BMS.BQ_daStatus1[0] | (BMS.BQ_daStatus1[1] << 8), // 1
-			BMS.BQ_daStatus1[2] | (BMS.BQ_daStatus1[3] << 8), // 2
-			BMS.BQ_daStatus1[4] | (BMS.BQ_daStatus1[5] << 8), // 3
-			BMS.BQ_daStatus1[6] | (BMS.BQ_daStatus1[7] << 8), // 4
-			BMS.BQ_daStatus3[0] | (BMS.BQ_daStatus3[1] << 8), // 5
-			BMS.BQ_daStatus3[2] | (BMS.BQ_daStatus3[3] << 8)  // 6
-        };
-
-    for (int i = 0; i < 6; i++)
-    {
-        if (cells[i] > result.Maximum)
-        {
-            result.Maximum = cells[i];
-        }
-        if (cells[i] < result.Minimum)
-        {
-            result.Minimum = cells[i];
-        }
-    }
-
-    return result;
-}
+//BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(BQ_data BMS)
+//{
+//    BQ_BoundaryCellVoltage result;
+//    result.Maximum = 0;
+//    result.Minimum = 65535;
+//
+//    uint16_t cells[6] =
+//        {
+//			BMS.BQ_daStatus1[0] | (BMS.BQ_daStatus1[1] << 8), // 1
+//			BMS.BQ_daStatus1[2] | (BMS.BQ_daStatus1[3] << 8), // 2
+//			BMS.BQ_daStatus1[4] | (BMS.BQ_daStatus1[5] << 8), // 3
+//			BMS.BQ_daStatus1[6] | (BMS.BQ_daStatus1[7] << 8), // 4
+//			BMS.BQ_daStatus3[0] | (BMS.BQ_daStatus3[1] << 8), // 5
+//			BMS.BQ_daStatus3[2] | (BMS.BQ_daStatus3[3] << 8)  // 6
+//        };
+//
+//    for (int i = 0; i < 6; i++)
+//    {
+//        if (cells[i] > result.Maximum)
+//        {
+//            result.Maximum = cells[i];
+//        }
+//        if (cells[i] < result.Minimum)
+//        {
+//            result.Minimum = cells[i];
+//        }
+//    }
+//
+//    return result;
+//}
 
 bool BQ_IsDischargeFetEnabled(BQ_data BMS)
 {
