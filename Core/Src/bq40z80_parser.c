@@ -83,7 +83,8 @@ void BQ_ParseBatteryMode(BQ_data* BMS, uint16_t raw)
 
 void BQ_ParseManufacturingStatus(BQ_data* BMS, uint16_t raw)
 {
-	decimalToBinary(raw, BMS->BQ_manufacturingStatus, 16);
+//	decimalToBinary(raw, BMS->BQ_manufacturingStatus, 16);
+	BMS->BQ_manufacturingStatus.all = raw;
 }
 
 void BQ_ParseGpio(BQ_data* BMS, uint8_t raw)

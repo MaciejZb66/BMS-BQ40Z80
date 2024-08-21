@@ -19,6 +19,11 @@ typedef union{
 	uint32_t all;
 }OP_STATUS;
 
+typedef union{
+	MANUFACTURING_STATUS bits;
+	uint16_t all;
+}MAN_STATUS;
+
 typedef struct{
 	I2C_HandleTypeDef *bq_i2c;
 	OP_STATUS BQ_opStatus;
@@ -28,7 +33,8 @@ typedef struct{
 	uint8_t BQ_batteryStatus[16];
 	uint8_t BQ_batteryMode[16];
 
-	uint8_t BQ_manufacturingStatus[16]; //0x0057?
+	MAN_STATUS BQ_manufacturingStatus;
+//	uint8_t BQ_manufacturingStatus[16]; //0x0057(s)
 	uint8_t BQ_gpio[8];
 	uint8_t BQ_daStatus1[32]; //0x0071(s)
 	uint8_t BQ_daStatus2[16]; //0x0072(s)

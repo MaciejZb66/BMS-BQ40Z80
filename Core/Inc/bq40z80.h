@@ -40,6 +40,7 @@ void BQ_WriteMABlockCommand(BQ_data* BMS,uint16_t command);
 void BQ_ReadMABlockCommand(BQ_data* BMS, uint16_t command, uint8_t *receive, uint8_t size);
 
 uint16_t BQ_ReadCommandAsShort(BQ_data* BMS, uint16_t command);
+uint16_t BQ_ReadCommandAsLShort(BQ_data* BMS, uint16_t command);
 uint32_t BQ_ReadCommandAsInt(BQ_data* BMS, uint16_t command);
 uint8_t BQ_ReadCommandAsChar(BQ_data* BMS, uint16_t command);
 uint32_t BQ_ReadCommandAsLInt(BQ_data* BMS, uint16_t command);

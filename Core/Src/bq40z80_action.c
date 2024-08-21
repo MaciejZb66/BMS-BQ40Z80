@@ -293,7 +293,8 @@ void BQAction_TryUnsealedDevice(BQ_data* BMS)
  */
 void BQAction_UpdateData(BQ_data* BMS)
 {
-    uint16_t manStatus = BQ_ReadCommandAsShort(BMS, BQ40Z80_MFA_MANUFACTURING_STATUS);
+    uint16_t manStatus = BQ_ReadCommandAsLShort(BMS, BQ40Z80_MFA_MANUFACTURING_STATUS);
+    BMS->BQ_manufacturingStatus.all = manStatus;
     uint32_t chargeStatus = BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_CHARGING_STATUS);
     uint32_t operationStatus = BQ_ReadCommandAsLInt(BMS, BQ40Z80_MFA_OPERATION_STATUS);
     BMS->BQ_opStatus.all= operationStatus;

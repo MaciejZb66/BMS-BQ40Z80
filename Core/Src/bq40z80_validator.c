@@ -115,22 +115,22 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data* BMS)
 
 bool BQ_IsPreChargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[0];
+    return BMS->BQ_manufacturingStatus.bits.pchg;
 }
 
 bool BQ_IsChargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[1];
+    return BMS->BQ_manufacturingStatus.bits.chg;
 }
 
 bool BQ_IsDischargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[2];
+    return BMS->BQ_manufacturingStatus.bits.dsg;
 }
 
 bool BQ_IsManufacturingGaugingEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[3];
+    return BMS->BQ_manufacturingStatus.bits.gauge;
 }
 
 /**
@@ -139,30 +139,30 @@ bool BQ_IsManufacturingGaugingEnabled(BQ_data* BMS)
  */
 bool BQ_IsManufacturingAllFetEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[4];
+    return BMS->BQ_manufacturingStatus.bits.fet;
 }
 
 bool BQ_IsManufacturingLifetimeEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[5];
+    return BMS->BQ_manufacturingStatus.bits.lf;
 }
 
 bool BQ_IsManufacturingPermanentFailureEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[6];
+    return BMS->BQ_manufacturingStatus.bits.pf;
 }
 
 bool BQ_IsManufacturingFuseEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[8];
+    return BMS->BQ_manufacturingStatus.bits.fuse;
 }
 
 bool BQ_IsPreDischargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[13];
+    return BMS->BQ_manufacturingStatus.bits.pdsg;
 }
 
 bool BQ_IsManufacturingCalibrationEnabled(BQ_data* BMS)
 {
-    return BMS->BQ_manufacturingStatus[15];
+    return BMS->BQ_manufacturingStatus.bits.cal;
 }

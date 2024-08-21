@@ -97,6 +97,7 @@ typedef struct
     bool ccc;     //!< Charging loss compensation: 1 = Active, 0 = Inactive
     bool cvr;     //!< Charging voltage rate of change: 1 = Active, 0 = Inactive
     bool ccr;     //!< Charging current rate of change: 1 = Active, 0 = Inactive
+
     bool vct;     //!< Charge termination: 1 = Active, 0 = Inactive
     bool mchg;    //!< Maintenance charge: 1 = Active, 0 = Inactive
     bool su;      //!< Suspend charge: 1 = Active, 0 = Inactive
@@ -116,3 +117,21 @@ typedef struct
     bool lt;     //!< Low temperature region: 1 = Active, 0 = Inactive
     bool ut;     //!< Undertemperature region: 1 = Active, 0 = Inactive
 } CHARGING_STATUS; //0x0055
+
+typedef struct{
+	uint16_t cal :1;	//!<15 Calibration mode: 1 = Active, 0 = Inactive
+	uint16_t lft :1; 	//!<14 Lifetime speed up: 1 = Active, 0 = Inactive
+	uint16_t pdsg :1;	//!<13 Pre-discharge fet test: 1 = Active, 0 = Inactive
+	uint16_t rsvd :3; 	//!< Reserved. Do not use.
+	uint16_t led :1;	//!<9 Led display when button is pressed
+	uint16_t fuse :1;	//!<8 Fuse action: 1 = Active, 0 = Inactive
+
+	uint16_t bbr :1;	//!<7 Black box recorder: 1 = Active, 0 = Inactive
+	uint16_t pf :1;		//!<6 Permanent failure: 1 = Active, 0 = Inactive
+	uint16_t lf :1;		//!<5 Lifetime data collection: 1 = Active, 0 = Inactive
+	uint16_t fet :1;	//!<4 All FET action: 1 = Active, 0 = Inactive
+	uint16_t gauge :1;	//!<3 Gas gauging: 1 = Active, 0 = Inactive
+	uint16_t dsg :1;	//!<2 Discharge fet test: 1 = Active, 0 = Inactive
+	uint16_t chg :1;	//!<1 Charge fet test: 1 = Active, 0 = Inactive
+	uint16_t pchg :1;	//!<0 Precharge fet test: 1 = Active, 0 = Inactive
+}MANUFACTURING_STATUS;//0x0057

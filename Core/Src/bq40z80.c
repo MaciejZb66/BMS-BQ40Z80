@@ -156,6 +156,20 @@ uint16_t BQ_ReadCommandAsShort(BQ_data* BMS, uint16_t command)
     return result;
 }
 
+uint16_t BQ_ReadCommandAsLShort(BQ_data* BMS, uint16_t command){
+    uint8_t buf[2];
+
+    BQ_ReadMABlockCommand(BMS, command, buf, 2);
+
+    uint16_t result = 0;
+
+    result = result | buf[1];
+    result = result | (buf[0] << 8);
+
+    return result;
+}
+
+
 /**
  * @brief reading from ManufacturerBlockAccess() as uint16_t
  * @param command command to read
