@@ -21,7 +21,7 @@ void BQAction_SetLed(BQ_data* BMS, bool active)
  */
 void BQAction_SetManufacturingAllFet(BQ_data* BMS, bool active)
 {
-    if (BQ_IsManufacturingAllFetEnabled(BMS) != active)
+    if (BMS->BQ_manufacturingStatus.bits.fet != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_FET_CONTROL);
     }
@@ -33,7 +33,7 @@ void BQAction_SetManufacturingAllFet(BQ_data* BMS, bool active)
  */
 void BQAction_SetManufacturingFuse(BQ_data* BMS, bool active)
 {
-    if (BQ_IsManufacturingFuseEnabled(BMS) != active)
+    if (BMS->BQ_manufacturingStatus.bits.fuse != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_FUSE);
     }
@@ -44,7 +44,7 @@ void BQAction_SetManufacturingFuse(BQ_data* BMS, bool active)
  */
 void BQAction_SetCalibration(BQ_data* BMS, bool active)
 {
-    if (BQ_IsManufacturingCalibrationEnabled(BMS) != active)
+    if (BMS->BQ_manufacturingStatus.bits.cal != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CALIBRATION_MODE);
     }
@@ -56,7 +56,7 @@ void BQAction_SetCalibration(BQ_data* BMS, bool active)
  */
 void BQAction_SetManufacturingGauging(BQ_data* BMS, bool active)
 {
-    if (BQ_IsManufacturingGaugingEnabled(BMS) != active)
+    if (BMS->BQ_manufacturingStatus.bits.gauge != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_GAUGING);
     }
@@ -67,7 +67,7 @@ void BQAction_SetManufacturingGauging(BQ_data* BMS, bool active)
  */
 void BQAction_SetManufacturingPF(BQ_data* BMS, bool active)
 {
-    if (BQ_IsManufacturingPermanentFailureEnabled(BMS) != active)
+    if (BMS->BQ_manufacturingStatus.bits.pf != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PERMANENT_FAILURE);
     }
@@ -78,7 +78,7 @@ void BQAction_SetManufacturingPF(BQ_data* BMS, bool active)
  */
 void BQAction_SetManufacturingLF(BQ_data* BMS, bool active)
 {
-    if (BQ_IsManufacturingLifetimeEnabled(BMS) != active)
+    if (BMS->BQ_manufacturingStatus.bits.lf != active)
     {
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_LIFETIME_DATA_COLLECTION);
     }
@@ -95,18 +95,18 @@ bool BQAction_EnableCharging(BQ_data* BMS)
     }
 
     // turn off unused fets
-    if (BQ_IsDischargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.dsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
-    if (BQ_IsPreDischargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.pdsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.pchg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
 
     // turn on charge
-    if (!BQ_IsChargeFetTestEnabled(BMS)){
+    if (!BMS->BQ_manufacturingStatus.bits.chg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
 
@@ -116,7 +116,7 @@ bool BQAction_EnableCharging(BQ_data* BMS)
         return true;
     }else{
         // turn off charge
-        if (BQ_IsChargeFetTestEnabled(BMS)){
+        if (BMS->BQ_manufacturingStatus.bits.chg){
             BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
         }
         return false;
@@ -134,18 +134,18 @@ bool BQAction_EnableDischarging(BQ_data* BMS)
     }
 
     // turn off unused fets
-    if (BQ_IsChargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.chg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
-    if (BQ_IsPreDischargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.pdsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.pchg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
 
     // turn on discharge
-    if (!BQ_IsDischargeFetTestEnabled(BMS)){
+    if (!BMS->BQ_manufacturingStatus.bits.dsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
 
@@ -155,7 +155,7 @@ bool BQAction_EnableDischarging(BQ_data* BMS)
         return true;
     }else{
         // turn off discharge
-        if (BQ_IsDischargeFetTestEnabled(BMS)){
+        if (BMS->BQ_manufacturingStatus.bits.dsg){
             BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
         }
         return false;
@@ -173,18 +173,18 @@ bool BQAction_EnablePreDischarging(BQ_data* BMS)
     }
 
     // turn off unused fets
-    if (BQ_IsChargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.chg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
-    if (BQ_IsDischargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.dsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.pchg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
 
     // turn on pre-discharge
-    if (!BQ_IsPreDischargeFetTestEnabled(BMS)){
+    if (!BMS->BQ_manufacturingStatus.bits.pdsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
 
@@ -196,7 +196,7 @@ bool BQAction_EnablePreDischarging(BQ_data* BMS)
     else
     {
         // turn off pre-discharge
-        if (BQ_IsPreDischargeFetTestEnabled(BMS)){
+        if (BMS->BQ_manufacturingStatus.bits.pdsg){
             BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
         }
         return false;
@@ -210,16 +210,16 @@ bool BQAction_EnablePreDischarging(BQ_data* BMS)
 bool BQAction_DisableFets(BQ_data* BMS)
 {
     BQAction_UpdateOpStatus(BMS);
-    if (BQ_IsChargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.chg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_CHG_FET_TOGGLE);
     }
-    if (BQ_IsDischargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.dsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_DSG_FET_TOGGLE);
     }
-    if (BQ_IsPreChargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.pchg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PCHG_FET_TOGGLE);
     }
-    if (BQ_IsPreDischargeFetTestEnabled(BMS)){
+    if (BMS->BQ_manufacturingStatus.bits.pdsg){
         BQ_WriteMABlockCommand(BMS, BQ40Z80_MFA_PDSG_FET_TOGGLE);
     }
 

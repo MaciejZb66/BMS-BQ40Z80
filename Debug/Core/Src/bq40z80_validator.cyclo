@@ -1,12 +1,2 @@
 ../Core/Src/bq40z80_validator.c:14:15:BQ_GetSecurityMode	7
 ../Core/Src/bq40z80_validator.c:31:13:BQ_GetChargeMode	13
-../Core/Src/bq40z80_validator.c:116:6:BQ_IsPreChargeFetTestEnabled	1
-../Core/Src/bq40z80_validator.c:121:6:BQ_IsChargeFetTestEnabled	1
-../Core/Src/bq40z80_validator.c:126:6:BQ_IsDischargeFetTestEnabled	1
-../Core/Src/bq40z80_validator.c:131:6:BQ_IsManufacturingGaugingEnabled	1
-../Core/Src/bq40z80_validator.c:140:6:BQ_IsManufacturingAllFetEnabled	1
-../Core/Src/bq40z80_validator.c:145:6:BQ_IsManufacturingLifetimeEnabled	1
-../Core/Src/bq40z80_validator.c:150:6:BQ_IsManufacturingPermanentFailureEnabled	1
-../Core/Src/bq40z80_validator.c:155:6:BQ_IsManufacturingFuseEnabled	1
-../Core/Src/bq40z80_validator.c:160:6:BQ_IsPreDischargeFetTestEnabled	1
-../Core/Src/bq40z80_validator.c:165:6:BQ_IsManufacturingCalibrationEnabled	1
