@@ -9,6 +9,6 @@
 ../Core/Src/bq40z80_action.c:130:6:BQAction_EnableDischarging	8
 ../Core/Src/bq40z80_action.c:169:6:BQAction_EnablePreDischarging	8
 ../Core/Src/bq40z80_action.c:210:6:BQAction_DisableFets	5
-../Core/Src/bq40z80_action.c:264:6:BQAction_TryUnsealedDevice	3
-../Core/Src/bq40z80_action.c:294:6:BQAction_UpdateData	1
-../Core/Src/bq40z80_action.c:318:6:BQAction_UpdateOpStatus	1
+../Core/Src/bq40z80_action.c:233:6:BQAction_TryUnsealedDevice	3
+../Core/Src/bq40z80_action.c:252:6:BQAction_UpdateData	1
+../Core/Src/bq40z80_action.c:276:6:BQAction_UpdateOpStatus	1

@@ -53,7 +53,6 @@ void BQ_ParseAllFlags(BQ_data* BMS,
 void BQ_ParseOperationStatus(BQ_data* BMS, uint32_t raw)
 {
 	//convert to binary array and save in BQ_opStatus
-	//	decimalToBinary(raw, BMS.BQ_opStatus, 32);
 	BMS->BQ_opStatus.all = raw;
 }
 
@@ -83,7 +82,6 @@ void BQ_ParseBatteryMode(BQ_data* BMS, uint16_t raw)
 
 void BQ_ParseManufacturingStatus(BQ_data* BMS, uint16_t raw)
 {
-//	decimalToBinary(raw, BMS->BQ_manufacturingStatus, 16);
 	BMS->BQ_manufacturingStatus.all = raw;
 }
 

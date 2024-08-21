@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00006010  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000f028  00000000  00000000  00006040  2**0
+ 12 .debug_info   0000f025  00000000  00000000  00006040  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00002acd  00000000  00000000  00015068  2**0
+ 13 .debug_abbrev 00002adc  00000000  00000000  00015065  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000c08  00000000  00000000  00017b38  2**3
+ 14 .debug_aranges 00000c08  00000000  00000000  00017b48  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 000008f4  00000000  00000000  00018740  2**0
+ 15 .debug_rnglists 000008f4  00000000  00000000  00018750  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000233e4  00000000  00000000  00019034  2**0
+ 16 .debug_macro  000233b8  00000000  00000000  00019044  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00011b6b  00000000  00000000  0003c418  2**0
+ 17 .debug_line   00011a99  00000000  00000000  0003c3fc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000ca5bb  00000000  00000000  0004df83  2**0
+ 18 .debug_str    000ca5bb  00000000  00000000  0004de95  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  0011853e  2**0
+ 19 .comment      00000043  00000000  00000000  00118450  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002e34  00000000  00000000  00118584  2**2
+ 20 .debug_frame  00002e34  00000000  00000000  00118494  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000006d  00000000  00000000  0011b3b8  2**0
+ 21 .debug_line_str 0000006d  00000000  00000000  0011b2c8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -109,10 +109,10 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
  80001f2:	f403 1300 	and.w	r3, r3, #2097152	@ 0x200000
  80001f6:	60bb      	str	r3, [r7, #8]
  80001f8:	68bb      	ldr	r3, [r7, #8]
+		__HAL_RCC_I2C3_CLK_ENABLE();
+	}
+#endif
 
-//    ("[BQ] Started", 12);
-//    if (USE_SCANNER == 1)
-//    {
 #ifdef USE_SCANNER
 	HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
  80001fa:	4b2a      	ldr	r3, [pc, #168]	@ (80002a4 <BQ_Init+0xd8>)
@@ -128,7 +128,6 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
 	while (ret != HAL_OK)
  8000210:	e012      	b.n	8000238 <BQ_Init+0x6c>
 	{
-//            ("[BQ] device not founded", 23);
 		ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
  8000212:	4b24      	ldr	r3, [pc, #144]	@ (80002a4 <BQ_Init+0xd8>)
  8000214:	781b      	ldrb	r3, [r3, #0]
@@ -154,10 +153,10 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
  8000238:	7bfb      	ldrb	r3, [r7, #15]
  800023a:	2b00      	cmp	r3, #0
  800023c:	d1e9      	bne.n	8000212 <BQ_Init+0x46>
+		}
+	#endif
+	}
 #endif
-//    }
-
-    
 
     HAL_Delay(1500);
  800023e:	f240 50dc 	movw	r0, #1500	@ 0x5dc
@@ -201,11 +200,6 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
     BQAction_UpdateData(&BMS_1);
  800028a:	4803      	ldr	r0, [pc, #12]	@ (8000298 <BQ_Init+0xcc>)
  800028c:	f000 fa9a 	bl	80007c4 <BQAction_UpdateData>
-    //BQ_ForceUpdateFlash();
-
-    //BQ_BoundaryCellVoltage voltages = BQ_GetBoundaryCellVoltage();
-
-//    ("[BQ] initialized", 16);
 }
  8000290:	bf00      	nop
  8000292:	3710      	adds	r7, #16
@@ -1013,8 +1007,6 @@ void BQAction_TryUnsealedDevice(BQ_data* BMS)
  8000760:	b084      	sub	sp, #16
  8000762:	af00      	add	r7, sp, #0
  8000764:	6078      	str	r0, [r7, #4]
-//    bool isSealed = false;
-
     BQAction_UpdateOpStatus(BMS);
  8000766:	6878      	ldr	r0, [r7, #4]
  8000768:	f000 f8a0 	bl	80008ac <BQAction_UpdateOpStatus>
@@ -1026,9 +1018,6 @@ void BQAction_TryUnsealedDevice(BQ_data* BMS)
     while (securityMode == SEALED || securityMode == RESERVED)
  8000776:	e019      	b.n	80007ac <BQAction_TryUnsealedDevice+0x4e>
     {
-//        isSealed = true;
-//        ("[BQ] Security mode - Sealed", 27);
-
         BQ_WriteMABlockCommand(BMS, 0x0414);
  8000778:	f240 4114 	movw	r1, #1044	@ 0x414
  800077c:	6878      	ldr	r0, [r7, #4]
@@ -1058,11 +1047,7 @@ void BQAction_TryUnsealedDevice(BQ_data* BMS)
  80007b2:	7bfb      	ldrb	r3, [r7, #15]
  80007b4:	2b03      	cmp	r3, #3
  80007b6:	d0df      	beq.n	8000778 <BQAction_TryUnsealedDevice+0x1a>
-    // print only if the device was previously sealeded
-//    if (isSealed){
-//        ("[BQ] successfully unsealed", 27);
-//    }
-
+    }
 }
  80007b8:	bf00      	nop
  80007ba:	bf00      	nop
@@ -1368,7 +1353,6 @@ void BQ_ParseOperationStatus(BQ_data* BMS, uint32_t raw)
  80009b4:	6078      	str	r0, [r7, #4]
  80009b6:	6039      	str	r1, [r7, #0]
 	//convert to binary array and save in BQ_opStatus
-	//	decimalToBinary(raw, BMS.BQ_opStatus, 32);
 	BMS->BQ_opStatus.all = raw;
  80009b8:	687b      	ldr	r3, [r7, #4]
  80009ba:	683a      	ldr	r2, [r7, #0]
@@ -1484,7 +1468,6 @@ void BQ_ParseManufacturingStatus(BQ_data* BMS, uint16_t raw)
  8000a54:	6078      	str	r0, [r7, #4]
  8000a56:	460b      	mov	r3, r1
  8000a58:	807b      	strh	r3, [r7, #2]
-//	decimalToBinary(raw, BMS->BQ_manufacturingStatus, 16);
 	BMS->BQ_manufacturingStatus.all = raw;
  8000a5a:	687b      	ldr	r3, [r7, #4]
  8000a5c:	887a      	ldrh	r2, [r7, #2]
@@ -2393,10 +2376,6 @@ int main(void)
 	  BQAction_UpdateData(&BMS_1);
  8001004:	4850      	ldr	r0, [pc, #320]	@ (8001148 <main+0x1b4>)
  8001006:	f7ff fbdd 	bl	80007c4 <BQAction_UpdateData>
-//	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
-//	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_2, 16);
-//	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
-//	  BQ_ReadMABlockCommand(BQ40Z80_MFA_OUTPUT_CADC_CAL, BQ_outCal, 32);
 	  voltage = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
  800100a:	4b4f      	ldr	r3, [pc, #316]	@ (8001148 <main+0x1b4>)
  800100c:	681b      	ldr	r3, [r3, #0]

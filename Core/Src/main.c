@@ -116,10 +116,6 @@ int main(void)
 
 	  HAL_Delay(200);
 	  BQAction_UpdateData(&BMS_1);
-//	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1, 32);
-//	  BQ_ReadMABlockCommand(BQ40Z80_MFA_DA_STATUS_2, 16);
-//	  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3, 18);
-//	  BQ_ReadMABlockCommand(BQ40Z80_MFA_OUTPUT_CADC_CAL, BQ_outCal, 32);
 	  voltage = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
 	  current = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);//TODO fix 1A = -400
 	  percentage[0] = I2CHelper_ReadRegisterAsChar(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_RelativeStateOfCharge);

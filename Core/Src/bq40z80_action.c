@@ -227,51 +227,15 @@ bool BQAction_DisableFets(BQ_data* BMS)
 }
 
 /**
- * @brief trying to update flash registers
- * @param none
- * @return true - updated, false - not updated
- */
-//bool BQAction_TryUpdateFlash(BQ_data BMS)
-//{
-//    return false;
-//}
-
-/**
- * @brief force updating flash registers
- * @param none
- */
-//void BQAction_ForceUpdateFlash(BQ_data BMS)
-//{
-//    FlashData *flashHex2 = BQ_GetFlashHex2();
-//    for (int i = 0; i < 45; i++)
-//    {
-//        BQ_WriteFlash(BMS, flashHex2[i].Address, flashHex2[i].Data);
-//        HAL_Delay(200);
-//    }
-//
-//    FlashData *flashHex1 = BQ_GetFlashHex1();
-//    for (int i = 0; i < 12; i++)
-//    {
-//        BQ_WriteFlash(BMS, flashHex1[i].Address, flashHex1[i].Data);
-//        HAL_Delay(200);
-//    }
-//}
-
-/**
  * @brief change sealed mode to unsealed
  * @param none
  **/
 void BQAction_TryUnsealedDevice(BQ_data* BMS)
 {
-//    bool isSealed = false;
-
     BQAction_UpdateOpStatus(BMS);
     SECURITY_MODE securityMode = BQ_GetSecurityMode(BMS);
     while (securityMode == SEALED || securityMode == RESERVED)
     {
-//        isSealed = true;
-//        ("[BQ] Security mode - Sealed", 27);
-
         BQ_WriteMABlockCommand(BMS, 0x0414);
         HAL_Delay(500);
         BQ_WriteMABlockCommand(BMS, 0x3672);
@@ -279,12 +243,6 @@ void BQAction_TryUnsealedDevice(BQ_data* BMS)
         BQAction_UpdateOpStatus(BMS);
         securityMode = BQ_GetSecurityMode(BMS);
     }
-
-    // print only if the device was previously sealeded
-//    if (isSealed){
-//        ("[BQ] successfully unsealed", 27);
-//    }
-
 }
 
 /**
