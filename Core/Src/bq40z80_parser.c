@@ -33,7 +33,7 @@ void decimalToBinary(uint32_t value, uint8_t *array, uint8_t count)
  * @param chargeStatus chargingStatus value from BQ
  * @param gaugStatus gaugingStatus value from BQ
  **/
-void BQ_ParseAllFlags(BQ_data BMS,
+void BQ_ParseAllFlags(BQ_data* BMS,
 					  uint32_t opStatus,
 					  uint16_t batteryStatus,
 					  uint16_t batteryMode,
@@ -42,7 +42,7 @@ void BQ_ParseAllFlags(BQ_data BMS,
 					  uint32_t chargeStatus,
 					  uint32_t gaugStatus)
 {
-	BQ_ParseOperationStatus(&BMS, opStatus);
+	BQ_ParseOperationStatus(BMS, opStatus);
 	BQ_ParseChargeStatus(BMS, chargeStatus);
 	BQ_ParseGaugeStatus(BMS, gaugStatus);
 	BQ_ParseBatteryStatus(BMS, batteryStatus);
@@ -57,37 +57,37 @@ void BQ_ParseOperationStatus(BQ_data* BMS, uint32_t raw)
 	BMS->BQ_opStatus.all = raw;
 }
 
-void BQ_ParseChargeStatus(BQ_data BMS, uint32_t raw)
+void BQ_ParseChargeStatus(BQ_data* BMS, uint32_t raw)
 {
 	//convert to binary array and save in BQ_chargeStatus
-	decimalToBinary(raw, BMS.BQ_chargeStatus, 32);
+	decimalToBinary(raw, BMS->BQ_chargeStatus, 32);
 }
 
-void BQ_ParseGaugeStatus(BQ_data BMS, uint32_t raw)
+void BQ_ParseGaugeStatus(BQ_data* BMS, uint32_t raw)
 {
 	//convert to binary array and save in BQ_gaugeStatus
-	decimalToBinary(raw, BMS.BQ_gaugeStatus, 32);
+	decimalToBinary(raw, BMS->BQ_gaugeStatus, 32);
 }
 
-void BQ_ParseBatteryStatus(BQ_data BMS, uint16_t raw)
+void BQ_ParseBatteryStatus(BQ_data* BMS, uint16_t raw)
 {
 	//convert to binary array and save in BQ_batteryStatus
-	decimalToBinary(raw, BMS.BQ_batteryStatus, 16);
+	decimalToBinary(raw, BMS->BQ_batteryStatus, 16);
 }
 
-void BQ_ParseBatteryMode(BQ_data BMS, uint16_t raw)
+void BQ_ParseBatteryMode(BQ_data* BMS, uint16_t raw)
 {
 	//convert to binary array and save in BQ_batteryMode
-	decimalToBinary(raw, BMS.BQ_batteryMode, 16);
+	decimalToBinary(raw, BMS->BQ_batteryMode, 16);
 }
 
-void BQ_ParseManufacturingStatus(BQ_data BMS, uint16_t raw)
+void BQ_ParseManufacturingStatus(BQ_data* BMS, uint16_t raw)
 {
-	decimalToBinary(raw, BMS.BQ_manufacturingStatus, 16);
+	decimalToBinary(raw, BMS->BQ_manufacturingStatus, 16);
 }
 
-void BQ_ParseGpio(BQ_data BMS, uint8_t raw)
+void BQ_ParseGpio(BQ_data* BMS, uint8_t raw)
 {
 	//convert to binary array and save in BQ_gpio
-	decimalToBinary(raw, BMS.BQ_gpio, 8);
+	decimalToBinary(raw, BMS->BQ_gpio, 8);
 }

@@ -106,7 +106,7 @@ int main(void)
   bool fun[5] = {0};
   uint8_t test[11] = {0};
   BQ_Init(&hi2c1);
-  BQ_ReadMABlockCommand(BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
+  BQ_ReadMABlockCommand(&BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -134,9 +134,9 @@ int main(void)
 
 	  // -----toggle fets--------
 	  if(status){
-		  BQAction_EnableDischarging(BMS_1);
+		  BQAction_EnableDischarging(&BMS_1);
 	  }else{
-		  BQAction_DisableFets(BMS_1);
+		  BQAction_DisableFets(&BMS_1);
 	  }
 	  fun[0] = BMS_1.BQ_opStatus.bits.pdsg;
 	  fun[1] = BMS_1.BQ_opStatus.bits.xdsg;

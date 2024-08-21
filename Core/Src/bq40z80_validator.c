@@ -11,13 +11,13 @@ extern BQ_data BMS_1;
  * @brief get security mode from BQ_opStatus
  * @return SECURITY_MODE
  */
-SECURITY_MODE BQ_GetSecurityMode(BQ_data BMS)
+SECURITY_MODE BQ_GetSecurityMode(BQ_data* BMS)
 {
-    if (BMS.BQ_opStatus.bits.sec1 && BMS.BQ_opStatus.bits.sec0){
+    if (BMS->BQ_opStatus.bits.sec1 && BMS->BQ_opStatus.bits.sec0){
         return SEALED;//11
-    }else if (BMS.BQ_opStatus.bits.sec1 && !BMS.BQ_opStatus.bits.sec0){
+    }else if (BMS->BQ_opStatus.bits.sec1 && !BMS->BQ_opStatus.bits.sec0){
         return UNSEALED;//10
-    }else if (!BMS.BQ_opStatus.bits.sec1 && BMS.BQ_opStatus.bits.sec0){
+    }else if (!BMS->BQ_opStatus.bits.sec1 && BMS->BQ_opStatus.bits.sec0){
         return FULL_ACCESS;//01
     }else{
         return RESERVED;//00
@@ -28,15 +28,15 @@ SECURITY_MODE BQ_GetSecurityMode(BQ_data BMS)
  * @brief get charge from BQ_opStatus
  * @return CHARGE, DISCHARGE or RELAX
  */
-CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
+CHARGE_MODE BQ_GetChargeMode(BQ_data* BMS)
 {
-    BQAction_UpdateOpStatus(&BMS);
-    uint16_t packVoltage = BMS.BQ_daStatus1[10] | (BMS.BQ_daStatus1[11] << 8);
-    uint16_t current = I2CHelper_ReadRegisterAsShort(BMS.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
+    BQAction_UpdateOpStatus(BMS);
+    uint16_t packVoltage = BMS->BQ_daStatus1[10] | (BMS->BQ_daStatus1[11] << 8);
+    uint16_t current = I2CHelper_ReadRegisterAsShort(BMS->bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);
 
-    if (packVoltage > 1000 && BMS.BQ_opStatus.bits.chg && BMS.BQ_opStatus.bits.pchg && BQ_IsChargeFetTestEnabled(BMS) && current > 0 && current < 30000){
+    if (packVoltage > 1000 && BMS->BQ_opStatus.bits.chg && BMS->BQ_opStatus.bits.pchg && BQ_IsChargeFetTestEnabled(BMS) && current > 0 && current < 30000){
         return CHARGE;
-    }else if (packVoltage > 1000 && BMS.BQ_opStatus.bits.xdsg && BMS.BQ_opStatus.bits.dsg && BQ_IsDischargeFetTestEnabled(BMS) && 65535 - current > 0 && current > 30000){
+    }else if (packVoltage > 1000 && BMS->BQ_opStatus.bits.xdsg && BMS->BQ_opStatus.bits.dsg && BQ_IsDischargeFetTestEnabled(BMS) && 65535 - current > 0 && current > 30000){
         return DISCHARGE;
     }else{
         return RELAX;
@@ -113,56 +113,56 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data BMS)
 //    return BMS.BQ_opStatus.bits.led;
 //}
 
-bool BQ_IsPreChargeFetTestEnabled(BQ_data BMS)
+bool BQ_IsPreChargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[0];
+    return BMS->BQ_manufacturingStatus[0];
 }
 
-bool BQ_IsChargeFetTestEnabled(BQ_data BMS)
+bool BQ_IsChargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[1];
+    return BMS->BQ_manufacturingStatus[1];
 }
 
-bool BQ_IsDischargeFetTestEnabled(BQ_data BMS)
+bool BQ_IsDischargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[2];
+    return BMS->BQ_manufacturingStatus[2];
 }
 
-bool BQ_IsManufacturingGaugingEnabled(BQ_data BMS)
+bool BQ_IsManufacturingGaugingEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[3];
+    return BMS->BQ_manufacturingStatus[3];
 }
 
 /**
  * @brief function shows fet control
  * @return 0 if fet control enabled, 1 if fet control disabled
  */
-bool BQ_IsManufacturingAllFetEnabled(BQ_data BMS)
+bool BQ_IsManufacturingAllFetEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[4];
+    return BMS->BQ_manufacturingStatus[4];
 }
 
-bool BQ_IsManufacturingLifetimeEnabled(BQ_data BMS)
+bool BQ_IsManufacturingLifetimeEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[5];
+    return BMS->BQ_manufacturingStatus[5];
 }
 
-bool BQ_IsManufacturingPermanentFailureEnabled(BQ_data BMS)
+bool BQ_IsManufacturingPermanentFailureEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[6];
+    return BMS->BQ_manufacturingStatus[6];
 }
 
-bool BQ_IsManufacturingFuseEnabled(BQ_data BMS)
+bool BQ_IsManufacturingFuseEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[8];
+    return BMS->BQ_manufacturingStatus[8];
 }
 
-bool BQ_IsPreDischargeFetTestEnabled(BQ_data BMS)
+bool BQ_IsPreDischargeFetTestEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[13];
+    return BMS->BQ_manufacturingStatus[13];
 }
 
-bool BQ_IsManufacturingCalibrationEnabled(BQ_data BMS)
+bool BQ_IsManufacturingCalibrationEnabled(BQ_data* BMS)
 {
-    return BMS.BQ_manufacturingStatus[15];
+    return BMS->BQ_manufacturingStatus[15];
 }
