@@ -1,7 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include <stdbool.h>
-//now unused
+
 typedef struct
 {
     uint16_t cell_voltage_1; //!< Cell Voltage 1 (mV)
@@ -88,50 +87,80 @@ typedef struct
 
 typedef struct
 {
+	uint32_t unused :8;
     // Charging Status Flags (Bits 23–8)
-    bool rsvd_23; //!< Reserved. Do not use.
-    bool rsvd_22; //!< Reserved. Do not use.
-    bool rsvd_21; //!< Reserved. Do not use.
-    bool rsvd_20; //!< Reserved. Do not use.
-    bool nct;     //!< Near charge termination: 1 = Active, 0 = Inactive
-    bool ccc;     //!< Charging loss compensation: 1 = Active, 0 = Inactive
-    bool cvr;     //!< Charging voltage rate of change: 1 = Active, 0 = Inactive
-    bool ccr;     //!< Charging current rate of change: 1 = Active, 0 = Inactive
+    uint32_t rsvd_2023 :4; 	//!< Reserved. Do not use.
+    uint32_t nct :1;     	//!<19 Near charge termination: 1 = Active, 0 = Inactive
+    uint32_t ccc :1;     	//!<18 Charging loss compensation: 1 = Active, 0 = Inactive
+    uint32_t cvr :1;     	//!<17 Charging voltage rate of change: 1 = Active, 0 = Inactive
+    uint32_t ccr :1;     	//!<16 Charging current rate of change: 1 = Active, 0 = Inactive
 
-    bool vct;     //!< Charge termination: 1 = Active, 0 = Inactive
-    bool mchg;    //!< Maintenance charge: 1 = Active, 0 = Inactive
-    bool su;      //!< Suspend charge: 1 = Active, 0 = Inactive
-    bool in;      //!< Charge inhibit: 1 = Active, 0 = Inactive
-    bool hv;      //!< High voltage region: 1 = Active, 0 = Inactive
-    bool mv;      //!< Mid voltage region: 1 = Active, 0 = Inactive
-    bool lv;      //!< Low voltage region: 1 = Active, 0 = Inactive
-    bool pv;      //!< Precharge voltage region: 1 = Active, 0 = Inactive
+    uint32_t vct :1;     	//!<15 Charge termination: 1 = Active, 0 = Inactive
+    uint32_t mchg :1;    	//!<14 Maintenance charge: 1 = Active, 0 = Inactive
+    uint32_t su :1;      	//!<13 Suspend charge: 1 = Active, 0 = Inactive
+    uint32_t in :1;      	//!<12 Charge inhibit: 1 = Active, 0 = Inactive
+    uint32_t hv :1;      	//!<11 High voltage region: 1 = Active, 0 = Inactive
+    uint32_t mv :1;      	//!<10 Mid voltage region: 1 = Active, 0 = Inactive
+    uint32_t lv :1;      	//!<9 Low voltage region: 1 = Active, 0 = Inactive
+    uint32_t pv :1;      	//!<8 Precharge voltage region: 1 = Active, 0 = Inactive
 
     // Temperature Range Flags (Bits 7–0)
-    bool rsvd_7; //!< Reserved. Do not use.
-    bool ot;     //!< Overtemperature region: 1 = Active, 0 = Inactive
-    bool ht;     //!< High temperature region: 1 = Active, 0 = Inactive
-    bool sth;    //!< Standard temperature high region: 1 = Active, 0 = Inactive
-    bool rt;     //!< Recommended temperature region: 1 = Active, 0 = Inactive
-    bool stl;    //!< Standard temperature low region: 1 = Active, 0 = Inactive
-    bool lt;     //!< Low temperature region: 1 = Active, 0 = Inactive
-    bool ut;     //!< Undertemperature region: 1 = Active, 0 = Inactive
+    uint32_t rsvd_7 :1; 	//!<7 Reserved. Do not use.
+    uint32_t ot :1;     	//!<6 Overtemperature region: 1 = Active, 0 = Inactive
+    uint32_t ht :1;     	//!<5 High temperature region: 1 = Active, 0 = Inactive
+    uint32_t sth :1;    	//!<4 Standard temperature high region: 1 = Active, 0 = Inactive
+    uint32_t rt :1;    		//!<3 Recommended temperature region: 1 = Active, 0 = Inactive
+    uint32_t stl :1;    	//!<2 Standard temperature low region: 1 = Active, 0 = Inactive
+    uint32_t lt :1;     	//!<1 Low temperature region: 1 = Active, 0 = Inactive
+    uint32_t ut :1;     	//!<0 Undertemperature region: 1 = Active, 0 = Inactive
 } CHARGING_STATUS; //0x0055
 
 typedef struct{
-	uint16_t cal :1;	//!<15 Calibration mode: 1 = Active, 0 = Inactive
-	uint16_t lft :1; 	//!<14 Lifetime speed up: 1 = Active, 0 = Inactive
-	uint16_t pdsg :1;	//!<13 Pre-discharge fet test: 1 = Active, 0 = Inactive
-	uint16_t rsvd :3; 	//!< Reserved. Do not use.
-	uint16_t led :1;	//!<9 Led display when button is pressed
-	uint16_t fuse :1;	//!<8 Fuse action: 1 = Active, 0 = Inactive
+	uint16_t cal :1;		//!<15 Calibration mode: 1 = Active, 0 = Inactive
+	uint16_t lft :1; 		//!<14 Lifetime speed up: 1 = Active, 0 = Inactive
+	uint16_t pdsg :1;		//!<13 Pre-discharge fet test: 1 = Active, 0 = Inactive
+	uint16_t rsvd :3; 		//!< Reserved. Do not use.
+	uint16_t led :1;		//!<9 Led display when button is pressed
+	uint16_t fuse :1;		//!<8 Fuse action: 1 = Active, 0 = Inactive
 
-	uint16_t bbr :1;	//!<7 Black box recorder: 1 = Active, 0 = Inactive
-	uint16_t pf :1;		//!<6 Permanent failure: 1 = Active, 0 = Inactive
-	uint16_t lf :1;		//!<5 Lifetime data collection: 1 = Active, 0 = Inactive
-	uint16_t fet :1;	//!<4 All FET action: 1 = Active, 0 = Inactive
-	uint16_t gauge :1;	//!<3 Gas gauging: 1 = Active, 0 = Inactive
-	uint16_t dsg :1;	//!<2 Discharge fet test: 1 = Active, 0 = Inactive
-	uint16_t chg :1;	//!<1 Charge fet test: 1 = Active, 0 = Inactive
-	uint16_t pchg :1;	//!<0 Precharge fet test: 1 = Active, 0 = Inactive
+	uint16_t bbr :1;		//!<7 Black box recorder: 1 = Active, 0 = Inactive
+	uint16_t pf :1;			//!<6 Permanent failure: 1 = Active, 0 = Inactive
+	uint16_t lf :1;			//!<5 Lifetime data collection: 1 = Active, 0 = Inactive
+	uint16_t fet :1;		//!<4 All FET action: 1 = Active, 0 = Inactive
+	uint16_t gauge :1;		//!<3 Gas gauging: 1 = Active, 0 = Inactive
+	uint16_t dsg :1;		//!<2 Discharge fet test: 1 = Active, 0 = Inactive
+	uint16_t chg :1;		//!<1 Charge fet test: 1 = Active, 0 = Inactive
+	uint16_t pchg :1;		//!<0 Precharge fet test: 1 = Active, 0 = Inactive
 }MANUFACTURING_STATUS;//0x0057
+
+typedef struct{
+	uint16_t camp :1;		//!<15 Capacity mode
+	uint16_t chgm :1;		//!<14 Charger mode
+	uint16_t am :1;			//!<13 Alarm mode
+	uint16_t rsvd :3;
+	uint16_t pb :1;			//!<9 Primary battery
+	uint16_t cc :1;			//!<8 Charge controler enabled
+
+	uint16_t cf :1;			//!<7 Condition flag
+	uint16_t rsvd62 :5;
+	uint16_t pbs :1;		//!<1 Primary battery support
+	uint16_t icc :1;		//!<0 Internal charge controler
+}BATTERY_MODE;//0x03
+
+typedef struct{
+	uint16_t oca :1;		//!<15 Overcharged alarm
+	uint16_t tca :1;		//!<14 terminate charge alarm
+	uint16_t rsvd13 :1;
+	uint16_t ota :1;		//!<12 Overtemperature alarm
+	uint16_t tda :1;		//!<11 Terminate discharge alarm
+	uint16_t rsvd10 :1;
+	uint16_t rca :1;		//!<9 Remaining capacity alarm
+	uint16_t rta :1;		//!<8 Remaining time alarm
+
+	uint16_t init :1;		//!<7 Initialization
+	uint16_t dsg :1;		//!<6 Discharge or relax
+	uint16_t fc :1;			//!<5 Fully charged
+	uint16_t fd :1;			//!<4 Fully discharged
+	uint16_t err :4;		//!<3-0 Error code
+}BATTERY_STATUS;//0x16
+
