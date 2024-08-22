@@ -10,5 +10,8 @@
 * `bq40z80_sbs` SMBus commands defines
 * `bq40z80_registers` some structs (not yet used)
 
+## Future notes 
+bat status and bat mode possible little-big endian error
+
 ## Idiot notes
 Open preview of markdown file by using ctrl + k and v 

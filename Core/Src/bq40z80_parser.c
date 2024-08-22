@@ -71,13 +71,15 @@ void BQ_ParseGaugeStatus(BQ_data* BMS, uint32_t raw)
 void BQ_ParseBatteryStatus(BQ_data* BMS, uint16_t raw)
 {
 	//convert to binary array and save in BQ_batteryStatus
-	decimalToBinary(raw, BMS->BQ_batteryStatus, 16);
+//	decimalToBinary(raw, BMS->BQ_batteryStatus, 16);
+	BMS->BQ_batteryStatus.all = raw;
 }
 
 void BQ_ParseBatteryMode(BQ_data* BMS, uint16_t raw)
 {
 	//convert to binary array and save in BQ_batteryMode
-	decimalToBinary(raw, BMS->BQ_batteryMode, 16);
+//	decimalToBinary(raw, BMS->BQ_batteryMode, 16);
+	BMS->BQ_batteryMode.all = raw;
 }
 
 void BQ_ParseManufacturingStatus(BQ_data* BMS, uint16_t raw)

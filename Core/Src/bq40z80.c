@@ -29,8 +29,8 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
 		ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
 		HAL_Delay(1000);
 	#ifdef debug
-		if(ret == HAL_ERROR){
-			__asm("nop");
+		if(ret != HAL_OK){
+			__asm("nop"); //insert breakpoint here
 		}
 	#endif
 	}

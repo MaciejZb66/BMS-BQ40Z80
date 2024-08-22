@@ -8,11 +8,11 @@
 extern BQ_data BMS_1;
 
 void BQ_ParseAllFlags(BQ_data* BMS,
-					  uint32_t opStatus,
-					  uint16_t batteryStatus,
-					  uint16_t batteryMode,
+					  uint32_t opStatus, //del
+					  uint16_t batteryStatus, //del
+					  uint16_t batteryMode, //del
 					  uint8_t gpio,
-					  uint16_t manStatus,
+					  uint16_t manStatus,	//del
 					  uint32_t chargeStatus,
 					  uint32_t gaugStatus);
 void BQ_ParseOperationStatus(BQ_data* BMS, uint32_t raw);

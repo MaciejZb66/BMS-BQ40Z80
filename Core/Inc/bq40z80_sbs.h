@@ -1,6 +1,6 @@
 #pragma once
 
-#define BQ40Z80_SBS_ManufacturerAccess 0x00
+#define BQ40Z80_SBS_ManufacturerAccess 0x00	//mfa
 #define BQ40Z80_SBS_RemainingCapacityAlarm 0x01
 #define BQ40Z80_SBS_RemainingTimeAlarm 0x02
 #define BQ40Z80_SBS_BatteryMode 0x03
@@ -32,15 +32,15 @@
 #define BQ40Z80_SBS_ManufacturerName 0x20
 #define BQ40Z80_SBS_DeviceName 0x21
 #define BQ40Z80_SBS_DeviceChemistry 0x22
-#define BQ40Z80_SBS_ManufacturerData 0x23
+#define BQ40Z80_SBS_ManufacturerData 0x23	//mfa
 #define BQ40Z80_SBS_AuthChallenge 0x27
 #define BQ40Z80_SBS_AuthResponse 0x28
-#define BQ40Z80_SBS_Authenticate 0x2F
+#define BQ40Z80_SBS_Authenticate 0x2F	//mfa
 #define BQ40Z80_SBS_CellVoltage7 0x3C
 #define BQ40Z80_SBS_CellVoltage6 0x3D
 #define BQ40Z80_SBS_CellVoltage5 0x3E
 #define BQ40Z80_SBS_CellVoltage4 0x3F
-#define BQ40Z80_SBS_ManufacturerBlockAccess 0x44
+#define BQ40Z80_SBS_ManufacturerBlockAccess 0x44 //mfa
 #define BQ40Z80_SBS_ADC1Read 0x46
 #define BQ40Z80_SBS_ADC2Read 0x47
 #define BQ40Z80_SBS_GPIORead 0x48

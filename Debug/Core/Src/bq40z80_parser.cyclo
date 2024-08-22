@@ -4,6 +4,6 @@
 ../Core/Src/bq40z80_parser.c:59:6:BQ_ParseChargeStatus	1
 ../Core/Src/bq40z80_parser.c:65:6:BQ_ParseGaugeStatus	1
 ../Core/Src/bq40z80_parser.c:71:6:BQ_ParseBatteryStatus	1
-../Core/Src/bq40z80_parser.c:77:6:BQ_ParseBatteryMode	1
-../Core/Src/bq40z80_parser.c:83:6:BQ_ParseManufacturingStatus	1
-../Core/Src/bq40z80_parser.c:88:6:BQ_ParseGpio	1
+../Core/Src/bq40z80_parser.c:78:6:BQ_ParseBatteryMode	1
+../Core/Src/bq40z80_parser.c:85:6:BQ_ParseManufacturingStatus	1
+../Core/Src/bq40z80_parser.c:90:6:BQ_ParseGpio	1
