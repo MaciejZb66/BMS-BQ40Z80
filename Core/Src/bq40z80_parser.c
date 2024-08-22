@@ -6,7 +6,7 @@
  * @param array array to write
  * @param count array size
  */
-void decimalToBinary(uint32_t value, uint8_t *array, uint8_t count)
+void decimalToBinary(uint32_t value, uint8_t *array, uint8_t count) //LSB is on array[0]
 {
 	uint8_t currentCount = 0;
 	while (value > 0)

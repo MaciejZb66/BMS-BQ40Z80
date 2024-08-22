@@ -34,6 +34,36 @@ typedef union{
 	uint16_t all;
 }BAT_MODE;
 
+typedef union{
+	CHARGING_STATUS bits;
+	uint32_t all;
+}CHG_STATUS;
+
+typedef union{
+	GAUGING_STATUS bits;
+	uint32_t all;
+}GUG_STATUS;
+
+typedef union{
+	DA_STATUS_1 sep;
+	uint8_t all[32];
+}DAS_1;
+
+typedef union{
+	DA_STATUS_2 sep;
+	uint8_t all[16];
+}DAS_2;
+
+typedef union{
+	DA_STATUS_3 sep;
+	uint8_t all[18];
+}DAS_3;
+
+typedef union{
+	OUTPUT_ADC_CAL sep;
+	uint8_t all[32];
+}OUTCAL;
+
 typedef struct{
 	I2C_HandleTypeDef *bq_i2c;
 	OP_STATUS BQ_opStatus;				//M0x0054	(d)
@@ -45,11 +75,11 @@ typedef struct{
 	BAT_MODE BQ_batteryMode;			//0x03		(d)
 
 	MAN_STATUS BQ_manufacturingStatus;	//M0x0057	(d)
-	uint8_t BQ_gpio[8];					//0x48		(159)
+	uint8_t BQ_gpio[8];					//0x48		(s)
 	uint8_t BQ_daStatus1[32]; 			//M0x0071	(s)
 	uint8_t BQ_daStatus2[16]; 			//M0x0072	(s)
 	uint8_t BQ_daStatus3[18];			//M0x007B	(s)
-	uint8_t BQ_outCal[32];				//M0xF081	(147)
+	uint8_t BQ_outCal[32];				//M0xF081	(s)
 }BQ_data;
 
 #endif // BQ40Z80_DATA_H
