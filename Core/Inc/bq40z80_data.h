@@ -64,22 +64,31 @@ typedef union{
 	uint8_t all[32];
 }OUTCAL;
 
+typedef union{
+	GPIO bits;
+	uint8_t all;
+}GP;
+
 typedef struct{
 	I2C_HandleTypeDef *bq_i2c;
 	OP_STATUS BQ_opStatus;				//M0x0054	(d)
-	uint8_t BQ_chargeStatus[32];		//M0x0055	(s)
-	uint8_t BQ_gaugeStatus[32];			//M0x0056 	(s)
-//	uint8_t BQ_batteryStatus[16];		//0x16
+	CHG_STATUS BQ_chargeStatus;			//M0x0055	(d)
+//	uint8_t BQ_chargeStatus[32];
+//	uint8_t BQ_gaugeStatus[32];
+	GUG_STATUS BQ_gaugeStatus;			//M0x0056 	()
+//	uint8_t BQ_batteryStatus[16];
 	BAT_STATUS BQ_batteryStatus;		//0x16		(d)
-//	uint8_t BQ_batteryMode[16];			//0x03
+//	uint8_t BQ_batteryMode[16];
 	BAT_MODE BQ_batteryMode;			//0x03		(d)
 
 	MAN_STATUS BQ_manufacturingStatus;	//M0x0057	(d)
-	uint8_t BQ_gpio[8];					//0x48		(s)
+//	uint8_t BQ_gpio[8];
+	GP BQ_gpio;							//0x48		()
 	uint8_t BQ_daStatus1[32]; 			//M0x0071	(s)
 	uint8_t BQ_daStatus2[16]; 			//M0x0072	(s)
 	uint8_t BQ_daStatus3[18];			//M0x007B	(s)
-	uint8_t BQ_outCal[32];				//M0xF081	(s)
+	OUTCAL BQ_outCal;					//M0xF081	()
+//	uint8_t BQ_outCal[32];
 }BQ_data;
 
 #endif // BQ40Z80_DATA_H

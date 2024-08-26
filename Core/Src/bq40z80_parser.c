@@ -6,22 +6,22 @@
  * @param array array to write
  * @param count array size
  */
-void decimalToBinary(uint32_t value, uint8_t *array, uint8_t count) //LSB is on array[0]
-{
-	uint8_t currentCount = 0;
-	while (value > 0)
-	{
-		array[currentCount] = value % 2;
-		value /= 2;
-		currentCount++;
-	}
-
-	while (currentCount < count)
-	{
-		array[currentCount] = 0;
-		currentCount++;
-	}
-}
+//void decimalToBinary(uint32_t value, uint8_t *array, uint8_t count) //LSB is on array[0]
+//{
+//	uint8_t currentCount = 0;
+//	while (value > 0)
+//	{
+//		array[currentCount] = value % 2;
+//		value /= 2;
+//		currentCount++;
+//	}
+//
+//	while (currentCount < count)
+//	{
+//		array[currentCount] = 0;
+//		currentCount++;
+//	}
+//}
 
 /**
  * @brief parse all values to flags array
@@ -59,13 +59,15 @@ void BQ_ParseOperationStatus(BQ_data* BMS, uint32_t raw)
 void BQ_ParseChargeStatus(BQ_data* BMS, uint32_t raw)
 {
 	//convert to binary array and save in BQ_chargeStatus
-	decimalToBinary(raw, BMS->BQ_chargeStatus, 32);
+//	decimalToBinary(raw, BMS->BQ_chargeStatus, 32);
+	BMS->BQ_chargeStatus.all = raw;
 }
 
 void BQ_ParseGaugeStatus(BQ_data* BMS, uint32_t raw)
 {
 	//convert to binary array and save in BQ_gaugeStatus
-	decimalToBinary(raw, BMS->BQ_gaugeStatus, 32);
+//	decimalToBinary(raw, BMS->BQ_gaugeStatus, 32);
+	BMS->BQ_gaugeStatus.all = raw;
 }
 
 void BQ_ParseBatteryStatus(BQ_data* BMS, uint16_t raw)
@@ -90,5 +92,6 @@ void BQ_ParseManufacturingStatus(BQ_data* BMS, uint16_t raw)
 void BQ_ParseGpio(BQ_data* BMS, uint8_t raw)
 {
 	//convert to binary array and save in BQ_gpio
-	decimalToBinary(raw, BMS->BQ_gpio, 8);
+//	decimalToBinary(raw, BMS->BQ_gpio, 8);
+	BMS->BQ_gpio.all = raw;
 }

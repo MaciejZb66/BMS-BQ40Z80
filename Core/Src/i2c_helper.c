@@ -95,6 +95,7 @@ uint8_t I2CHelper_GetFirstAddress(I2C_HandleTypeDef *i2c)
 		{
 			return i;
 		}
+		HAL_Delay(1);
 	}
 
 	return 0;

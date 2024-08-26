@@ -11,10 +11,10 @@ void BQ_ParseAllFlags(BQ_data* BMS,
 					  uint32_t opStatus, //del
 					  uint16_t batteryStatus, //del
 					  uint16_t batteryMode, //del
-					  uint8_t gpio,
+					  uint8_t gpio, //del
 					  uint16_t manStatus,	//del
-					  uint32_t chargeStatus,
-					  uint32_t gaugStatus);
+					  uint32_t chargeStatus, //del
+					  uint32_t gaugStatus);	//del
 void BQ_ParseOperationStatus(BQ_data* BMS, uint32_t raw);
 void BQ_ParseChargeStatus(BQ_data* BMS, uint32_t raw);
 void BQ_ParseGaugeStatus(BQ_data* BMS, uint32_t raw);

@@ -96,8 +96,8 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_I2C_Init(&hi2c1);
-  HAL_I2C_MspInit(&hi2c1);
+//  HAL_I2C_Init(&hi2c1);
+//  HAL_I2C_MspInit(&hi2c1);
   status = false;
   uint16_t voltage = 0;
   int16_t current = 0;
@@ -105,6 +105,7 @@ int main(void)
   uint16_t cells[6] = {0};
   bool fun[5] = {0};
   uint8_t test[11] = {0};
+//  percentage[0] = I2CHelper_GetFirstAddress(&hi2c1);
   BQ_Init(&hi2c1);
   BQ_ReadMABlockCommand(&BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
   /* USER CODE END 2 */

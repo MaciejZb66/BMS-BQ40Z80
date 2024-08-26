@@ -10,17 +10,6 @@ extern BQ_data BMS_1;
 void BQ_Init(I2C_HandleTypeDef *i2c)
 {
     BMS_1.bq_i2c = i2c;
-    if(i2c == &hi2c1){
-    	__HAL_RCC_I2C1_CLK_ENABLE();
-    }
-#ifdef three_bms
-    if(i2c == &hi2c2){
-		__HAL_RCC_I2C2_CLK_ENABLE();
-	}
-    if(i2c == &hi2c3){
-		__HAL_RCC_I2C3_CLK_ENABLE();
-	}
-#endif
 
 #ifdef USE_SCANNER
 	HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(i2c, bq_deviceAddress << 1, 3, 100);
