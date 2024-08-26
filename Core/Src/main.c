@@ -122,12 +122,12 @@ int main(void)
 	  percentage[0] = I2CHelper_ReadRegisterAsChar(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_RelativeStateOfCharge);
 	  percentage[1] = I2CHelper_ReadRegisterAsChar(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_AbsoluteStateOfCharge);
 	  // -----separated cells-----
-	  cells[0] = BMS_1.BQ_daStatus1[0] | (BMS_1.BQ_daStatus1[1] << 8);
-	  cells[1] = BMS_1.BQ_daStatus1[2] | (BMS_1.BQ_daStatus1[3] << 8);
-	  cells[2] = BMS_1.BQ_daStatus1[4] | (BMS_1.BQ_daStatus1[5] << 8);
-	  cells[3] = BMS_1.BQ_daStatus1[6] | (BMS_1.BQ_daStatus1[7] << 8);
-	  cells[4] = BMS_1.BQ_daStatus3[0] | (BMS_1.BQ_daStatus3[1] << 8);
-	  cells[5] = BMS_1.BQ_daStatus3[6] | (BMS_1.BQ_daStatus3[7] << 8);
+	  cells[0] = BMS_1.BQ_daStatus1.sep.cell_voltage_1;
+	  cells[1] = BMS_1.BQ_daStatus1.sep.cell_voltage_2;
+	  cells[2] = BMS_1.BQ_daStatus1.sep.cell_voltage_3;
+	  cells[3] = BMS_1.BQ_daStatus1.sep.cell_voltage_4;
+	  cells[4] = BMS_1.BQ_daStatus3.sep.cell_voltage_5;
+	  cells[5] = BMS_1.BQ_daStatus3.sep.cell_voltage_6;
 
 	  // -----toggle fets--------
 	  if(status){

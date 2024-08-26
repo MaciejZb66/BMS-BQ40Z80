@@ -84,9 +84,12 @@ typedef struct{
 	MAN_STATUS BQ_manufacturingStatus;	//M0x0057	(d)
 //	uint8_t BQ_gpio[8];
 	GP BQ_gpio;							//0x48		()
-	uint8_t BQ_daStatus1[32]; 			//M0x0071	(s)
-	uint8_t BQ_daStatus2[16]; 			//M0x0072	(s)
-	uint8_t BQ_daStatus3[18];			//M0x007B	(s)
+//	uint8_t BQ_daStatus1[32];
+	DAS_1 BQ_daStatus1;					//M0x0071	()
+//	uint8_t BQ_daStatus2[16];
+	DAS_2 BQ_daStatus2;					//M0x0072	()
+//	uint8_t BQ_daStatus3[18];
+	DAS_3 BQ_daStatus3;					//M0x007B	()
 	OUTCAL BQ_outCal;					//M0xF081	()
 //	uint8_t BQ_outCal[32];
 }BQ_data;
