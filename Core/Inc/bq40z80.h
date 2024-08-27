@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#define USE_SCANNER // 1 //test if ready
+#define USE_SCANNER //test if ready
 
 extern uint8_t bq_deviceAddress;
 

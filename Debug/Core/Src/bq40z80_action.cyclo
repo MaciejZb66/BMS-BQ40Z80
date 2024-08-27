@@ -11,4 +11,4 @@
 ../Core/Src/bq40z80_action.c:210:6:BQAction_DisableFets	5
 ../Core/Src/bq40z80_action.c:233:6:BQAction_TryUnsealedDevice	3
 ../Core/Src/bq40z80_action.c:252:6:BQAction_UpdateData	1
-../Core/Src/bq40z80_action.c:279:6:BQAction_UpdateOpStatus	1
+../Core/Src/bq40z80_action.c:280:6:BQAction_UpdateOpStatus	1

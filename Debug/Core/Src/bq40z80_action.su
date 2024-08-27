@@ -10,5 +10,5 @@
 ../Core/Src/bq40z80_action.c:169:6:BQAction_EnablePreDischarging	16	static
 ../Core/Src/bq40z80_action.c:210:6:BQAction_DisableFets	16	static
 ../Core/Src/bq40z80_action.c:233:6:BQAction_TryUnsealedDevice	24	static
-../Core/Src/bq40z80_action.c:252:6:BQAction_UpdateData	56	static
-../Core/Src/bq40z80_action.c:279:6:BQAction_UpdateOpStatus	24	static
+../Core/Src/bq40z80_action.c:252:6:BQAction_UpdateData	40	static
+../Core/Src/bq40z80_action.c:280:6:BQAction_UpdateOpStatus	24	static
