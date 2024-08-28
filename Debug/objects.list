@@ -1,7 +1,5 @@
 "./Core/Src/bq40z80.o"
 "./Core/Src/bq40z80_action.o"
-"./Core/Src/bq40z80_data.o"
-"./Core/Src/bq40z80_parser.o"
 "./Core/Src/bq40z80_validator.o"
 "./Core/Src/gpio.o"
 "./Core/Src/i2c.o"

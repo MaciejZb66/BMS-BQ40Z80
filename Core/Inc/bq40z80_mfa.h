@@ -73,8 +73,7 @@
 #define BQ40Z80_MFA_IATA_CHARGE 0x00F3
 #define BQ40Z80_MFA_ROM_MODE 0x0F00
 #define BQ40Z80_MFA_WRITE_TEMP 0x3008
-//--------------0x4000 - 0x5FFF------------------
-//-----------------------------------------------
+
 #define BQ40Z80_MFA_EXIT_CALIBRATION_OUTPUT_MODE 0xF080
 #define BQ40Z80_MFA_OUTPUT_CADC_CAL 0xF081
 #define BQ40Z80_MFA_OUTPUT_SHORTEDCCADCCAL 0xF082

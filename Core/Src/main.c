@@ -44,7 +44,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern BQ_data BMS_1;
+BQ_data BMS_1 = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,8 +96,7 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-//  HAL_I2C_Init(&hi2c1);
-//  HAL_I2C_MspInit(&hi2c1);
+
   status = false;
   uint16_t voltage = 0;
   int16_t current = 0;
@@ -105,7 +104,6 @@ int main(void)
   uint16_t cells[6] = {0};
   bool fun[5] = {0};
   uint8_t test[11] = {0};
-//  percentage[0] = I2CHelper_GetFirstAddress(&hi2c1);
   BQ_Init(&hi2c1);
   BQ_ReadMABlockCommand(&BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
   /* USER CODE END 2 */
@@ -117,10 +115,10 @@ int main(void)
 
 	  HAL_Delay(200);
 	  BQAction_UpdateData(&BMS_1);
-	  voltage = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Voltage);//works 0x09
-	  current = I2CHelper_ReadRegisterAsShort(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_Current);//TODO fix 1A = -400
-	  percentage[0] = I2CHelper_ReadRegisterAsChar(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_RelativeStateOfCharge);
-	  percentage[1] = I2CHelper_ReadRegisterAsChar(BMS_1.bq_i2c, bq_deviceAddress, BQ40Z80_SBS_AbsoluteStateOfCharge);
+	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
+	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//TODO fix 1A = -400
+	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);
+	  percentage[1] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_AbsoluteStateOfCharge);
 	  // -----separated cells-----
 	  cells[0] = BMS_1.BQ_daStatus1.sep.cell_voltage_1;
 	  cells[1] = BMS_1.BQ_daStatus1.sep.cell_voltage_2;

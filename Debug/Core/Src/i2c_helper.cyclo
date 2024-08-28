@@ -3,4 +3,4 @@
 ../Core/Src/i2c_helper.c:48:9:I2CHelper_ReadRegisterAsChar	1
 ../Core/Src/i2c_helper.c:62:6:I2CHelper_ReadRegister	1
 ../Core/Src/i2c_helper.c:73:6:I2CHelper_WriteRegister	1
-../Core/Src/i2c_helper.c:89:9:I2CHelper_GetFirstAddress	3
+../Core/Src/i2c_helper.c:89:19:I2CHelper_CheckAddress	4

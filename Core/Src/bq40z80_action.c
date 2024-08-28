@@ -233,7 +233,7 @@ bool BQAction_DisableFets(BQ_data* BMS)
 void BQAction_TryUnsealedDevice(BQ_data* BMS)
 {
     BQAction_UpdateOpStatus(BMS);
-    SECURITY_MODE securityMode = BQ_GetSecurityMode(BMS);
+    SECURITY_MODE securityMode =  BMS->BQ_opStatus.bits.sec;
     while (securityMode == SEALED || securityMode == RESERVED)
     {
         BQ_WriteMABlockCommand(BMS, 0x0414);
@@ -241,7 +241,7 @@ void BQAction_TryUnsealedDevice(BQ_data* BMS)
         BQ_WriteMABlockCommand(BMS, 0x3672);
         HAL_Delay(3000);
         BQAction_UpdateOpStatus(BMS);
-        securityMode = BQ_GetSecurityMode(BMS);
+        securityMode = BMS->BQ_opStatus.bits.sec;
     }
 }
 
@@ -259,18 +259,17 @@ void BQAction_UpdateData(BQ_data* BMS)
     BMS->BQ_opStatus.all = operationStatus;
     uint32_t gaugStatus = BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_GAUGING_STATUS);
     BMS->BQ_gaugeStatus.all = gaugStatus;
-    uint16_t batteryMode = I2CHelper_ReadRegisterAsShort(BMS->bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryMode); //possibly misplaced bytes
+    uint16_t batteryMode = I2CHelper_ReadRegisterAsShort(BMS, BQ40Z80_SBS_BatteryMode); //possibly misplaced bytes
     BMS->BQ_batteryMode.all = batteryMode;
-    uint16_t batteryStatus = I2CHelper_ReadRegisterAsShort(BMS->bq_i2c, bq_deviceAddress, BQ40Z80_SBS_BatteryStatus);
+    uint16_t batteryStatus = I2CHelper_ReadRegisterAsShort(BMS, BQ40Z80_SBS_BatteryStatus);
     BMS->BQ_batteryStatus.all = batteryStatus;
-    uint8_t gpioStatus = I2CHelper_ReadRegisterAsChar(BMS->bq_i2c, bq_deviceAddress, BQ40Z80_SBS_GPIORead);
+    uint8_t gpioStatus = I2CHelper_ReadRegisterAsChar(BMS, BQ40Z80_SBS_GPIORead);
     BMS->BQ_gpio.all = gpioStatus;
 
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1.all, 32);
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_2, BMS_1.BQ_daStatus2.all, 16);
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_3, BMS_1.BQ_daStatus3.all, 18);
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_OUTPUT_CADC_CAL, BMS_1.BQ_outCal.all, 32);
-//    BQ_ParseAllFlags(BMS, operationStatus, batteryMode, batteryStatus, gpioStatus, manStatus, chargeStatus, gaugStatus);
 }
 
 /**
@@ -282,8 +281,6 @@ void BQAction_UpdateOpStatus(BQ_data* BMS)
     BQ_ReadMABlockCommand(BMS, BQ40Z80_MFA_DA_STATUS_1, BMS_1.BQ_daStatus1.all, 32);
     uint32_t op_status = BQ_ReadCommandAsInt(BMS, BQ40Z80_MFA_OPERATION_STATUS);
     BMS->BQ_opStatus.all = op_status;
-//    BQ_ParseOperationStatus(BMS, op_status);
     uint16_t man_status = BQ_ReadCommandAsShort(BMS, BQ40Z80_MFA_MANUFACTURING_STATUS);
     BMS->BQ_manufacturingStatus.all = man_status;
-//    BQ_ParseManufacturingStatus(BMS, man_status);
 }

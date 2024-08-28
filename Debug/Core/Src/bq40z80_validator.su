@@ -1,2 +1,1 @@
-../Core/Src/bq40z80_validator.c:14:15:BQ_GetSecurityMode	16	static
-../Core/Src/bq40z80_validator.c:31:13:BQ_GetChargeMode	24	static
+../Core/Src/bq40z80_validator.c:11:13:BQ_GetChargeMode	24	static

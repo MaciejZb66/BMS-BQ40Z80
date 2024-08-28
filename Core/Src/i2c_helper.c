@@ -6,10 +6,10 @@
  * @param device device address
  * @param address address from read
  **/
-uint32_t I2CHelper_ReadRegisterAsInt(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t address)
+uint32_t I2CHelper_ReadRegisterAsInt(BQ_data* BMS, uint8_t address)
 {
 	uint8_t buf[4];
-	I2CHelper_ReadRegister(i2c, device, address, buf, 4);
+	I2CHelper_ReadRegister(BMS, address, buf, 4);
 
 	uint32_t result = 0;
 
@@ -27,10 +27,10 @@ uint32_t I2CHelper_ReadRegisterAsInt(I2C_HandleTypeDef *i2c, uint8_t device, uin
  * @param device device address
  * @param address address from read
  **/
-uint16_t I2CHelper_ReadRegisterAsShort(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t address)
+uint16_t I2CHelper_ReadRegisterAsShort(BQ_data* BMS, uint8_t address)
 {
 	uint8_t buf[2];
-	I2CHelper_ReadRegister(i2c, device, address, buf, 2);
+	I2CHelper_ReadRegister(BMS, address, buf, 2);
 	uint16_t result = 0;
 
 	result = result | buf[0];
@@ -45,10 +45,10 @@ uint16_t I2CHelper_ReadRegisterAsShort(I2C_HandleTypeDef *i2c, uint8_t device, u
  * @param device device address
  * @param address address from read
  **/
-uint8_t I2CHelper_ReadRegisterAsChar(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t address)
+uint8_t I2CHelper_ReadRegisterAsChar(BQ_data* BMS, uint8_t address)
 {
 	uint8_t buf[1];
-	I2CHelper_ReadRegister(i2c, device, address, buf, 1);
+	I2CHelper_ReadRegister(BMS, address, buf, 1);
 
 	return buf[0];
 }
@@ -59,10 +59,10 @@ uint8_t I2CHelper_ReadRegisterAsChar(I2C_HandleTypeDef *i2c, uint8_t device, uin
  * @param receive_buffer array to write
  * @param size receive_buffer size
  */
-void I2CHelper_ReadRegister(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t address, uint8_t *receive_buffer, uint8_t size)
+void I2CHelper_ReadRegister(BQ_data* BMS, uint8_t address, uint8_t *receive_buffer, uint8_t size)
 {
-	HAL_I2C_Master_Transmit(i2c, device << 1, &address, 1, 100);
-	HAL_I2C_Master_Receive(i2c, device << 1, receive_buffer, size, 100);
+	HAL_I2C_Master_Transmit(BMS->bq_i2c, BMS->bq_deviceAddress, &address, 1, 100);
+	HAL_I2C_Master_Receive(BMS->bq_i2c, BMS->bq_deviceAddress,  receive_buffer, size, 100);
 }
 
 /**
@@ -70,7 +70,7 @@ void I2CHelper_ReadRegister(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t addr
  * @param address: where to write
  * @param value: data to write 
  */
-void I2CHelper_WriteRegister(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t address, uint16_t value)
+void I2CHelper_WriteRegister(BQ_data* BMS, uint8_t address, uint16_t value)
 {
 	uint8_t data[3];
 
@@ -78,7 +78,7 @@ void I2CHelper_WriteRegister(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t add
 	data[1] = value >> 8;
 	data[2] = value;
 
-	HAL_I2C_Master_Transmit(i2c, device << 1, data, 3, 100); // data is the start pointer of our array
+	HAL_I2C_Master_Transmit(BMS->bq_i2c, BMS->bq_deviceAddress, data, 3, 100); // data is the start pointer of our array
 }
 
 /**
@@ -86,17 +86,22 @@ void I2CHelper_WriteRegister(I2C_HandleTypeDef *i2c, uint8_t device, uint8_t add
  * @param i2c I2C_HandleTypeDef pointer
  * @return first i2c device
  */
-uint8_t I2CHelper_GetFirstAddress(I2C_HandleTypeDef *i2c)
+CONNECTION_STATUS I2CHelper_CheckAddress(BQ_data* BMS)
 {
-	for (uint8_t i = 1; i < 128; i++)
+	HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(BMS->bq_i2c, BMS->bq_deviceAddress, 3, 5);
+	if (ret == HAL_OK)
 	{
-		HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(i2c, i << 1, 3, 5);
+		return CONNECTED;
+	}
+	for (uint8_t i = 1; i < 255; i++)
+	{
+		ret = HAL_I2C_IsDeviceReady(BMS->bq_i2c, i, 3, 5);
 		if (ret == HAL_OK)
 		{
-			return i;
+			BMS->bq_deviceAddress = i;
+			return CHANGED_ADDRESS;
 		}
 		HAL_Delay(1);
 	}
-
-	return 0;
+	return INVALID_DEVICE;
 }

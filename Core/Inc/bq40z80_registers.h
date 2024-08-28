@@ -52,6 +52,7 @@ typedef struct
     int16_t cell_power_7;   		//!< Cell Power 7. Calculated using Cell Voltage 7 and Cell Current 7 data (cW)
 } DA_STATUS_3; //0x007B
 
+
 typedef struct
 {
 	uint32_t pres :1;       		//!<0 System present low: 1 = Active, 0 = Inactive
@@ -63,8 +64,7 @@ typedef struct
     uint32_t rsvd_6 :1;     		//!<6 Reserved. Do not use.
     uint32_t btp_int :1;    		//!<7 Battery trip point interrupt: 1 = Active, 0 = Inactive
 
-    uint32_t sec0 :1;				//!<8 SECURITY mode bit 0
-    uint32_t sec1 :1;       		//!<9 SECURITY mode bit 1
+    uint32_t sec :2;				//!<9-8 SECURITY mode
     uint32_t sdv :1;        		//!<10 Shutdown triggered via low battery stack voltage: 1 = Active, 0 = Inactive
 	uint32_t ss :1;         		//!<11 SAFETY status: 1 = Active, 0 = Inactive
 	uint32_t pf :1;         		//!<12 PERMANENT FAILURE mode status: 1 = Active, 0 = Inactive
@@ -189,7 +189,7 @@ typedef struct{
 	uint16_t current_4;				//!< Cell Current 4. (mA)
 	uint16_t current_5;				//!< Cell Current 5. (mA)
 	uint16_t current_6;				//!< Cell Current 6. (mA)
-}OUTPUT_ADC_CAL;
+}OUTPUT_ADC_CAL;//0xF081
 
 typedef struct{
 	uint16_t icc :1;				//!<0 Internal charge controler
