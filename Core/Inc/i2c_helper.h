@@ -5,7 +5,8 @@
 typedef enum{
 	CONNECTED,
 	CHANGED_ADDRESS,
-	INVALID_DEVICE
+	INVALID_DEVICE,
+	NEED_RESET
 }CONNECTION_STATUS;
 
 uint32_t I2CHelper_ReadRegisterAsInt(BQ_data* BMS, uint8_t address);//32bit

@@ -1,18 +1,15 @@
-//#pragma once
-//#pragma message("bq40z80_data.h is included")
 #include "i2c.h"
 #include <stdint.h>
 #include "bq40z80_registers.h"
-/**
- * @attention
- * in datasheet some registers are binary number, in which each bit has a unique meaning
- * example: opStatus have 32 bits, 8-9 bits indicate security mode. etc.
- *
- * @warning: in array values: '1' = 49, '0' = 48
- */
+
+//-----------Include here USED_I2Cx-------------
+#define USED_I2C1
+//#define USED_I2C2
+//#define USED_I2C3
+//----------------------------------------------
+
 #ifndef BQ40Z80_DATA_H
 #define BQ40Z80_DATA_H
-//#pragma message("struct included")
 
 typedef union{
 	OPERATION_STATUS bits;

@@ -13,6 +13,8 @@
 
 #define USE_SCANNER //test if ready
 
+#define Address 0x17
+
 extern uint8_t bq_deviceAddress;
 
 void BQ_Init(I2C_HandleTypeDef *i2c);

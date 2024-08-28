@@ -89,6 +89,9 @@ void I2CHelper_WriteRegister(BQ_data* BMS, uint8_t address, uint16_t value)
 CONNECTION_STATUS I2CHelper_CheckAddress(BQ_data* BMS)
 {
 	HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(BMS->bq_i2c, BMS->bq_deviceAddress, 3, 5);
+	if (ret == HAL_BUSY){
+		return NEED_RESET;
+	}
 	if (ret == HAL_OK)
 	{
 		return CONNECTED;

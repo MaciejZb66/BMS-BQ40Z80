@@ -1,9 +1,6 @@
 #include "bq40z80_validator.h"
 #include "bq40z80.h"
 
-extern BQ_data BMS_1;
-
-
 /**
  * @brief get charge from BQ_opStatus
  * @return CHARGE, DISCHARGE or RELAX

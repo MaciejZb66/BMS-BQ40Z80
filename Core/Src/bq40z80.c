@@ -1,26 +1,48 @@
 #include "bq40z80.h"
 
-#define Address 0x17
 
-extern BQ_data BMS_1;
+
+#ifdef USED_I2C1
+	extern BQ_data BMS_1;
+#endif
+#ifdef USED_I2C2
+	extern BQ_data BMS_2;
+#endif
+#ifdef USED_I2C3
+	extern BQ_data BMS_3;
+#endif
 /**
  * @brief bq40z80 initialization
  * @param i2c i2c pointer
  */
 void BQ_Init(I2C_HandleTypeDef *i2c)
 {
-
-    BMS_1.bq_i2c = i2c;
-    BMS_1.bq_deviceAddress = Address;
+BQ_data* BMS;
+#ifdef USED_I2C1
+	if(i2c == &hi2c1){
+		BMS = &BMS_1;
+	}
+#endif
+#ifdef USED_I2C2
+	if(i2c == &hi2c2){
+		BMS = &BMS_2;
+	}
+#endif
+#ifdef USED_I2C3
+	if(i2c == &hi2c3){
+		BMS = &BMS_3;
+	}
+#endif
+    BMS->bq_i2c = i2c;
+    BMS->bq_deviceAddress = Address;
 #ifdef USE_SCANNER
-	HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(i2c, BMS_1.bq_deviceAddress, 3, 100);
-	while (ret != HAL_OK)
+	CONNECTION_STATUS connect = I2CHelper_CheckAddress(BMS);
+	while (connect != CONNECTED)
 	{
-//		I2CHelper_CheckAddress(&BMS_1);
-		ret = HAL_I2C_IsDeviceReady(i2c, BMS_1.bq_deviceAddress, 3, 100);
-		HAL_Delay(500);
+		connect = I2CHelper_CheckAddress(BMS);
+		HAL_Delay(200);
 	#ifdef debug
-		if(ret != HAL_OK){
+		if(connect != CONNECTED){
 			__asm("nop"); //insert breakpoint here
 		}
 	#endif
@@ -28,18 +50,18 @@ void BQ_Init(I2C_HandleTypeDef *i2c)
 #endif
 
     HAL_Delay(1500);
-    BQAction_UpdateData(&BMS_1);
-    BQAction_TryUnsealedDevice(&BMS_1);
+    BQAction_UpdateData(BMS);
+    BQAction_TryUnsealedDevice(BMS);
 
-    BQAction_SetManufacturingAllFet(&BMS_1, false);
-    BQAction_SetManufacturingFuse(&BMS_1, false);
-    BQAction_SetCalibration(&BMS_1, false);
-    BQAction_SetManufacturingGauging(&BMS_1, true);
-    BQAction_SetManufacturingPF(&BMS_1, true);
-    BQAction_SetManufacturingLF(&BMS_1, true);
-    BQAction_SetLed(&BMS_1, false);
+    BQAction_SetManufacturingAllFet(BMS, false);
+    BQAction_SetManufacturingFuse(BMS, false);
+    BQAction_SetCalibration(BMS, false);
+    BQAction_SetManufacturingGauging(BMS, true);
+    BQAction_SetManufacturingPF(BMS, true);
+    BQAction_SetManufacturingLF(BMS, true);
+    BQAction_SetLed(BMS, false);
 
-    BQAction_UpdateData(&BMS_1);
+    BQAction_UpdateData(BMS);
 }
 
 /**
