@@ -1,0 +1,3 @@
+../libVescCan/src/libVescCan/VESC_Endian.c:3:9:_VESC_b16_swap	24	static
+../libVescCan/src/libVescCan/VESC_Endian.c:11:9:_VESC_b32_swap	24	static
+../libVescCan/src/libVescCan/VESC_Endian.c:21:9:_VESC_b64_swap	136	static

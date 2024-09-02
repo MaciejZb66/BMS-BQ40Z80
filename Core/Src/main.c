@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "can.h"
 #include "i2c.h"
 #include "gpio.h"
 
@@ -64,7 +65,7 @@ BQ_data BMS_2 = {0};
 #ifdef USED_I2C3
 BQ_data BMS_3 = {0};
 #endif
-
+#define KelvinToCelsius 2732;
 
 bool status;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -106,6 +107,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
+  MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
 
   status = false;
@@ -115,6 +117,7 @@ int main(void)
   uint16_t cells[6] = {0};
   bool fun[5] = {0};
   uint8_t test[11] = {0};
+  uint16_t temperature[2] = {0};
   BQ_Init(&hi2c1);
   BQ_ReadMABlockCommand(&BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
   /* USER CODE END 2 */
@@ -127,9 +130,13 @@ int main(void)
 	  HAL_Delay(200);
 	  BQAction_UpdateData(&BMS_1);
 	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
-	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_CurrentLong);//TODO fix 1A = -400
-	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);
+//	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//TODO fix 1A = -400 (enable on 0x0A)
+	  current = BMS_1.BQ_outCal.sep.current;
+	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);//ok
 	  percentage[1] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_AbsoluteStateOfCharge);
+	  temperature[0] = BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
+	  temperature[1] = BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius;
+
 	  // -----separated cells-----
 	  cells[0] = BMS_1.BQ_daStatus1.sep.cell_voltage_1;
 	  cells[1] = BMS_1.BQ_daStatus1.sep.cell_voltage_2;
@@ -179,7 +186,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 10;
+  RCC_OscInitStruct.PLL.PLLN = 9;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -204,7 +211,9 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 
+}
 /* USER CODE END 4 */
 
 /**

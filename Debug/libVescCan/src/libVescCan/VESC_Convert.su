@@ -1,0 +1,16 @@
+../libVescCan/src/libVescCan/VESC_Convert.c:3:6:VESC_convertCmdToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:44:6:VESC_convertStatus1ToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:58:6:VESC_convertStatus2ToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:71:6:VESC_convertStatus3ToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:84:6:VESC_convertStatus4ToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:99:6:VESC_convertStatus5ToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:112:6:VESC_convertStatus6ToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:127:6:VESC_convertStatus7ToRaw	24	static
+../libVescCan/src/libVescCan/VESC_Convert.c:139:6:VESC_convertRawToCmd	16	static
+../libVescCan/src/libVescCan/VESC_Convert.c:180:6:VESC_convertRawToStatus1	16	static
+../libVescCan/src/libVescCan/VESC_Convert.c:194:6:VESC_convertRawToStatus2	16	static
+../libVescCan/src/libVescCan/VESC_Convert.c:207:6:VESC_convertRawToStatus3	16	static
+../libVescCan/src/libVescCan/VESC_Convert.c:220:6:VESC_convertRawToStatus4	16	static
+../libVescCan/src/libVescCan/VESC_Convert.c:235:6:VESC_convertRawToStatus5	16	static
+../libVescCan/src/libVescCan/VESC_Convert.c:248:6:VESC_convertRawToStatus6	16	static
+../libVescCan/src/libVescCan/VESC_Convert.c:263:6:VESC_convertRawToStatus7	16	static

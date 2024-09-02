@@ -171,7 +171,7 @@ typedef struct{
 typedef struct{
 	uint8_t counter;				//!< Rolling 8-bit counter, increments when values are refreshed.
 	uint8_t status;					//!< Status, 1 when ManufacturerAccess() = 0xF081 or 0xF083, 2 when ManufacturerAccess() = 0xF082
-	uint16_t current;				//!< Current (coulomb counter)
+	int16_t current;				//!< Current (coulomb counter)
 	uint16_t voltage_1;				//!< Cell Voltage 1 (mV)
 	uint16_t voltage_2;				//!< Cell Voltage 2 (mV)
 

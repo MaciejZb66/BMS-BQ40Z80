@@ -1,0 +1,3 @@
+[submodule "libVescCan"]
+	path = libVescCan
+	url = https://github.com/AlvaroBajceps/libVescCan

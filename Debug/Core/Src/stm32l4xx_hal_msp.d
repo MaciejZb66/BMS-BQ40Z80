@@ -17,6 +17,7 @@ Core/Src/stm32l4xx_hal_msp.o: ../Core/Src/stm32l4xx_hal_msp.c \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h \
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_can.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h \
@@ -29,7 +30,13 @@ Core/Src/stm32l4xx_hal_msp.o: ../Core/Src/stm32l4xx_hal_msp.c \
  ../Core/Inc/bq40z80_sbs.h ../Core/Inc/bq40z80_registers.h \
  ../Core/Inc/bq40z80_validator.h ../Core/Inc/bq40z80_data.h \
  ../Core/Inc/i2c.h ../Core/Inc/main.h ../Core/Inc/bq40z80_action.h \
- ../Core/Inc/i2c_helper.h ../Core/Inc/gpio.h
+ ../Core/Inc/i2c_helper.h ../Core/Inc/gpio.h \
+ ../libVescCan/include/libVescCan/VESC.h \
+ ../libVescCan/include/libVescCan/VESC_Defines.h \
+ ../libVescCan/include/libVescCan/VESC_Consts.h \
+ ../libVescCan/include/libVescCan/VESC_Structs.h \
+ ../libVescCan/include/libVescCan/VESC_Convert.h \
+ ../libVescCan/include/libVescCan/VESC_Endian.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
@@ -49,6 +56,7 @@ Core/Src/stm32l4xx_hal_msp.o: ../Core/Src/stm32l4xx_hal_msp.c \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio_ex.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h:
+../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_can.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_exti.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_flash_ex.h:
@@ -68,3 +76,9 @@ Core/Src/stm32l4xx_hal_msp.o: ../Core/Src/stm32l4xx_hal_msp.c \
 ../Core/Inc/bq40z80_action.h:
 ../Core/Inc/i2c_helper.h:
 ../Core/Inc/gpio.h:
+../libVescCan/include/libVescCan/VESC.h:
+../libVescCan/include/libVescCan/VESC_Defines.h:
+../libVescCan/include/libVescCan/VESC_Consts.h:
+../libVescCan/include/libVescCan/VESC_Structs.h:
+../libVescCan/include/libVescCan/VESC_Convert.h:
+../libVescCan/include/libVescCan/VESC_Endian.h:

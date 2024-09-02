@@ -14,4 +14,5 @@
 bat status and bat mode possible little-big endian error
 
 ## Idiot notes
-Open preview of markdown file by using ctrl + k and v 
+Open preview of markdown file by using ctrl + k and v \
+project>properties>C/C++ Build>Settings>Tool Settings>MCU GCC Compiler trzeba było dodać ../libVescCan/Include
