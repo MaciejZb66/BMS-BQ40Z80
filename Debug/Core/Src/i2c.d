@@ -34,8 +34,9 @@ Core/Src/i2c.o: ../Core/Src/i2c.c ../Core/Inc/i2c.h ../Core/Inc/main.h \
  ../libVescCan/include/libVescCan/VESC_Defines.h \
  ../libVescCan/include/libVescCan/VESC_Consts.h \
  ../libVescCan/include/libVescCan/VESC_Structs.h \
+ ../libVescCan/include/libVescCan/VESC_Status_10_Consts.h \
  ../libVescCan/include/libVescCan/VESC_Convert.h \
- ../libVescCan/include/libVescCan/VESC_Endian.h
+ ../libVescCan/include/libVescCan/VESC_Endian.h ../Core/Inc/vesc2halcan.h
 ../Core/Inc/i2c.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
@@ -79,5 +80,7 @@ Core/Src/i2c.o: ../Core/Src/i2c.c ../Core/Inc/i2c.h ../Core/Inc/main.h \
 ../libVescCan/include/libVescCan/VESC_Defines.h:
 ../libVescCan/include/libVescCan/VESC_Consts.h:
 ../libVescCan/include/libVescCan/VESC_Structs.h:
+../libVescCan/include/libVescCan/VESC_Status_10_Consts.h:
 ../libVescCan/include/libVescCan/VESC_Convert.h:
 ../libVescCan/include/libVescCan/VESC_Endian.h:
+../Core/Inc/vesc2halcan.h:

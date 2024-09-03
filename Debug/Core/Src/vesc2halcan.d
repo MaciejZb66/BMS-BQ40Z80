@@ -1,4 +1,11 @@
-Core/Src/i2c_helper.o: ../Core/Src/i2c_helper.c ../Core/Inc/i2c_helper.h \
+Core/Src/vesc2halcan.o: ../Core/Src/vesc2halcan.c \
+ ../Core/Inc/vesc2halcan.h ../libVescCan/include/libVescCan/VESC.h \
+ ../libVescCan/include/libVescCan/VESC_Defines.h \
+ ../libVescCan/include/libVescCan/VESC_Consts.h \
+ ../libVescCan/include/libVescCan/VESC_Structs.h \
+ ../libVescCan/include/libVescCan/VESC_Status_10_Consts.h \
+ ../libVescCan/include/libVescCan/VESC_Convert.h \
+ ../libVescCan/include/libVescCan/VESC_Endian.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -25,19 +32,15 @@ Core/Src/i2c_helper.o: ../Core/Src/i2c_helper.c ../Core/Inc/i2c_helper.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
- ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
- ../Core/Inc/i2c.h ../Core/Inc/main.h ../Core/Inc/bq40z80.h \
- ../Core/Inc/bq40z80_mfa.h ../Core/Inc/bq40z80_sbs.h \
- ../Core/Inc/bq40z80_registers.h ../Core/Inc/bq40z80_validator.h \
- ../Core/Inc/bq40z80_data.h ../Core/Inc/bq40z80_action.h \
- ../Core/Inc/gpio.h ../libVescCan/include/libVescCan/VESC.h \
- ../libVescCan/include/libVescCan/VESC_Defines.h \
- ../libVescCan/include/libVescCan/VESC_Consts.h \
- ../libVescCan/include/libVescCan/VESC_Structs.h \
- ../libVescCan/include/libVescCan/VESC_Status_10_Consts.h \
- ../libVescCan/include/libVescCan/VESC_Convert.h \
- ../libVescCan/include/libVescCan/VESC_Endian.h ../Core/Inc/vesc2halcan.h
-../Core/Inc/i2c_helper.h:
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h
+../Core/Inc/vesc2halcan.h:
+../libVescCan/include/libVescCan/VESC.h:
+../libVescCan/include/libVescCan/VESC_Defines.h:
+../libVescCan/include/libVescCan/VESC_Consts.h:
+../libVescCan/include/libVescCan/VESC_Structs.h:
+../libVescCan/include/libVescCan/VESC_Status_10_Consts.h:
+../libVescCan/include/libVescCan/VESC_Convert.h:
+../libVescCan/include/libVescCan/VESC_Endian.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -65,21 +68,3 @@ Core/Src/i2c_helper.o: ../Core/Src/i2c_helper.c ../Core/Inc/i2c_helper.h \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
-../Core/Inc/i2c.h:
-../Core/Inc/main.h:
-../Core/Inc/bq40z80.h:
-../Core/Inc/bq40z80_mfa.h:
-../Core/Inc/bq40z80_sbs.h:
-../Core/Inc/bq40z80_registers.h:
-../Core/Inc/bq40z80_validator.h:
-../Core/Inc/bq40z80_data.h:
-../Core/Inc/bq40z80_action.h:
-../Core/Inc/gpio.h:
-../libVescCan/include/libVescCan/VESC.h:
-../libVescCan/include/libVescCan/VESC_Defines.h:
-../libVescCan/include/libVescCan/VESC_Consts.h:
-../libVescCan/include/libVescCan/VESC_Structs.h:
-../libVescCan/include/libVescCan/VESC_Status_10_Consts.h:
-../libVescCan/include/libVescCan/VESC_Convert.h:
-../libVescCan/include/libVescCan/VESC_Endian.h:
-../Core/Inc/vesc2halcan.h:

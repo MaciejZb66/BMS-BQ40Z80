@@ -17,7 +17,8 @@ C_SRCS += \
 ../Core/Src/stm32l4xx_it.c \
 ../Core/Src/syscalls.c \
 ../Core/Src/sysmem.c \
-../Core/Src/system_stm32l4xx.c 
+../Core/Src/system_stm32l4xx.c \
+../Core/Src/vesc2halcan.c 
 
 OBJS += \
 ./Core/Src/bq40z80.o \
@@ -32,7 +33,8 @@ OBJS += \
 ./Core/Src/stm32l4xx_it.o \
 ./Core/Src/syscalls.o \
 ./Core/Src/sysmem.o \
-./Core/Src/system_stm32l4xx.o 
+./Core/Src/system_stm32l4xx.o \
+./Core/Src/vesc2halcan.o 
 
 C_DEPS += \
 ./Core/Src/bq40z80.d \
@@ -47,7 +49,8 @@ C_DEPS += \
 ./Core/Src/stm32l4xx_it.d \
 ./Core/Src/syscalls.d \
 ./Core/Src/sysmem.d \
-./Core/Src/system_stm32l4xx.d 
+./Core/Src/system_stm32l4xx.d \
+./Core/Src/vesc2halcan.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -57,7 +60,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/bq40z80.cyclo ./Core/Src/bq40z80.d ./Core/Src/bq40z80.o ./Core/Src/bq40z80.su ./Core/Src/bq40z80_action.cyclo ./Core/Src/bq40z80_action.d ./Core/Src/bq40z80_action.o ./Core/Src/bq40z80_action.su ./Core/Src/bq40z80_validator.cyclo ./Core/Src/bq40z80_validator.d ./Core/Src/bq40z80_validator.o ./Core/Src/bq40z80_validator.su ./Core/Src/can.cyclo ./Core/Src/can.d ./Core/Src/can.o ./Core/Src/can.su ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/i2c.cyclo ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/i2c_helper.cyclo ./Core/Src/i2c_helper.d ./Core/Src/i2c_helper.o ./Core/Src/i2c_helper.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32l4xx_hal_msp.cyclo ./Core/Src/stm32l4xx_hal_msp.d ./Core/Src/stm32l4xx_hal_msp.o ./Core/Src/stm32l4xx_hal_msp.su ./Core/Src/stm32l4xx_it.cyclo ./Core/Src/stm32l4xx_it.d ./Core/Src/stm32l4xx_it.o ./Core/Src/stm32l4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32l4xx.cyclo ./Core/Src/system_stm32l4xx.d ./Core/Src/system_stm32l4xx.o ./Core/Src/system_stm32l4xx.su
+	-$(RM) ./Core/Src/bq40z80.cyclo ./Core/Src/bq40z80.d ./Core/Src/bq40z80.o ./Core/Src/bq40z80.su ./Core/Src/bq40z80_action.cyclo ./Core/Src/bq40z80_action.d ./Core/Src/bq40z80_action.o ./Core/Src/bq40z80_action.su ./Core/Src/bq40z80_validator.cyclo ./Core/Src/bq40z80_validator.d ./Core/Src/bq40z80_validator.o ./Core/Src/bq40z80_validator.su ./Core/Src/can.cyclo ./Core/Src/can.d ./Core/Src/can.o ./Core/Src/can.su ./Core/Src/gpio.cyclo ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/i2c.cyclo ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/i2c_helper.cyclo ./Core/Src/i2c_helper.d ./Core/Src/i2c_helper.o ./Core/Src/i2c_helper.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32l4xx_hal_msp.cyclo ./Core/Src/stm32l4xx_hal_msp.d ./Core/Src/stm32l4xx_hal_msp.o ./Core/Src/stm32l4xx_hal_msp.su ./Core/Src/stm32l4xx_it.cyclo ./Core/Src/stm32l4xx_it.d ./Core/Src/stm32l4xx_it.o ./Core/Src/stm32l4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32l4xx.cyclo ./Core/Src/system_stm32l4xx.d ./Core/Src/system_stm32l4xx.o ./Core/Src/system_stm32l4xx.su ./Core/Src/vesc2halcan.cyclo ./Core/Src/vesc2halcan.d ./Core/Src/vesc2halcan.o ./Core/Src/vesc2halcan.su
 
 .PHONY: clean-Core-2f-Src
 

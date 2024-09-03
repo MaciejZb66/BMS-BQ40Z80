@@ -35,8 +35,10 @@ Core/Src/bq40z80_validator.o: ../Core/Src/bq40z80_validator.c \
  ../libVescCan/include/libVescCan/VESC_Defines.h \
  ../libVescCan/include/libVescCan/VESC_Consts.h \
  ../libVescCan/include/libVescCan/VESC_Structs.h \
+ ../libVescCan/include/libVescCan/VESC_Status_10_Consts.h \
  ../libVescCan/include/libVescCan/VESC_Convert.h \
- ../libVescCan/include/libVescCan/VESC_Endian.h ../Core/Inc/bq40z80.h
+ ../libVescCan/include/libVescCan/VESC_Endian.h ../Core/Inc/vesc2halcan.h \
+ ../Core/Inc/bq40z80.h
 ../Core/Inc/bq40z80_validator.h:
 ../Core/Inc/bq40z80_data.h:
 ../Core/Inc/i2c.h:
@@ -79,6 +81,8 @@ Core/Src/bq40z80_validator.o: ../Core/Src/bq40z80_validator.c \
 ../libVescCan/include/libVescCan/VESC_Defines.h:
 ../libVescCan/include/libVescCan/VESC_Consts.h:
 ../libVescCan/include/libVescCan/VESC_Structs.h:
+../libVescCan/include/libVescCan/VESC_Status_10_Consts.h:
 ../libVescCan/include/libVescCan/VESC_Convert.h:
 ../libVescCan/include/libVescCan/VESC_Endian.h:
+../Core/Inc/vesc2halcan.h:
 ../Core/Inc/bq40z80.h:

@@ -65,7 +65,7 @@ BQ_data BMS_2 = {0};
 #ifdef USED_I2C3
 BQ_data BMS_3 = {0};
 #endif
-#define KelvinToCelsius 2732;
+#define KelvinToCelsius 2732
 
 bool status;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -75,6 +75,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	  HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
   }
 }
+
+VESC_Status_4 stat4;
+VESC_Status_5 stat5;
+VESC_RawFrame rawFrame;
+extern CAN_TxHeaderTypeDef TxHeader;
+extern uint32_t TxMailbox;
+uint8_t txData[8];
 /* USER CODE END 0 */
 
 /**
@@ -131,7 +138,7 @@ int main(void)
 	  BQAction_UpdateData(&BMS_1);
 	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
 //	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//TODO fix 1A = -400 (enable on 0x0A)
-	  current = BMS_1.BQ_outCal.sep.current;
+	  current = BMS_1.BQ_outCal.sep.current;//works
 	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);//ok
 	  percentage[1] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_AbsoluteStateOfCharge);
 	  temperature[0] = BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
@@ -153,6 +160,12 @@ int main(void)
 	  }
 	  fun[0] = BMS_1.BQ_opStatus.bits.pdsg;
 	  fun[1] = BMS_1.BQ_opStatus.bits.xdsg;
+	  stat4.pidPos = 0;
+	  stat4.currentIn = (float)(BMS_1.BQ_outCal.sep.current) / 1000;
+	  stat4.tempFet = (float)(BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius) / 10;
+	  stat4.tempMotor = (float)(BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius) / 10;
+	  VESC_convertStatus4ToRaw(&rawFrame, &stat4); //guess need vesc2halcan
+	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
 
     /* USER CODE END WHILE */
 

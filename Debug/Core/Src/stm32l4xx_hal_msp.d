@@ -35,8 +35,9 @@ Core/Src/stm32l4xx_hal_msp.o: ../Core/Src/stm32l4xx_hal_msp.c \
  ../libVescCan/include/libVescCan/VESC_Defines.h \
  ../libVescCan/include/libVescCan/VESC_Consts.h \
  ../libVescCan/include/libVescCan/VESC_Structs.h \
+ ../libVescCan/include/libVescCan/VESC_Status_10_Consts.h \
  ../libVescCan/include/libVescCan/VESC_Convert.h \
- ../libVescCan/include/libVescCan/VESC_Endian.h
+ ../libVescCan/include/libVescCan/VESC_Endian.h ../Core/Inc/vesc2halcan.h
 ../Core/Inc/main.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
@@ -80,5 +81,7 @@ Core/Src/stm32l4xx_hal_msp.o: ../Core/Src/stm32l4xx_hal_msp.c \
 ../libVescCan/include/libVescCan/VESC_Defines.h:
 ../libVescCan/include/libVescCan/VESC_Consts.h:
 ../libVescCan/include/libVescCan/VESC_Structs.h:
+../libVescCan/include/libVescCan/VESC_Status_10_Consts.h:
 ../libVescCan/include/libVescCan/VESC_Convert.h:
 ../libVescCan/include/libVescCan/VESC_Endian.h:
+../Core/Inc/vesc2halcan.h:

@@ -34,6 +34,7 @@ extern "C" {
 #include "bq40z80.h"
 #include "bq40z80_data.h"
 #include "libVescCan/VESC.h"
+#include "vesc2halcan.h"
 //#include "VESC.h"
 /* USER CODE END Includes */
 
