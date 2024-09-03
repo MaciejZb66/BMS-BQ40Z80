@@ -65,7 +65,7 @@ BQ_data BMS_2 = {0};
 #ifdef USED_I2C3
 BQ_data BMS_3 = {0};
 #endif
-#define KelvinToCelsius 2732
+
 
 bool status;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -118,17 +118,35 @@ int main(void)
   MX_I2C2_Init();
   MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
-  BQ_BoundaryCellVoltage balance;
+
+#ifdef USED_I2C1
+ToSendData data_1 = {0};
+#endif
+#ifdef USED_I2C2
+ToSendData data_2 = {0};
+#endif
+#ifdef USED_I2C3
+ToSendData data_3 = {0};
+#endif
+//  BQ_BoundaryCellVoltage balance;
   status = false;
-  uint16_t voltage = 0;
-  int16_t current = 0;
-  uint8_t percentage[2] = {0};
-  uint16_t cells[6] = {0};
-  bool fun[5] = {0};
-  uint8_t test[11] = {0};
-  uint16_t temperature[2] = {0};
+//  uint16_t voltage = 0;
+//  int16_t current = 0;
+//  uint8_t percentage[2] = {0};
+//  uint16_t cells[6] = {0};
+//  bool fun[5] = {0};
+//  uint8_t test[11] = {0};
+//  uint16_t temperature[2] = {0};
+#ifdef USED_I2C1
   BQ_Init(&hi2c1);
-  BQ_ReadMABlockCommand(&BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
+#endif
+#ifdef USED_I2C2
+  BQ_Init(&hi2c2);
+#endif
+#ifdef USED_I2C3
+  BQ_Init(&hi2c3);
+#endif
+//  BQ_ReadMABlockCommand(&BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,22 +155,54 @@ int main(void)
   {
 
 	  HAL_Delay(200);
+#ifdef USED_I2C1
 	  BQAction_UpdateData(&BMS_1);
-	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
+	  BQ_GetSendData(&BMS_1, &data_1);
+	  stat4.pidPos = 1.0f;
+	  stat4.currentIn = (float)(data_1.current) / 1000;
+	  stat4.tempFet = (float)(data_1.fet_temperature) / 10;
+	  stat4.tempMotor = (float)(data_1.cell_temperature) / 10;
+	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
+	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
+	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+#endif
+#ifdef USED_I2C2
+	  BQAction_UpdateData(&BMS_2);
+	  BQ_GetSendData(&BMS_2, &data_2);
+	  stat4.pidPos = 2.0f;
+	  stat4.currentIn = (float)(data_2.current) / 1000;
+	  stat4.tempFet = (float)(data_2.fet_temperature) / 10;
+	  stat4.tempMotor = (float)(data_2.cell_temperature) / 10;
+	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
+	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
+	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+#endif
+#ifdef USED_I2C3
+	  BQAction_UpdateData(&BMS_3);
+	  BQ_GetSendData(&BMS_3, &data_3);
+	  stat4.pidPos = 3.0f;
+	  stat4.currentIn = (float)(data_3.current) / 1000;
+	  stat4.tempFet = (float)(data_3.fet_temperature) / 10;
+	  stat4.tempMotor = (float)(data_3.cell_temperature) / 10;
+	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
+	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
+	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+#endif
+//	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
 //	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//fix 1A = -400 (enable on 0x0A)
-	  current = BMS_1.BQ_outCal.sep.current;//works
-	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);//ok
-	  percentage[1] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_AbsoluteStateOfCharge);
-	  temperature[0] = BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
-	  temperature[1] = BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius;
-	  balance = BQ_GetBoundaryCellVoltage(&BMS_1);
+//	  current = BMS_1.BQ_outCal.sep.current;//works
+//	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);//ok
+//	  percentage[1] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_AbsoluteStateOfCharge);
+//	  temperature[0] = BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
+//	  temperature[1] = BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius;
+//	  balance = BQ_GetBoundaryCellVoltage(&BMS_1);
 	  // -----separated cells-----
-	  cells[0] = BMS_1.BQ_daStatus1.sep.cell_voltage_1;
-	  cells[1] = BMS_1.BQ_daStatus1.sep.cell_voltage_2;
-	  cells[2] = BMS_1.BQ_daStatus1.sep.cell_voltage_3;
-	  cells[3] = BMS_1.BQ_daStatus1.sep.cell_voltage_4;
-	  cells[4] = BMS_1.BQ_daStatus3.sep.cell_voltage_5;
-	  cells[5] = BMS_1.BQ_daStatus3.sep.cell_voltage_6;
+//	  cells[0] = BMS_1.BQ_daStatus1.sep.cell_voltage_1;
+//	  cells[1] = BMS_1.BQ_daStatus1.sep.cell_voltage_2;
+//	  cells[2] = BMS_1.BQ_daStatus1.sep.cell_voltage_3;
+//	  cells[3] = BMS_1.BQ_daStatus1.sep.cell_voltage_4;
+//	  cells[4] = BMS_1.BQ_daStatus3.sep.cell_voltage_5;
+//	  cells[5] = BMS_1.BQ_daStatus3.sep.cell_voltage_6;
 
 	  // -----toggle fets--------
 //	  if(status){
@@ -162,13 +212,7 @@ int main(void)
 //	  }
 //	  fun[0] = BMS_1.BQ_opStatus.bits.pdsg;
 //	  fun[1] = BMS_1.BQ_opStatus.bits.xdsg;
-	  stat4.pidPos = 0;
-	  stat4.currentIn = (float)(BMS_1.BQ_outCal.sep.current) / 1000;
-	  stat4.tempFet = (float)(BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius) / 10;
-	  stat4.tempMotor = (float)(BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius) / 10;
-	  VESC_convertStatus4ToRaw(&rawFrame, &stat4); //guess need vesc2halcan
-	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
-	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+
 
     /* USER CODE END WHILE */
 

@@ -1,4 +1,4 @@
-../Core/Src/bq40z80.c:18:6:BQ_Init	4
+../Core/Src/bq40z80.c:18:6:BQ_Init	5
 ../Core/Src/bq40z80.c:72:6:BQ_WriteFlash	1
 ../Core/Src/bq40z80.c:90:6:BQ_WriteFlashByte	1
 ../Core/Src/bq40z80.c:106:6:BQ_WriteMABlockCommand	1
