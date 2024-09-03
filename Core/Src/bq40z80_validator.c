@@ -19,3 +19,34 @@ CHARGE_MODE BQ_GetChargeMode(BQ_data* BMS)
         return RELAX;
     }
 }
+
+BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(BQ_data* BMS)
+{
+    BQ_BoundaryCellVoltage result;
+    result.Max = 0;
+    result.Min = 65535;
+
+    uint16_t cells[6] =
+        {
+			BMS->BQ_daStatus1.sep.cell_voltage_1, // 1
+			BMS->BQ_daStatus1.sep.cell_voltage_2, // 2
+            BMS->BQ_daStatus1.sep.cell_voltage_3, // 3
+            BMS->BQ_daStatus1.sep.cell_voltage_4, // 4
+            BMS->BQ_daStatus3.sep.cell_voltage_5, // 5
+            BMS->BQ_daStatus3.sep.cell_voltage_6  // 6
+        };
+
+    for (int i = 0; i < 6; i++)
+    {
+        if (cells[i] > result.Max)
+        {
+            result.Max = cells[i];
+        }
+        if (cells[i] < result.Min)
+        {
+            result.Min = cells[i];
+        }
+    }
+
+    return result;
+}

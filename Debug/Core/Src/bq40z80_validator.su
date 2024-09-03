@@ -1,1 +1,2 @@
 ../Core/Src/bq40z80_validator.c:8:13:BQ_GetChargeMode	24	static
+../Core/Src/bq40z80_validator.c:23:24:BQ_GetBoundaryCellVoltage	40	static

@@ -15,6 +15,12 @@ typedef enum{
 	DISCHARGE
 } CHARGE_MODE;
 
-CHARGE_MODE BQ_GetChargeMode(BQ_data* BMS);
+typedef struct
+{
+	uint16_t Min;
+	uint16_t Max;
+} BQ_BoundaryCellVoltage;
 
+CHARGE_MODE BQ_GetChargeMode(BQ_data* BMS);
+BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(BQ_data* BMS);
 

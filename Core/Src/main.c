@@ -115,8 +115,10 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_CAN1_Init();
+  MX_I2C2_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
-
+  BQ_BoundaryCellVoltage balance;
   status = false;
   uint16_t voltage = 0;
   int16_t current = 0;
@@ -137,13 +139,13 @@ int main(void)
 	  HAL_Delay(200);
 	  BQAction_UpdateData(&BMS_1);
 	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
-//	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//TODO fix 1A = -400 (enable on 0x0A)
+//	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//fix 1A = -400 (enable on 0x0A)
 	  current = BMS_1.BQ_outCal.sep.current;//works
 	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);//ok
 	  percentage[1] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_AbsoluteStateOfCharge);
 	  temperature[0] = BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
 	  temperature[1] = BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius;
-
+	  balance = BQ_GetBoundaryCellVoltage(&BMS_1);
 	  // -----separated cells-----
 	  cells[0] = BMS_1.BQ_daStatus1.sep.cell_voltage_1;
 	  cells[1] = BMS_1.BQ_daStatus1.sep.cell_voltage_2;
@@ -153,18 +155,19 @@ int main(void)
 	  cells[5] = BMS_1.BQ_daStatus3.sep.cell_voltage_6;
 
 	  // -----toggle fets--------
-	  if(status){
-		  BQAction_EnableDischarging(&BMS_1);
-	  }else{
-		  BQAction_DisableFets(&BMS_1);
-	  }
-	  fun[0] = BMS_1.BQ_opStatus.bits.pdsg;
-	  fun[1] = BMS_1.BQ_opStatus.bits.xdsg;
+//	  if(status){
+//		  BQAction_EnableDischarging(&BMS_1);
+//	  }else{
+//		  BQAction_DisableFets(&BMS_1);
+//	  }
+//	  fun[0] = BMS_1.BQ_opStatus.bits.pdsg;
+//	  fun[1] = BMS_1.BQ_opStatus.bits.xdsg;
 	  stat4.pidPos = 0;
 	  stat4.currentIn = (float)(BMS_1.BQ_outCal.sep.current) / 1000;
 	  stat4.tempFet = (float)(BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius) / 10;
 	  stat4.tempMotor = (float)(BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius) / 10;
 	  VESC_convertStatus4ToRaw(&rawFrame, &stat4); //guess need vesc2halcan
+	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
 	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
 
     /* USER CODE END WHILE */
