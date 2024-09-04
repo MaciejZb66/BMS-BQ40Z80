@@ -51,7 +51,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void BQ_and_can(BQ_data* BMS);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -77,7 +77,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 }
 
 VESC_Status_4 stat4;
-VESC_Status_5 stat5;
 VESC_RawFrame rawFrame;
 extern CAN_TxHeaderTypeDef TxHeader;
 extern uint32_t TxMailbox;
@@ -119,15 +118,7 @@ int main(void)
   MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
-#ifdef USED_I2C1
-ToSendData data_1 = {0};
-#endif
-#ifdef USED_I2C2
-ToSendData data_2 = {0};
-#endif
-#ifdef USED_I2C3
-ToSendData data_3 = {0};
-#endif
+
 //  BQ_BoundaryCellVoltage balance;
   status = false;
 //  uint16_t voltage = 0;
@@ -156,37 +147,13 @@ ToSendData data_3 = {0};
 
 	  HAL_Delay(200);
 #ifdef USED_I2C1
-	  BQAction_UpdateData(&BMS_1);
-	  BQ_GetSendData(&BMS_1, &data_1);
-	  stat4.pidPos = 1.0f;
-	  stat4.currentIn = (float)(data_1.current) / 1000;
-	  stat4.tempFet = (float)(data_1.fet_temperature) / 10;
-	  stat4.tempMotor = (float)(data_1.cell_temperature) / 10;
-	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
-	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
-	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+	  BQ_and_can(&BMS_1);
 #endif
 #ifdef USED_I2C2
-	  BQAction_UpdateData(&BMS_2);
-	  BQ_GetSendData(&BMS_2, &data_2);
-	  stat4.pidPos = 2.0f;
-	  stat4.currentIn = (float)(data_2.current) / 1000;
-	  stat4.tempFet = (float)(data_2.fet_temperature) / 10;
-	  stat4.tempMotor = (float)(data_2.cell_temperature) / 10;
-	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
-	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
-	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+	  BQ_and_can(&BMS_2);
 #endif
 #ifdef USED_I2C3
-	  BQAction_UpdateData(&BMS_3);
-	  BQ_GetSendData(&BMS_3, &data_3);
-	  stat4.pidPos = 3.0f;
-	  stat4.currentIn = (float)(data_3.current) / 1000;
-	  stat4.tempFet = (float)(data_3.fet_temperature) / 10;
-	  stat4.tempMotor = (float)(data_3.cell_temperature) / 10;
-	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
-	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
-	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+	  BQ_and_can(&BMS_3);
 #endif
 //	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
 //	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//fix 1A = -400 (enable on 0x0A)
@@ -271,6 +238,31 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void BQ_and_can(BQ_data* BMS){
+	  BQAction_UpdateData(BMS);
+	  BQ_GetSendData(BMS);
+#ifdef USED_I2C1
+	  if(BMS == &BMS_1){
+		  stat4.pidPos = 1.0f;
+	  }
+#endif
+#ifdef USED_I2C2
+	  if(BMS == &BMS_2){
+		  stat4.pidPos = 2.0f;
+	  }
+#endif
+#ifdef USED_I2C3
+	  if(BMS == &BMS_3){
+		  stat4.pidPos = 3.0f;
+	  }
+#endif
+	  stat4.currentIn = (float)(BMS->data.current) / 1000;
+	  stat4.tempFet = (float)(BMS->data.fet_temperature) / 10;
+	  stat4.tempMotor = (float)(BMS->data.cell_temperature) / 10;
+	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
+	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
+	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+}
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 
 }

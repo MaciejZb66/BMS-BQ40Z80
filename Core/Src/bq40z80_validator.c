@@ -1,6 +1,8 @@
 #include "bq40z80_validator.h"
 #include "bq40z80.h"
 
+
+
 /**
  * @brief get charge from BQ_opStatus
  * @return CHARGE, DISCHARGE or RELAX
@@ -51,11 +53,12 @@ BQ_BoundaryCellVoltage BQ_GetBoundaryCellVoltage(BQ_data* BMS)
     return result;
 }
 
-void BQ_GetSendData(BQ_data* BMS, ToSendData* data){
-	data->voltage = I2CHelper_ReadRegisterAsShort(BMS, BQ40Z80_SBS_Voltage);
-	data->current = BMS->BQ_outCal.sep.current;
-	data->balance = BQ_GetBoundaryCellVoltage(BMS);
-	data->cell_temperature = BMS->BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
-	data->fet_temperature = BMS->BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius;
-	data->percentage = I2CHelper_ReadRegisterAsChar(BMS, BQ40Z80_SBS_RelativeStateOfCharge);
+void BQ_GetSendData(BQ_data* BMS){
+	BMS->data.voltage = I2CHelper_ReadRegisterAsShort(BMS, BQ40Z80_SBS_Voltage);
+	BMS->data.current = BMS->BQ_outCal.sep.current;
+	BMS->data.balance = BQ_GetBoundaryCellVoltage(BMS);
+	BMS->data.cell_temperature = BMS->BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
+	BMS->data.fet_temperature = BMS->BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius;
+	BMS->data.percentage = I2CHelper_ReadRegisterAsChar(BMS, BQ40Z80_SBS_RelativeStateOfCharge);
 }
+

@@ -1,7 +1,5 @@
 #include "bq40z80.h"
 
-
-
 #ifdef USED_I2C1
 	extern BQ_data BMS_1;
 #endif

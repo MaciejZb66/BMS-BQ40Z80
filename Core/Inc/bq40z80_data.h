@@ -67,8 +67,24 @@ typedef union{
 }GP;
 
 typedef struct{
+	uint16_t Min;
+	uint16_t Max;
+} BQ_BoundaryCellVoltage;
+
+typedef struct{
+	BQ_BoundaryCellVoltage balance;//not yet transmitted
+	uint16_t voltage; //not yet transmitted
+	int16_t current;
+	uint8_t percentage; //not yet transmitted
+	uint16_t fet_temperature;
+	uint16_t cell_temperature;
+} ToSendData;
+
+typedef struct{
 	I2C_HandleTypeDef *bq_i2c;
 	uint8_t bq_deviceAddress;
+	ToSendData data;
+
 	OP_STATUS BQ_opStatus;				//M0x0054
 	CHG_STATUS BQ_chargeStatus;			//M0x0055
 	GUG_STATUS BQ_gaugeStatus;			//M0x0056

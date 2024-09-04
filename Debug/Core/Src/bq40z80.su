@@ -1,8 +1,8 @@
-../Core/Src/bq40z80.c:18:6:BQ_Init	24	static,ignoring_inline_asm
-../Core/Src/bq40z80.c:72:6:BQ_WriteFlash	32	static
-../Core/Src/bq40z80.c:90:6:BQ_WriteFlashByte	32	static
-../Core/Src/bq40z80.c:106:6:BQ_WriteMABlockCommand	32	static
-../Core/Src/bq40z80.c:119:6:BQ_ReadMABlockCommand	80	static
-../Core/Src/bq40z80.c:143:10:BQ_ReadCommandAsShort	24	static
-../Core/Src/bq40z80.c:162:9:BQ_ReadCommandAsChar	24	static
-../Core/Src/bq40z80.c:176:10:BQ_ReadCommandAsInt	24	static
+../Core/Src/bq40z80.c:16:6:BQ_Init	24	static,ignoring_inline_asm
+../Core/Src/bq40z80.c:70:6:BQ_WriteFlash	32	static
+../Core/Src/bq40z80.c:88:6:BQ_WriteFlashByte	32	static
+../Core/Src/bq40z80.c:104:6:BQ_WriteMABlockCommand	32	static
+../Core/Src/bq40z80.c:117:6:BQ_ReadMABlockCommand	80	static
+../Core/Src/bq40z80.c:141:10:BQ_ReadCommandAsShort	24	static
+../Core/Src/bq40z80.c:160:9:BQ_ReadCommandAsChar	24	static
+../Core/Src/bq40z80.c:174:10:BQ_ReadCommandAsInt	24	static

@@ -1,3 +1,3 @@
-../Core/Src/bq40z80_validator.c:8:13:BQ_GetChargeMode	13
-../Core/Src/bq40z80_validator.c:23:24:BQ_GetBoundaryCellVoltage	4
-../Core/Src/bq40z80_validator.c:54:6:BQ_GetSendData	1
+../Core/Src/bq40z80_validator.c:10:13:BQ_GetChargeMode	13
+../Core/Src/bq40z80_validator.c:25:24:BQ_GetBoundaryCellVoltage	4
+../Core/Src/bq40z80_validator.c:56:6:BQ_GetSendData	1
