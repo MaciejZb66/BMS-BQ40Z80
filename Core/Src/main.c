@@ -137,7 +137,6 @@ int main(void)
 #ifdef USED_I2C3
   BQ_Init(&hi2c3);
 #endif
-//  BQ_ReadMABlockCommand(&BMS_1, BQ40Z80_MFA_FIRMWARE_VERSION, test, 6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -239,6 +238,8 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 void BQ_and_can(BQ_data* BMS){
+	I2CHelper_CheckAddress(BMS);
+	if(BMS->connection == CONNECTED){
 	  BQAction_UpdateData(BMS);
 	  BQ_GetSendData(BMS);
 #ifdef USED_I2C1
@@ -262,6 +263,7 @@ void BQ_and_can(BQ_data* BMS){
 	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
 	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
 	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+	}
 }
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 

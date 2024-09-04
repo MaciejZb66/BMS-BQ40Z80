@@ -86,15 +86,17 @@ void I2CHelper_WriteRegister(BQ_data* BMS, uint8_t address, uint16_t value)
  * @param i2c I2C_HandleTypeDef pointer
  * @return first i2c device
  */
-CONNECTION_STATUS I2CHelper_CheckAddress(BQ_data* BMS)
+void I2CHelper_CheckAddress(BQ_data* BMS)
 {
 	HAL_StatusTypeDef ret = HAL_I2C_IsDeviceReady(BMS->bq_i2c, BMS->bq_deviceAddress, 3, 5);
 	if (ret == HAL_BUSY){
-		return NEED_RESET;
+		BMS->connection = NEED_RESET;
+		return;
 	}
 	if (ret == HAL_OK)
 	{
-		return CONNECTED;
+		BMS->connection = CONNECTED;
+		return;
 	}
 	for (uint8_t i = 1; i < 255; i++)
 	{
@@ -102,9 +104,10 @@ CONNECTION_STATUS I2CHelper_CheckAddress(BQ_data* BMS)
 		if (ret == HAL_OK)
 		{
 			BMS->bq_deviceAddress = i;
-			return CHANGED_ADDRESS;
+			BMS->connection = CHANGED_ADDRESS;
+			return;
 		}
 		HAL_Delay(1);
 	}
-	return INVALID_DEVICE;
+	BMS->connection = INVALID_DEVICE;
 }

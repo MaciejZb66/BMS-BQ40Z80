@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "bq40z80_registers.h"
 
+
 //-----------Include here USED_I2Cx-------------
 #define USED_I2C1
 //#define USED_I2C2
@@ -66,6 +67,13 @@ typedef union{
 	uint8_t all;
 }GP;
 
+typedef enum{
+	CONNECTED,
+	CHANGED_ADDRESS,
+	INVALID_DEVICE,
+	NEED_RESET
+}CONNECTION_STATUS;
+
 typedef struct{
 	uint16_t Min;
 	uint16_t Max;
@@ -84,6 +92,7 @@ typedef struct{
 	I2C_HandleTypeDef *bq_i2c;
 	uint8_t bq_deviceAddress;
 	ToSendData data;
+	CONNECTION_STATUS connection;
 
 	OP_STATUS BQ_opStatus;				//M0x0054
 	CHG_STATUS BQ_chargeStatus;			//M0x0055

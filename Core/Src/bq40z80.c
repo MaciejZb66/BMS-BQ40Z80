@@ -16,6 +16,7 @@
 void BQ_Init(I2C_HandleTypeDef *i2c)
 {
 BQ_data* BMS;
+uint8_t control = 0;
 #ifdef USED_I2C1
 	if(i2c == &hi2c1){
 		BMS = &BMS_1;
@@ -34,13 +35,17 @@ BQ_data* BMS;
     BMS->bq_i2c = i2c;
     BMS->bq_deviceAddress = Address;
 #ifdef USE_SCANNER
-	CONNECTION_STATUS connect = I2CHelper_CheckAddress(BMS);
-	while (connect != CONNECTED)
+	I2CHelper_CheckAddress(BMS);
+	while (BMS->connection != CONNECTED)
 	{
-		connect = I2CHelper_CheckAddress(BMS);
-		HAL_Delay(200);
+		I2CHelper_CheckAddress(BMS);
+		HAL_Delay(20);
+		control ++;
+		if(control >= 5){
+			return;
+		}
 	#ifdef debug
-		if(connect != CONNECTED){
+		if(BMS->connection != CONNECTED){
 			__asm("nop"); //insert breakpoint here
 		}
 	#endif
