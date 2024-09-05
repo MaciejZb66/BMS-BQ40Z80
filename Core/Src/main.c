@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2024 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -51,13 +51,13 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void BQ_and_can(BQ_data* BMS);
+void BQ_and_can(BQ_data *BMS);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 #ifdef USED_I2C1
-BQ_data BMS_1 = {0};
+BQ_data BMS_1 = { 0 };
 #endif
 #ifdef USED_I2C2
 BQ_data BMS_2 = {0};
@@ -66,21 +66,22 @@ BQ_data BMS_2 = {0};
 BQ_data BMS_3 = {0};
 #endif
 
-
 bool status;
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-  if (GPIO_Pin == B1_Pin){
-	  status = !status;
-	  HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
-  }
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if (GPIO_Pin == B1_Pin) {
+		status = !status;
+		HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+	}
 }
 
 VESC_Status_4 stat4;
+VESC_Status_6 stat6;
 VESC_RawFrame rawFrame;
 extern CAN_TxHeaderTypeDef TxHeader;
 extern uint32_t TxMailbox;
-uint8_t txData[8];
+extern CAN_RxHeaderTypeDef RxHeader;
+extern uint8_t RxData[8];
+uint8_t TxData[8];
 /* USER CODE END 0 */
 
 /**
@@ -117,19 +118,9 @@ int main(void)
   MX_I2C2_Init();
   MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
-
-
-//  BQ_BoundaryCellVoltage balance;
-  status = false;
-//  uint16_t voltage = 0;
-//  int16_t current = 0;
-//  uint8_t percentage[2] = {0};
-//  uint16_t cells[6] = {0};
-//  bool fun[5] = {0};
-//  uint8_t test[11] = {0};
-//  uint16_t temperature[2] = {0};
+	status = false;
 #ifdef USED_I2C1
-  BQ_Init(&hi2c1);
+	BQ_Init(&hi2c1);
 #endif
 #ifdef USED_I2C2
   BQ_Init(&hi2c2);
@@ -141,12 +132,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1) {
 
-	  HAL_Delay(200);
+		HAL_Delay(200);
 #ifdef USED_I2C1
-	  BQ_and_can(&BMS_1);
+		BQ_and_can(&BMS_1);
 #endif
 #ifdef USED_I2C2
 	  BQ_and_can(&BMS_2);
@@ -154,36 +144,10 @@ int main(void)
 #ifdef USED_I2C3
 	  BQ_and_can(&BMS_3);
 #endif
-//	  voltage = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Voltage);//works 0x09
-//	  current = I2CHelper_ReadRegisterAsShort(&BMS_1, BQ40Z80_SBS_Current);//fix 1A = -400 (enable on 0x0A)
-//	  current = BMS_1.BQ_outCal.sep.current;//works
-//	  percentage[0] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_RelativeStateOfCharge);//ok
-//	  percentage[1] = I2CHelper_ReadRegisterAsChar(&BMS_1, BQ40Z80_SBS_AbsoluteStateOfCharge);
-//	  temperature[0] = BMS_1.BQ_daStatus2.sep.ts1_temperature - KelvinToCelsius;
-//	  temperature[1] = BMS_1.BQ_daStatus2.sep.ts2_temperature - KelvinToCelsius;
-//	  balance = BQ_GetBoundaryCellVoltage(&BMS_1);
-	  // -----separated cells-----
-//	  cells[0] = BMS_1.BQ_daStatus1.sep.cell_voltage_1;
-//	  cells[1] = BMS_1.BQ_daStatus1.sep.cell_voltage_2;
-//	  cells[2] = BMS_1.BQ_daStatus1.sep.cell_voltage_3;
-//	  cells[3] = BMS_1.BQ_daStatus1.sep.cell_voltage_4;
-//	  cells[4] = BMS_1.BQ_daStatus3.sep.cell_voltage_5;
-//	  cells[5] = BMS_1.BQ_daStatus3.sep.cell_voltage_6;
-
-	  // -----toggle fets--------
-//	  if(status){
-//		  BQAction_EnableDischarging(&BMS_1);
-//	  }else{
-//		  BQAction_DisableFets(&BMS_1);
-//	  }
-//	  fun[0] = BMS_1.BQ_opStatus.bits.pdsg;
-//	  fun[1] = BMS_1.BQ_opStatus.bits.xdsg;
-
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -212,7 +176,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 9;
+  RCC_OscInitStruct.PLL.PLLN = 10;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -237,36 +201,82 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void BQ_and_can(BQ_data* BMS){
+void BQ_and_can(BQ_data *BMS) {
 	I2CHelper_CheckAddress(BMS);
-	if(BMS->connection == CONNECTED){
-	  BQAction_UpdateData(BMS);
-	  BQ_GetSendData(BMS);
+	HAL_StatusTypeDef test;
+	if (BMS->connection == CONNECTED) {
+		BQAction_UpdateData(BMS);
+		BQ_GetSendData(BMS);
 #ifdef USED_I2C1
-	  if(BMS == &BMS_1){
-		  stat4.pidPos = 1.0f;
-	  }
+		if (BMS == &BMS_1) {
+			stat4.vescID = 0x81;
+			stat6.vescID = 0x81;
+		}
 #endif
 #ifdef USED_I2C2
-	  if(BMS == &BMS_2){
-		  stat4.pidPos = 2.0f;
-	  }
+		if(BMS == &BMS_2){
+			stat4.vescID = 0x82;
+		  	stat6.vescID = 0x82;
+		}
 #endif
 #ifdef USED_I2C3
-	  if(BMS == &BMS_3){
-		  stat4.pidPos = 3.0f;
-	  }
+		if(BMS == &BMS_3){
+			stat4.vescID = 0x83;
+			stat6.vescID = 0x83;
+		}
 #endif
-	  stat4.currentIn = (float)(BMS->data.current) / 1000;
-	  stat4.tempFet = (float)(BMS->data.fet_temperature) / 10;
-	  stat4.tempMotor = (float)(BMS->data.cell_temperature) / 10;
-	  VESC_convertStatus4ToRaw(&rawFrame, &stat4);
-	  vesc2halcan(&TxHeader, txData, 8, &rawFrame);
-	  HAL_CAN_AddTxMessage(&hcan1, &TxHeader, txData, &TxMailbox);
+		stat4.pidPos = 0;
+		stat4.currentIn = (float) (BMS->data.current) / 1000;
+		stat4.tempFet = (float) (BMS->data.fet_temperature) / 10;
+		stat4.tempMotor = (float) (BMS->data.cell_temperature) / 10;
+		VESC_convertStatus4ToRaw(&rawFrame, &stat4);
+		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
+		test = HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+		HAL_Delay(1);
+		stat6.adc1 = (float) (BMS->data.voltage);
+		stat6.adc2 = (float) (BMS->data.balance.Min);
+		stat6.adc3 = (float) (BMS->data.balance.Max);
+		stat6.ppm = (float) (BMS->data.percentage);
+		VESC_convertStatus6ToRaw(&rawFrame, &stat6);
+		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
+		test = HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+		HAL_Delay(1);
+	} else {
+		TxData[0] = 0;
+		TxHeader.DLC = 1;
+#ifdef USED_I2C1
+		if (BMS == &BMS_1) {
+			TxHeader.ExtId = 0x81;
+		}
+#endif
+#ifdef USED_I2C2
+		if(BMS == &BMS_2){
+			TxHeader.ExtId = 0x82;
+		}
+#endif
+#ifdef USED_I2C3
+		if(BMS == &BMS_3){
+			TxHeader.ExtId = 0x83;
+		}
+#endif
+		test = HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
 	}
 }
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
+	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+}
+
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan) {
+	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);//2097152
+}
+
+void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef *hcan) {
+	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+}
+
+void HAL_CAN_TxMailbox0AbortCallback(CAN_HandleTypeDef *hcan) {
+	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
 }
 /* USER CODE END 4 */
 
@@ -277,11 +287,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1) {
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 

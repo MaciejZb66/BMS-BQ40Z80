@@ -45,15 +45,15 @@ void MX_CAN1_Init(void)
 
   /* USER CODE END CAN1_Init 1 */
   hcan1.Instance = CAN1;
-  hcan1.Init.Prescaler = 48;
+  hcan1.Init.Prescaler = 10;
   hcan1.Init.Mode = CAN_MODE_NORMAL;
   hcan1.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan1.Init.TimeSeg1 = CAN_BS1_1TQ;
-  hcan1.Init.TimeSeg2 = CAN_BS2_1TQ;
+  hcan1.Init.TimeSeg1 = CAN_BS1_13TQ;
+  hcan1.Init.TimeSeg2 = CAN_BS2_2TQ;
   hcan1.Init.TimeTriggeredMode = DISABLE;
   hcan1.Init.AutoBusOff = DISABLE;
   hcan1.Init.AutoWakeUp = DISABLE;
-  hcan1.Init.AutoRetransmission = DISABLE;
+  hcan1.Init.AutoRetransmission = ENABLE;
   hcan1.Init.ReceiveFifoLocked = DISABLE;
   hcan1.Init.TransmitFifoPriority = DISABLE;
   if (HAL_CAN_Init(&hcan1) != HAL_OK)
@@ -61,32 +61,26 @@ void MX_CAN1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN CAN1_Init 2 */
-  canfil.FilterBank = 0;
+  	canfil.FilterBank = 0;
     canfil.FilterMode = CAN_FILTERMODE_IDMASK;
     canfil.FilterFIFOAssignment = CAN_RX_FIFO0;
-
-//    canfil.FilterIdHigh = 0x05<<5;
-//    canfil.FilterIdLow = 0x0;
-//    canfil.FilterMaskIdHigh = 0x0F<<5;
-
-
-    canfil.FilterMaskIdHigh = 0;
-    canfil.FilterMaskIdLow = 0;
+    canfil.FilterMaskIdHigh = 0 << 5;
+    canfil.FilterMaskIdLow = 0 << 5;
     canfil.FilterScale = CAN_FILTERSCALE_32BIT;
     canfil.FilterActivation = ENABLE;
     canfil.SlaveStartFilterBank = 14;
 
-  /* Transmit messages configuration */
     TxHeader.IDE = CAN_ID_EXT;
-    TxHeader.ExtId = 0x10000;
+    TxHeader.ExtId = 0;
     TxHeader.RTR = CAN_RTR_DATA;
     TxHeader.DLC = 8;
 
-    HAL_CAN_ConfigFilter(&hcan1,&canfil);
-    HAL_CAN_Start(&hcan1);
+    HAL_StatusTypeDef test;
+    test = HAL_CAN_ConfigFilter(&hcan1,&canfil);
+    test = HAL_CAN_Start(&hcan1);
 
-    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
-    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_TX_MAILBOX_EMPTY);
+    test = HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_TX_MAILBOX_EMPTY);
+//    test = HAL_CAN_ActivateNotification(&hcan1, );
   /* USER CODE END CAN1_Init 2 */
 
 }
@@ -104,18 +98,28 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
     __HAL_RCC_CAN1_CLK_ENABLE();
 
     __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
     /**CAN1 GPIO Configuration
     PA11     ------> CAN1_RX
-    PA12     ------> CAN1_TX
+    PB9     ------> CAN1_TX
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
+    GPIO_InitStruct.Pin = GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF9_CAN1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+    GPIO_InitStruct.Pin = GPIO_PIN_9;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF9_CAN1;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
     /* CAN1 interrupt Init */
+    HAL_NVIC_SetPriority(CAN1_TX_IRQn, 7, 0);
+    HAL_NVIC_EnableIRQ(CAN1_TX_IRQn);
     HAL_NVIC_SetPriority(CAN1_RX0_IRQn, 8, 0);
     HAL_NVIC_EnableIRQ(CAN1_RX0_IRQn);
   /* USER CODE BEGIN CAN1_MspInit 1 */
@@ -137,11 +141,14 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle)
 
     /**CAN1 GPIO Configuration
     PA11     ------> CAN1_RX
-    PA12     ------> CAN1_TX
+    PB9     ------> CAN1_TX
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_11|GPIO_PIN_12);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_11);
+
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_9);
 
     /* CAN1 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(CAN1_TX_IRQn);
     HAL_NVIC_DisableIRQ(CAN1_RX0_IRQn);
   /* USER CODE BEGIN CAN1_MspDeInit 1 */
 

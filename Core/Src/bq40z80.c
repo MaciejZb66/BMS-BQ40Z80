@@ -44,11 +44,6 @@ uint8_t control = 0;
 		if(control >= 5){
 			return;
 		}
-	#ifdef debug
-		if(BMS->connection != CONNECTED){
-			__asm("nop"); //insert breakpoint here
-		}
-	#endif
 	}
 #endif
 

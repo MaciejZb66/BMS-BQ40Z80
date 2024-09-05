@@ -6,7 +6,7 @@
 //-----------Include here USED_I2Cx-------------
 #define USED_I2C1
 //#define USED_I2C2
-#define USED_I2C3
+//#define USED_I2C3
 //----------------------------------------------
 
 #ifndef BQ40Z80_DATA_H
