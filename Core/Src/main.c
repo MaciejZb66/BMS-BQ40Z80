@@ -57,23 +57,27 @@ void BQ_and_can(BQ_data *BMS);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 #ifdef USED_I2C1
-BQ_data BMS_1 = { 0 };
+BQ_data BMS_1 = {0};
+bool first_transmit_1 = true;
 #endif
 #ifdef USED_I2C2
 BQ_data BMS_2 = {0};
+bool first_transmit_2 = true;
 #endif
 #ifdef USED_I2C3
 BQ_data BMS_3 = {0};
+bool first_transmit_3 = true;
 #endif
 
 bool status;
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == B1_Pin) {
 		status = !status;
 		HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
 	}
 }
-
+VESC_Status_1 stat1;
 VESC_Status_4 stat4;
 VESC_Status_6 stat6;
 VESC_RawFrame rawFrame;
@@ -203,26 +207,25 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void BQ_and_can(BQ_data *BMS) {
 	I2CHelper_CheckAddress(BMS);
-	HAL_StatusTypeDef test;
 	if (BMS->connection == CONNECTED) {
 		BQAction_UpdateData(BMS);
 		BQ_GetSendData(BMS);
 #ifdef USED_I2C1
 		if (BMS == &BMS_1) {
-			stat4.vescID = 0x81;
-			stat6.vescID = 0x81;
+			stat4.vescID = 0x90;
+			stat6.vescID = 0x90;
 		}
 #endif
 #ifdef USED_I2C2
 		if(BMS == &BMS_2){
-			stat4.vescID = 0x82;
-		  	stat6.vescID = 0x82;
+			stat4.vescID = 0x91;
+		  	stat6.vescID = 0x91;
 		}
 #endif
 #ifdef USED_I2C3
 		if(BMS == &BMS_3){
-			stat4.vescID = 0x83;
-			stat6.vescID = 0x83;
+			stat4.vescID = 0x92;
+			stat6.vescID = 0x92;
 		}
 #endif
 		stat4.pidPos = 0;
@@ -231,53 +234,49 @@ void BQ_and_can(BQ_data *BMS) {
 		stat4.tempMotor = (float) (BMS->data.cell_temperature) / 10;
 		VESC_convertStatus4ToRaw(&rawFrame, &stat4);
 		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
-		test = HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+		HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
 		HAL_Delay(1);
-		stat6.adc1 = (float) (BMS->data.voltage);
-		stat6.adc2 = (float) (BMS->data.balance.Min);
-		stat6.adc3 = (float) (BMS->data.balance.Max);
-		stat6.ppm = (float) (BMS->data.percentage);
+		stat6.adc1 = (float) (BMS->data.voltage)/1000;
+		stat6.adc2 = (float) (BMS->data.balance.Min)/1000;
+		stat6.adc3 = (float) (BMS->data.balance.Max)/1000;
+		stat6.ppm = (float) (BMS->data.percentage)/100;
 		VESC_convertStatus6ToRaw(&rawFrame, &stat6);
 		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
-		test = HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+		HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
 		HAL_Delay(1);
-	} else {
-		TxData[0] = 0;
-		TxHeader.DLC = 1;
+	}
+	stat1.erpm = 0;
+	stat1.dutyCycle = 0;
+	stat1.current = 1;
 #ifdef USED_I2C1
-		if (BMS == &BMS_1) {
-			TxHeader.ExtId = 0x81;
-		}
+	if(BMS == &BMS_1 && first_transmit_1){
+		first_transmit_1 = false;
+		stat1.vescID = 0x90;
+		VESC_convertStatus1ToRaw(&rawFrame, &stat1);
+		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
+		HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+	}
 #endif
 #ifdef USED_I2C2
-		if(BMS == &BMS_2){
-			TxHeader.ExtId = 0x82;
-		}
+	if(BMS == &BMS_2 && first_transmit_2){
+		first_transmit_1 = false;
+		stat1.vescID = 0x92;
+		VESC_convertStatus1ToRaw(&rawFrame, &stat1);
+		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
+		HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+	}
 #endif
 #ifdef USED_I2C3
-		if(BMS == &BMS_3){
-			TxHeader.ExtId = 0x83;
-		}
-#endif
-		test = HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+	if(BMS == &BMS_3 && first_transmit_3){
+		first_transmit_3 = false;
+		stat1.vescID = 0x92;
+		VESC_convertStatus1ToRaw(&rawFrame, &stat1);
+		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
+		HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
 	}
+#endif
 }
 
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
-	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
-}
-
-void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan) {
-	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);//2097152
-}
-
-void HAL_CAN_TxMailbox0CompleteCallback(CAN_HandleTypeDef *hcan) {
-	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
-}
-
-void HAL_CAN_TxMailbox0AbortCallback(CAN_HandleTypeDef *hcan) {
-	HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
-}
 /* USER CODE END 4 */
 
 /**

@@ -75,12 +75,11 @@ void MX_CAN1_Init(void)
     TxHeader.RTR = CAN_RTR_DATA;
     TxHeader.DLC = 8;
 
-    HAL_StatusTypeDef test;
-    test = HAL_CAN_ConfigFilter(&hcan1,&canfil);
-    test = HAL_CAN_Start(&hcan1);
+    HAL_CAN_ConfigFilter(&hcan1,&canfil);
+    HAL_CAN_Start(&hcan1);
 
-    test = HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_TX_MAILBOX_EMPTY);
-//    test = HAL_CAN_ActivateNotification(&hcan1, );
+    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_TX_MAILBOX_EMPTY);
+
   /* USER CODE END CAN1_Init 2 */
 
 }
