@@ -84,8 +84,8 @@ typedef struct{
 	uint16_t voltage; //not yet transmitted
 	int16_t current;
 	uint8_t percentage; //not yet transmitted
-	uint16_t fet_temperature;
-	uint16_t cell_temperature;
+	int16_t fet_temperature;
+	int16_t cell_temperature;
 } ToSendData;
 
 typedef struct{

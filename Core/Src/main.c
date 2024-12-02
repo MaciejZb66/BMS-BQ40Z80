@@ -137,16 +137,17 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-
-		HAL_Delay(200);
 #ifdef USED_I2C1
 		BQ_and_can(&BMS_1);
+		HAL_Delay(100);
 #endif
 #ifdef USED_I2C2
-	  BQ_and_can(&BMS_2);
+		BQ_and_can(&BMS_2);
+		HAL_Delay(100);
 #endif
 #ifdef USED_I2C3
-	  BQ_and_can(&BMS_3);
+		BQ_and_can(&BMS_3);
+		HAL_Delay(100);
 #endif
     /* USER CODE END WHILE */
 
@@ -242,7 +243,9 @@ void BQ_and_can(BQ_data *BMS) {
 		stat6.ppm = (float) (BMS->data.percentage)/100;
 		VESC_convertStatus6ToRaw(&rawFrame, &stat6);
 		vesc2halcan(&TxHeader, TxData, 8, &rawFrame);
-		HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox);
+		if(HAL_CAN_AddTxMessage(&hcan1, &TxHeader, TxData, &TxMailbox) == HAL_OK){
+			HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+		}
 		HAL_Delay(1);
 	}
 	stat1.erpm = 0;
